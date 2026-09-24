@@ -41,6 +41,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
@@ -51,6 +53,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.ogzhngms.seyahatname.Budget
 import com.ogzhngms.seyahatname.Companions
 import com.ogzhngms.seyahatname.Day
@@ -70,11 +74,19 @@ import org.json.JSONObject
 @Composable
 fun SeyahatnameApp(vm: TripViewModel, demo: Boolean) {
     val screen = vm.screen
-    BackHandler(enabled = screen != Screen.Question(0)) { vm.back() }
+    val view = LocalView.current
+    val focusManager = LocalFocusManager.current
+    // Back closes an open keyboard first; only the next press leaves the step.
+    // The keyboard is checked at press time, so a second press during its closing animation still goes back.
+    val back = {
+        val keyboardOpen = ViewCompat.getRootWindowInsets(view)?.isVisible(WindowInsetsCompat.Type.ime()) == true
+        if (keyboardOpen) focusManager.clearFocus() else vm.back()
+    }
+    BackHandler(enabled = screen != Screen.Question(0), onBack = back)
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Box(Modifier.safeDrawingPadding()) {
             when (screen) {
-                is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, vm::back)
+                is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, back)
                 Screen.Confirm -> ConfirmScreen(vm.answers, demo, onPlan = vm::submit, onEdit = vm::back)
                 Screen.Loading -> LoadingScreen(onCancel = vm::back)
                 is Screen.Result -> ResultScreen(screen, demo, onNewPlan = vm::restart)

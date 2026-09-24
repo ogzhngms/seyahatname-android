@@ -1,0 +1,96 @@
+<resources>
+    <string name="action_start">ابدأ</string>
+    <string name="home_tagline">خطّط لرحلتك القادمة بالذكاء الاصطناعي</string>
+    <string name="cd_profile">الملف الشخصي</string>
+    <string name="cd_back">رجوع</string>
+    <string name="profile_title">الملف الشخصي</string>
+    <string name="account_guest">ضيف</string>
+    <string name="account_body">سجّل الدخول لحفظ خططك.</string>
+    <string name="sign_in_google">المتابعة باستخدام Google</string>
+    <string name="sign_in_email">تسجيل الدخول بالبريد الإلكتروني</string>
+    <string name="coming_soon">قريبًا</string>
+    <string name="theme_title">كوكب الشاشة الرئيسية</string>
+    <string name="planet_earth">الأرض</string>
+    <string name="planet_moon">القمر</string>
+    <string name="planet_sun">الشمس</string>
+    <string name="language_title">اللغة</string>
+
+    <string name="step_counter">الخطوة %1$d من %2$d</string>
+    <string name="q_destination">إلى أين تريد الذهاب؟</string>
+    <string name="hint_destination">مدينة أو دولة، مثل روما</string>
+    <string name="q_days">كم يومًا؟</string>
+    <plurals name="days">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="cd_fewer_days">أيام أقل</string>
+    <string name="cd_more_days">أيام أكثر</string>
+    <string name="q_companions">مع من ستسافر؟</string>
+    <string name="companions_solo">بمفردي</string>
+    <string name="companions_partner">مع شريكي</string>
+    <string name="companions_family">مع العائلة</string>
+    <string name="companions_friends">مع الأصدقاء</string>
+    <string name="q_budget">ما ميزانيتك؟</string>
+    <string name="budget_low">اقتصادية</string>
+    <string name="budget_medium">متوسطة</string>
+    <string name="budget_high">فاخرة</string>
+    <string name="q_interests">ماذا تريد أن تفعل؟</string>
+    <string name="interest_culture">التاريخ والثقافة</string>
+    <string name="interest_food">الطعام والشراب</string>
+    <string name="interest_nature">الطبيعة</string>
+    <string name="interest_art">المتاحف والفنون</string>
+    <string name="interest_shopping">التسوق</string>
+    <string name="interest_nightlife">الحياة الليلية</string>
+    <string name="interest_beach">الشواطئ</string>
+    <string name="interest_adventure">المغامرة</string>
+    <string name="hint_notes">هل هناك شيء آخر؟ (اختياري)</string>
+    <string name="q_pace">ما الإيقاع الذي تفضّله؟</string>
+    <string name="pace_relaxed">هادئ</string>
+    <string name="pace_balanced">متوازن</string>
+    <string name="pace_packed">مكثّف</string>
+    <string name="action_back">رجوع</string>
+    <string name="action_next">التالي</string>
+
+    <string name="confirm_title">هل أنت مستعد للتخطيط؟</string>
+    <string name="confirm_body">عند التأكيد تتحول إجاباتك إلى موجّه (prompt) للذكاء الاصطناعي، الذي يعيد الخطة بصيغة JSON.</string>
+    <string name="label_destination">الوجهة</string>
+    <string name="label_days">المدة</string>
+    <string name="label_companions">مع</string>
+    <string name="label_budget">الميزانية</string>
+    <string name="label_interests">الاهتمامات</string>
+    <string name="label_notes">ملاحظات</string>
+    <string name="label_pace">الإيقاع</string>
+    <string name="interests_none">لا تفضيل</string>
+    <string name="show_prompt">عرض الموجّه</string>
+    <string name="hide_prompt">إخفاء الموجّه</string>
+    <string name="demo_banner">الوضع التجريبي: لا يوجد مفتاح API، لذلك تُعرض خطة نموذجية.</string>
+    <string name="action_edit">تعديل</string>
+    <string name="action_plan">حسنًا، خطّط</string>
+
+    <string name="loading_title">جارٍ إعداد خطتك…</string>
+    <string name="loading_body">الذكاء الاصطناعي يخطّط لرحلتك. يستغرق ذلك عادةً نصف دقيقة، وأكثر عندما تكون النماذج مشغولة.</string>
+    <string name="action_cancel">إلغاء</string>
+
+    <string name="budget_estimate">الميزانية التقديرية: %1$s</string>
+    <string name="day_title">اليوم %1$d · %2$s</string>
+    <string name="tips_title">نصائح</string>
+    <string name="show_json">عرض JSON</string>
+    <string name="hide_json">إخفاء JSON</string>
+    <string name="action_new_plan">خطة جديدة</string>
+
+    <string name="error_title">تعذّر إنشاء الخطة</string>
+    <string name="error_api_key">تم رفض مفتاح API. تحقّق من GEMINI_API_KEY في local.properties.</string>
+    <string name="error_rate_limit">طلبات كثيرة جدًا. انتظر قليلًا ثم حاول مجددًا.</string>
+    <string name="error_busy">الذكاء الاصطناعي مشغول جدًا الآن. حاول مجددًا بعد بضع دقائق.</string>
+    <string name="error_network">لا يوجد اتصال. تحقّق من الإنترنت ثم حاول مجددًا.</string>
+    <string name="error_service">أعادت خدمة الذكاء الاصطناعي خطأً.</string>
+    <string name="error_refusal">رفض الذكاء الاصطناعي تخطيط هذه الرحلة. غيّر إجاباتك وحاول مجددًا.</string>
+    <string name="error_too_long">انقطعت الخطة. اختر أيامًا أقل وحاول مجددًا.</string>
+    <string name="error_parse">تعذّرت قراءة رد الذكاء الاصطناعي.</string>
+    <string name="error_generic">حدث خطأ ما.</string>
+    <string name="action_retry">حاول مجددًا</string>
+</resources>

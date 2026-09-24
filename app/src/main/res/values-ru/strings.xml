@@ -1,0 +1,94 @@
+<resources>
+    <string name="action_start">Начать</string>
+    <string name="home_tagline">Спланируй следующую поездку с ИИ</string>
+    <string name="cd_profile">Профиль</string>
+    <string name="cd_back">Назад</string>
+    <string name="profile_title">Профиль</string>
+    <string name="account_guest">Гость</string>
+    <string name="account_body">Войди, чтобы сохранять свои планы.</string>
+    <string name="sign_in_google">Продолжить с Google</string>
+    <string name="sign_in_email">Войти по эл. почте</string>
+    <string name="coming_soon">Скоро</string>
+    <string name="theme_title">Планета на главном экране</string>
+    <string name="planet_earth">Земля</string>
+    <string name="planet_moon">Луна</string>
+    <string name="planet_sun">Солнце</string>
+    <string name="language_title">Язык</string>
+
+    <string name="step_counter">Шаг %1$d из %2$d</string>
+    <string name="q_destination">Куда ты хочешь поехать?</string>
+    <string name="hint_destination">Город или страна, например Рим</string>
+    <string name="q_days">Сколько дней?</string>
+    <plurals name="days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <string name="cd_fewer_days">Меньше дней</string>
+    <string name="cd_more_days">Больше дней</string>
+    <string name="q_companions">С кем ты едешь?</string>
+    <string name="companions_solo">Один</string>
+    <string name="companions_partner">Вдвоём</string>
+    <string name="companions_family">С семьёй</string>
+    <string name="companions_friends">С друзьями</string>
+    <string name="q_budget">Какой у тебя бюджет?</string>
+    <string name="budget_low">Экономный</string>
+    <string name="budget_medium">Средний</string>
+    <string name="budget_high">Люкс</string>
+    <string name="q_interests">Чем хочешь заняться?</string>
+    <string name="interest_culture">История и культура</string>
+    <string name="interest_food">Еда и напитки</string>
+    <string name="interest_nature">Природа</string>
+    <string name="interest_art">Музеи и искусство</string>
+    <string name="interest_shopping">Шопинг</string>
+    <string name="interest_nightlife">Ночная жизнь</string>
+    <string name="interest_beach">Пляжи</string>
+    <string name="interest_adventure">Приключения</string>
+    <string name="hint_notes">Что-нибудь ещё? (необязательно)</string>
+    <string name="q_pace">Какой темп тебе по душе?</string>
+    <string name="pace_relaxed">Спокойный</string>
+    <string name="pace_balanced">Сбалансированный</string>
+    <string name="pace_packed">Насыщенный</string>
+    <string name="action_back">Назад</string>
+    <string name="action_next">Далее</string>
+
+    <string name="confirm_title">Готов планировать?</string>
+    <string name="confirm_body">Когда ты подтвердишь, ответы превратятся в промпт для ИИ, и он вернёт план в формате JSON.</string>
+    <string name="label_destination">Куда</string>
+    <string name="label_days">Длительность</string>
+    <string name="label_companions">С кем</string>
+    <string name="label_budget">Бюджет</string>
+    <string name="label_interests">Интересы</string>
+    <string name="label_notes">Заметки</string>
+    <string name="label_pace">Темп</string>
+    <string name="interests_none">Без предпочтений</string>
+    <string name="show_prompt">Показать промпт</string>
+    <string name="hide_prompt">Скрыть промпт</string>
+    <string name="demo_banner">Демо-режим: нет ключа API, поэтому показан пример плана.</string>
+    <string name="action_edit">Изменить</string>
+    <string name="action_plan">ОК, спланировать</string>
+
+    <string name="loading_title">Составляем план…</string>
+    <string name="loading_body">ИИ планирует твою поездку. Обычно это занимает около полминуты, дольше, если модели загружены.</string>
+    <string name="action_cancel">Отмена</string>
+
+    <string name="budget_estimate">Примерный бюджет: %1$s</string>
+    <string name="day_title">День %1$d · %2$s</string>
+    <string name="tips_title">Советы</string>
+    <string name="show_json">Показать JSON</string>
+    <string name="hide_json">Скрыть JSON</string>
+    <string name="action_new_plan">Новый план</string>
+
+    <string name="error_title">Не удалось создать план</string>
+    <string name="error_api_key">Ключ API отклонён. Проверь GEMINI_API_KEY в local.properties.</string>
+    <string name="error_rate_limit">Слишком много запросов. Подожди немного и попробуй снова.</string>
+    <string name="error_busy">ИИ сейчас сильно загружен. Попробуй снова через несколько минут.</string>
+    <string name="error_network">Нет соединения. Проверь интернет и попробуй снова.</string>
+    <string name="error_service">Сервис ИИ вернул ошибку.</string>
+    <string name="error_refusal">ИИ отказался планировать эту поездку. Измени ответы и попробуй снова.</string>
+    <string name="error_too_long">План оборвался. Выбери меньше дней и попробуй снова.</string>
+    <string name="error_parse">Не удалось прочитать ответ ИИ.</string>
+    <string name="error_generic">Что-то пошло не так.</string>
+    <string name="action_retry">Повторить</string>
+</resources>

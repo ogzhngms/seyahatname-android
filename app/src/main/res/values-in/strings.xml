@@ -1,0 +1,91 @@
+<resources>
+    <string name="action_start">Mulai</string>
+    <string name="home_tagline">Rencanakan perjalanan berikutnya dengan AI</string>
+    <string name="cd_profile">Profil</string>
+    <string name="cd_back">Kembali</string>
+    <string name="profile_title">Profil</string>
+    <string name="account_guest">Tamu</string>
+    <string name="account_body">Masuk untuk menyimpan rencanamu.</string>
+    <string name="sign_in_google">Lanjutkan dengan Google</string>
+    <string name="sign_in_email">Masuk dengan email</string>
+    <string name="coming_soon">Segera hadir</string>
+    <string name="theme_title">Planet layar utama</string>
+    <string name="planet_earth">Bumi</string>
+    <string name="planet_moon">Bulan</string>
+    <string name="planet_sun">Matahari</string>
+    <string name="language_title">Bahasa</string>
+
+    <string name="step_counter">Langkah %1$d dari %2$d</string>
+    <string name="q_destination">Kamu ingin pergi ke mana?</string>
+    <string name="hint_destination">Kota atau negara, mis. Roma</string>
+    <string name="q_days">Berapa hari?</string>
+    <plurals name="days">
+        <item quantity="other">%d hari</item>
+    </plurals>
+    <string name="cd_fewer_days">Kurangi hari</string>
+    <string name="cd_more_days">Tambah hari</string>
+    <string name="q_companions">Kamu bepergian dengan siapa?</string>
+    <string name="companions_solo">Sendiri</string>
+    <string name="companions_partner">Pasangan</string>
+    <string name="companions_family">Keluarga</string>
+    <string name="companions_friends">Teman</string>
+    <string name="q_budget">Berapa anggaranmu?</string>
+    <string name="budget_low">Hemat</string>
+    <string name="budget_medium">Menengah</string>
+    <string name="budget_high">Mewah</string>
+    <string name="q_interests">Apa yang ingin kamu lakukan?</string>
+    <string name="interest_culture">Sejarah dan budaya</string>
+    <string name="interest_food">Kuliner</string>
+    <string name="interest_nature">Alam</string>
+    <string name="interest_art">Museum dan seni</string>
+    <string name="interest_shopping">Belanja</string>
+    <string name="interest_nightlife">Hiburan malam</string>
+    <string name="interest_beach">Pantai</string>
+    <string name="interest_adventure">Petualangan</string>
+    <string name="hint_notes">Ada yang lain? (opsional)</string>
+    <string name="q_pace">Kamu suka tempo seperti apa?</string>
+    <string name="pace_relaxed">Santai</string>
+    <string name="pace_balanced">Seimbang</string>
+    <string name="pace_packed">Padat</string>
+    <string name="action_back">Kembali</string>
+    <string name="action_next">Lanjut</string>
+
+    <string name="confirm_title">Siap membuat rencana?</string>
+    <string name="confirm_body">Setelah kamu konfirmasi, jawabanmu menjadi prompt untuk AI, yang mengembalikan rencana dalam format JSON.</string>
+    <string name="label_destination">Tujuan</string>
+    <string name="label_days">Durasi</string>
+    <string name="label_companions">Dengan</string>
+    <string name="label_budget">Anggaran</string>
+    <string name="label_interests">Minat</string>
+    <string name="label_notes">Catatan</string>
+    <string name="label_pace">Tempo</string>
+    <string name="interests_none">Tidak ada preferensi</string>
+    <string name="show_prompt">Tampilkan prompt</string>
+    <string name="hide_prompt">Sembunyikan prompt</string>
+    <string name="demo_banner">Mode demo: tidak ada kunci API, jadi rencana contoh yang ditampilkan.</string>
+    <string name="action_edit">Ubah</string>
+    <string name="action_plan">Oke, buat rencana</string>
+
+    <string name="loading_title">Menyusun rencanamu…</string>
+    <string name="loading_body">AI sedang merencanakan perjalananmu. Biasanya sekitar setengah menit, lebih lama jika model sedang sibuk.</string>
+    <string name="action_cancel">Batal</string>
+
+    <string name="budget_estimate">Perkiraan anggaran: %1$s</string>
+    <string name="day_title">Hari %1$d · %2$s</string>
+    <string name="tips_title">Tips</string>
+    <string name="show_json">Tampilkan JSON</string>
+    <string name="hide_json">Sembunyikan JSON</string>
+    <string name="action_new_plan">Rencana baru</string>
+
+    <string name="error_title">Rencana tidak dapat dibuat</string>
+    <string name="error_api_key">Kunci API ditolak. Periksa GEMINI_API_KEY di local.properties.</string>
+    <string name="error_rate_limit">Terlalu banyak permintaan. Tunggu sebentar lalu coba lagi.</string>
+    <string name="error_busy">AI sedang sangat sibuk. Coba lagi dalam beberapa menit.</string>
+    <string name="error_network">Tidak ada koneksi. Periksa internetmu lalu coba lagi.</string>
+    <string name="error_service">Layanan AI mengembalikan kesalahan.</string>
+    <string name="error_refusal">AI menolak merencanakan perjalanan ini. Ubah jawabanmu lalu coba lagi.</string>
+    <string name="error_too_long">Rencana terpotong. Pilih lebih sedikit hari lalu coba lagi.</string>
+    <string name="error_parse">Balasan AI tidak dapat dibaca.</string>
+    <string name="error_generic">Terjadi kesalahan.</string>
+    <string name="action_retry">Coba lagi</string>
+</resources>

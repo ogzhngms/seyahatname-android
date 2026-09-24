@@ -1,0 +1,92 @@
+<resources>
+    <string name="action_start">Starten</string>
+    <string name="home_tagline">Plane deine nächste Reise mit KI</string>
+    <string name="cd_profile">Profil</string>
+    <string name="cd_back">Zurück</string>
+    <string name="profile_title">Profil</string>
+    <string name="account_guest">Gast</string>
+    <string name="account_body">Melde dich an, um deine Pläne zu behalten.</string>
+    <string name="sign_in_google">Weiter mit Google</string>
+    <string name="sign_in_email">Mit E-Mail anmelden</string>
+    <string name="coming_soon">Demnächst verfügbar</string>
+    <string name="theme_title">Planet auf dem Startbildschirm</string>
+    <string name="planet_earth">Erde</string>
+    <string name="planet_moon">Mond</string>
+    <string name="planet_sun">Sonne</string>
+    <string name="language_title">Sprache</string>
+
+    <string name="step_counter">Schritt %1$d von %2$d</string>
+    <string name="q_destination">Wohin möchtest du reisen?</string>
+    <string name="hint_destination">Eine Stadt oder ein Land, z. B. Rom</string>
+    <string name="q_days">Wie viele Tage?</string>
+    <plurals name="days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
+    <string name="cd_fewer_days">Weniger Tage</string>
+    <string name="cd_more_days">Mehr Tage</string>
+    <string name="q_companions">Mit wem reist du?</string>
+    <string name="companions_solo">Allein</string>
+    <string name="companions_partner">Zu zweit</string>
+    <string name="companions_family">Mit Familie</string>
+    <string name="companions_friends">Mit Freunden</string>
+    <string name="q_budget">Wie hoch ist dein Budget?</string>
+    <string name="budget_low">Günstig</string>
+    <string name="budget_medium">Mittel</string>
+    <string name="budget_high">Luxus</string>
+    <string name="q_interests">Was möchtest du unternehmen?</string>
+    <string name="interest_culture">Geschichte und Kultur</string>
+    <string name="interest_food">Essen und Trinken</string>
+    <string name="interest_nature">Natur</string>
+    <string name="interest_art">Museen und Kunst</string>
+    <string name="interest_shopping">Shopping</string>
+    <string name="interest_nightlife">Nachtleben</string>
+    <string name="interest_beach">Strände</string>
+    <string name="interest_adventure">Abenteuer</string>
+    <string name="hint_notes">Sonst noch etwas? (optional)</string>
+    <string name="q_pace">Welches Tempo magst du?</string>
+    <string name="pace_relaxed">Entspannt</string>
+    <string name="pace_balanced">Ausgewogen</string>
+    <string name="pace_packed">Straff</string>
+    <string name="action_back">Zurück</string>
+    <string name="action_next">Weiter</string>
+
+    <string name="confirm_title">Bereit zum Planen?</string>
+    <string name="confirm_body">Wenn du bestätigst, werden deine Antworten zu einem Prompt für die KI, die den Plan als JSON zurückgibt.</string>
+    <string name="label_destination">Ziel</string>
+    <string name="label_days">Dauer</string>
+    <string name="label_companions">Mit</string>
+    <string name="label_budget">Budget</string>
+    <string name="label_interests">Interessen</string>
+    <string name="label_notes">Notizen</string>
+    <string name="label_pace">Tempo</string>
+    <string name="interests_none">Keine Vorliebe</string>
+    <string name="show_prompt">Prompt anzeigen</string>
+    <string name="hide_prompt">Prompt ausblenden</string>
+    <string name="demo_banner">Demomodus: Es gibt keinen API-Schlüssel, daher wird ein Beispielplan angezeigt.</string>
+    <string name="action_edit">Bearbeiten</string>
+    <string name="action_plan">OK, planen</string>
+
+    <string name="loading_title">Dein Plan wird erstellt…</string>
+    <string name="loading_body">Die KI plant deine Reise. Das dauert meist etwa eine halbe Minute, länger, wenn die Modelle ausgelastet sind.</string>
+    <string name="action_cancel">Abbrechen</string>
+
+    <string name="budget_estimate">Geschätztes Budget: %1$s</string>
+    <string name="day_title">Tag %1$d · %2$s</string>
+    <string name="tips_title">Tipps</string>
+    <string name="show_json">JSON anzeigen</string>
+    <string name="hide_json">JSON ausblenden</string>
+    <string name="action_new_plan">Neuer Plan</string>
+
+    <string name="error_title">Der Plan konnte nicht erstellt werden</string>
+    <string name="error_api_key">Der API-Schlüssel wurde abgelehnt. Prüfe GEMINI_API_KEY in local.properties.</string>
+    <string name="error_rate_limit">Zu viele Anfragen. Warte kurz und versuche es erneut.</string>
+    <string name="error_busy">Die KI ist gerade stark ausgelastet. Versuche es in ein paar Minuten erneut.</string>
+    <string name="error_network">Keine Verbindung. Prüfe dein Internet und versuche es erneut.</string>
+    <string name="error_service">Der KI-Dienst hat einen Fehler zurückgegeben.</string>
+    <string name="error_refusal">Die KI hat diese Reise nicht geplant. Ändere deine Antworten und versuche es erneut.</string>
+    <string name="error_too_long">Der Plan wurde abgeschnitten. Wähle weniger Tage und versuche es erneut.</string>
+    <string name="error_parse">Die Antwort der KI konnte nicht gelesen werden.</string>
+    <string name="error_generic">Etwas ist schiefgelaufen.</string>
+    <string name="action_retry">Erneut versuchen</string>
+</resources>

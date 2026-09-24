@@ -1,0 +1,91 @@
+<resources>
+    <string name="action_start">はじめる</string>
+    <string name="home_tagline">AI で次の旅行を計画しよう</string>
+    <string name="cd_profile">プロフィール</string>
+    <string name="cd_back">戻る</string>
+    <string name="profile_title">プロフィール</string>
+    <string name="account_guest">ゲスト</string>
+    <string name="account_body">ログインするとプランを保存できます。</string>
+    <string name="sign_in_google">Google で続ける</string>
+    <string name="sign_in_email">メールでログイン</string>
+    <string name="coming_soon">近日公開</string>
+    <string name="theme_title">ホーム画面の惑星</string>
+    <string name="planet_earth">地球</string>
+    <string name="planet_moon">月</string>
+    <string name="planet_sun">太陽</string>
+    <string name="language_title">言語</string>
+
+    <string name="step_counter">ステップ %1$d / %2$d</string>
+    <string name="q_destination">どこへ行きたいですか？</string>
+    <string name="hint_destination">都市または国（例：ローマ）</string>
+    <string name="q_days">何日間ですか？</string>
+    <plurals name="days">
+        <item quantity="other">%d日間</item>
+    </plurals>
+    <string name="cd_fewer_days">日数を減らす</string>
+    <string name="cd_more_days">日数を増やす</string>
+    <string name="q_companions">誰と旅行しますか？</string>
+    <string name="companions_solo">ひとり</string>
+    <string name="companions_partner">パートナー</string>
+    <string name="companions_family">家族</string>
+    <string name="companions_friends">友だち</string>
+    <string name="q_budget">予算はどのくらいですか？</string>
+    <string name="budget_low">節約</string>
+    <string name="budget_medium">標準</string>
+    <string name="budget_high">贅沢</string>
+    <string name="q_interests">何をしたいですか？</string>
+    <string name="interest_culture">歴史・文化</string>
+    <string name="interest_food">グルメ</string>
+    <string name="interest_nature">自然</string>
+    <string name="interest_art">美術館・アート</string>
+    <string name="interest_shopping">ショッピング</string>
+    <string name="interest_nightlife">ナイトライフ</string>
+    <string name="interest_beach">ビーチ</string>
+    <string name="interest_adventure">アドベンチャー</string>
+    <string name="hint_notes">ほかに希望はありますか？（任意）</string>
+    <string name="q_pace">どんなペースが好きですか？</string>
+    <string name="pace_relaxed">ゆったり</string>
+    <string name="pace_balanced">ほどほど</string>
+    <string name="pace_packed">ぎっしり</string>
+    <string name="action_back">戻る</string>
+    <string name="action_next">次へ</string>
+
+    <string name="confirm_title">プランを作成しますか？</string>
+    <string name="confirm_body">確定すると、回答が AI へのプロンプトになり、AI がプランを JSON で返します。</string>
+    <string name="label_destination">行き先</string>
+    <string name="label_days">期間</string>
+    <string name="label_companions">同行者</string>
+    <string name="label_budget">予算</string>
+    <string name="label_interests">興味</string>
+    <string name="label_notes">メモ</string>
+    <string name="label_pace">ペース</string>
+    <string name="interests_none">こだわりなし</string>
+    <string name="show_prompt">プロンプトを表示</string>
+    <string name="hide_prompt">プロンプトを隠す</string>
+    <string name="demo_banner">デモモード：API キーがないため、サンプルプランを表示しています。</string>
+    <string name="action_edit">編集</string>
+    <string name="action_plan">OK、作成する</string>
+
+    <string name="loading_title">プランを作成しています…</string>
+    <string name="loading_body">AI が旅行を計画しています。通常は30秒ほどかかり、モデルが混雑しているときはもう少しかかります。</string>
+    <string name="action_cancel">キャンセル</string>
+
+    <string name="budget_estimate">予算の目安：%1$s</string>
+    <string name="day_title">%1$d日目 · %2$s</string>
+    <string name="tips_title">ヒント</string>
+    <string name="show_json">JSON を表示</string>
+    <string name="hide_json">JSON を隠す</string>
+    <string name="action_new_plan">新しいプラン</string>
+
+    <string name="error_title">プランを作成できませんでした</string>
+    <string name="error_api_key">API キーが拒否されました。local.properties の GEMINI_API_KEY を確認してください。</string>
+    <string name="error_rate_limit">リクエストが多すぎます。少し待ってからもう一度お試しください。</string>
+    <string name="error_busy">AI が現在とても混雑しています。数分後にもう一度お試しください。</string>
+    <string name="error_network">接続できません。インターネットを確認してもう一度お試しください。</string>
+    <string name="error_service">AI サービスがエラーを返しました。</string>
+    <string name="error_refusal">AI がこの旅行の計画を断りました。回答を変えてもう一度お試しください。</string>
+    <string name="error_too_long">プランが途中で切れました。日数を減らしてもう一度お試しください。</string>
+    <string name="error_parse">AI の返答を読み取れませんでした。</string>
+    <string name="error_generic">問題が発生しました。</string>
+    <string name="action_retry">再試行</string>
+</resources>

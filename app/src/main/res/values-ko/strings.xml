@@ -1,0 +1,91 @@
+<resources>
+    <string name="action_start">시작하기</string>
+    <string name="home_tagline">AI로 다음 여행을 계획하세요</string>
+    <string name="cd_profile">프로필</string>
+    <string name="cd_back">뒤로</string>
+    <string name="profile_title">프로필</string>
+    <string name="account_guest">게스트</string>
+    <string name="account_body">로그인하면 여행 계획을 저장할 수 있어요.</string>
+    <string name="sign_in_google">Google로 계속하기</string>
+    <string name="sign_in_email">이메일로 로그인</string>
+    <string name="coming_soon">곧 제공 예정</string>
+    <string name="theme_title">홈 화면 행성</string>
+    <string name="planet_earth">지구</string>
+    <string name="planet_moon">달</string>
+    <string name="planet_sun">태양</string>
+    <string name="language_title">언어</string>
+
+    <string name="step_counter">%2$d단계 중 %1$d단계</string>
+    <string name="q_destination">어디로 가고 싶나요?</string>
+    <string name="hint_destination">도시 또는 나라 (예: 로마)</string>
+    <string name="q_days">며칠 동안 가나요?</string>
+    <plurals name="days">
+        <item quantity="other">%d일</item>
+    </plurals>
+    <string name="cd_fewer_days">일수 줄이기</string>
+    <string name="cd_more_days">일수 늘리기</string>
+    <string name="q_companions">누구와 여행하나요?</string>
+    <string name="companions_solo">혼자</string>
+    <string name="companions_partner">연인과</string>
+    <string name="companions_family">가족과</string>
+    <string name="companions_friends">친구와</string>
+    <string name="q_budget">예산은 어느 정도인가요?</string>
+    <string name="budget_low">알뜰</string>
+    <string name="budget_medium">보통</string>
+    <string name="budget_high">럭셔리</string>
+    <string name="q_interests">무엇을 하고 싶나요?</string>
+    <string name="interest_culture">역사와 문화</string>
+    <string name="interest_food">음식과 음료</string>
+    <string name="interest_nature">자연</string>
+    <string name="interest_art">박물관과 예술</string>
+    <string name="interest_shopping">쇼핑</string>
+    <string name="interest_nightlife">나이트라이프</string>
+    <string name="interest_beach">해변</string>
+    <string name="interest_adventure">모험</string>
+    <string name="hint_notes">그 밖에 원하는 게 있나요? (선택)</string>
+    <string name="q_pace">어떤 속도가 좋나요?</string>
+    <string name="pace_relaxed">여유롭게</string>
+    <string name="pace_balanced">적당히</string>
+    <string name="pace_packed">빡빡하게</string>
+    <string name="action_back">뒤로</string>
+    <string name="action_next">다음</string>
+
+    <string name="confirm_title">계획을 만들까요?</string>
+    <string name="confirm_body">확인하면 답변이 AI용 프롬프트가 되고, AI가 계획을 JSON으로 돌려줍니다.</string>
+    <string name="label_destination">목적지</string>
+    <string name="label_days">기간</string>
+    <string name="label_companions">동행</string>
+    <string name="label_budget">예산</string>
+    <string name="label_interests">관심사</string>
+    <string name="label_notes">메모</string>
+    <string name="label_pace">속도</string>
+    <string name="interests_none">상관없음</string>
+    <string name="show_prompt">프롬프트 보기</string>
+    <string name="hide_prompt">프롬프트 숨기기</string>
+    <string name="demo_banner">데모 모드: API 키가 없어서 예시 계획을 보여 줍니다.</string>
+    <string name="action_edit">수정</string>
+    <string name="action_plan">좋아요, 계획하기</string>
+
+    <string name="loading_title">계획을 작성하는 중…</string>
+    <string name="loading_body">AI가 여행을 계획하고 있어요. 보통 30초 정도 걸리며, 모델이 바쁘면 조금 더 걸려요.</string>
+    <string name="action_cancel">취소</string>
+
+    <string name="budget_estimate">예상 예산: %1$s</string>
+    <string name="day_title">%1$d일차 · %2$s</string>
+    <string name="tips_title">팁</string>
+    <string name="show_json">JSON 보기</string>
+    <string name="hide_json">JSON 숨기기</string>
+    <string name="action_new_plan">새 계획</string>
+
+    <string name="error_title">계획을 만들지 못했어요</string>
+    <string name="error_api_key">API 키가 거부되었습니다. local.properties의 GEMINI_API_KEY를 확인하세요.</string>
+    <string name="error_rate_limit">요청이 너무 많아요. 잠시 후 다시 시도하세요.</string>
+    <string name="error_busy">지금 AI가 매우 바빠요. 몇 분 후에 다시 시도하세요.</string>
+    <string name="error_network">연결되지 않았어요. 인터넷을 확인하고 다시 시도하세요.</string>
+    <string name="error_service">AI 서비스에서 오류가 발생했어요.</string>
+    <string name="error_refusal">AI가 이 여행 계획을 거절했어요. 답변을 바꿔 다시 시도하세요.</string>
+    <string name="error_too_long">계획이 중간에 잘렸어요. 일수를 줄여 다시 시도하세요.</string>
+    <string name="error_parse">AI의 답변을 읽을 수 없어요.</string>
+    <string name="error_generic">문제가 발생했어요.</string>
+    <string name="action_retry">다시 시도</string>
+</resources>

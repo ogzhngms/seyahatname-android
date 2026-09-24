@@ -1,0 +1,93 @@
+<resources>
+    <string name="action_start">Inizia</string>
+    <string name="home_tagline">Pianifica il tuo prossimo viaggio con l\'IA</string>
+    <string name="cd_profile">Profilo</string>
+    <string name="cd_back">Indietro</string>
+    <string name="profile_title">Profilo</string>
+    <string name="account_guest">Ospite</string>
+    <string name="account_body">Accedi per conservare i tuoi piani.</string>
+    <string name="sign_in_google">Continua con Google</string>
+    <string name="sign_in_email">Accedi con l\'email</string>
+    <string name="coming_soon">Prossimamente</string>
+    <string name="theme_title">Pianeta della schermata iniziale</string>
+    <string name="planet_earth">Terra</string>
+    <string name="planet_moon">Luna</string>
+    <string name="planet_sun">Sole</string>
+    <string name="language_title">Lingua</string>
+
+    <string name="step_counter">Passo %1$d di %2$d</string>
+    <string name="q_destination">Dove vuoi andare?</string>
+    <string name="hint_destination">Una città o un paese, ad es. Roma</string>
+    <string name="q_days">Quanti giorni?</string>
+    <plurals name="days">
+        <item quantity="one">%d giorno</item>
+        <item quantity="many">%d giorni</item>
+        <item quantity="other">%d giorni</item>
+    </plurals>
+    <string name="cd_fewer_days">Meno giorni</string>
+    <string name="cd_more_days">Più giorni</string>
+    <string name="q_companions">Con chi viaggi?</string>
+    <string name="companions_solo">Da solo</string>
+    <string name="companions_partner">In coppia</string>
+    <string name="companions_family">In famiglia</string>
+    <string name="companions_friends">Con amici</string>
+    <string name="q_budget">Qual è il tuo budget?</string>
+    <string name="budget_low">Economico</string>
+    <string name="budget_medium">Medio</string>
+    <string name="budget_high">Lusso</string>
+    <string name="q_interests">Cosa vuoi fare?</string>
+    <string name="interest_culture">Storia e cultura</string>
+    <string name="interest_food">Cibo e bevande</string>
+    <string name="interest_nature">Natura</string>
+    <string name="interest_art">Musei e arte</string>
+    <string name="interest_shopping">Shopping</string>
+    <string name="interest_nightlife">Vita notturna</string>
+    <string name="interest_beach">Spiagge</string>
+    <string name="interest_adventure">Avventura</string>
+    <string name="hint_notes">Altro? (facoltativo)</string>
+    <string name="q_pace">Che ritmo preferisci?</string>
+    <string name="pace_relaxed">Rilassato</string>
+    <string name="pace_balanced">Equilibrato</string>
+    <string name="pace_packed">Intenso</string>
+    <string name="action_back">Indietro</string>
+    <string name="action_next">Avanti</string>
+
+    <string name="confirm_title">Pronto a pianificare?</string>
+    <string name="confirm_body">Quando confermi, le tue risposte diventano un prompt per l\'IA, che restituisce il piano in JSON.</string>
+    <string name="label_destination">Destinazione</string>
+    <string name="label_days">Durata</string>
+    <string name="label_companions">Con</string>
+    <string name="label_budget">Budget</string>
+    <string name="label_interests">Interessi</string>
+    <string name="label_notes">Note</string>
+    <string name="label_pace">Ritmo</string>
+    <string name="interests_none">Nessuna preferenza</string>
+    <string name="show_prompt">Mostra il prompt</string>
+    <string name="hide_prompt">Nascondi il prompt</string>
+    <string name="demo_banner">Modalità demo: non c\'è una chiave API, quindi viene mostrato un piano di esempio.</string>
+    <string name="action_edit">Modifica</string>
+    <string name="action_plan">OK, pianifica</string>
+
+    <string name="loading_title">Sto scrivendo il tuo piano…</string>
+    <string name="loading_body">L\'IA sta pianificando il tuo viaggio. Di solito ci vuole mezzo minuto, di più quando i modelli sono occupati.</string>
+    <string name="action_cancel">Annulla</string>
+
+    <string name="budget_estimate">Budget stimato: %1$s</string>
+    <string name="day_title">Giorno %1$d · %2$s</string>
+    <string name="tips_title">Consigli</string>
+    <string name="show_json">Mostra JSON</string>
+    <string name="hide_json">Nascondi JSON</string>
+    <string name="action_new_plan">Nuovo piano</string>
+
+    <string name="error_title">Impossibile creare il piano</string>
+    <string name="error_api_key">La chiave API è stata rifiutata. Controlla GEMINI_API_KEY in local.properties.</string>
+    <string name="error_rate_limit">Troppe richieste. Attendi un momento e riprova.</string>
+    <string name="error_busy">L\'IA è molto occupata in questo momento. Riprova tra qualche minuto.</string>
+    <string name="error_network">Nessuna connessione. Controlla internet e riprova.</string>
+    <string name="error_service">Il servizio di IA ha restituito un errore.</string>
+    <string name="error_refusal">L\'IA non ha pianificato questo viaggio. Cambia le risposte e riprova.</string>
+    <string name="error_too_long">Il piano è stato troncato. Scegli meno giorni e riprova.</string>
+    <string name="error_parse">Impossibile leggere la risposta dell\'IA.</string>
+    <string name="error_generic">Qualcosa è andato storto.</string>
+    <string name="action_retry">Riprova</string>
+</resources>

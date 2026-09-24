@@ -1,0 +1,92 @@
+<resources>
+    <string name="action_start">शुरू करें</string>
+    <string name="home_tagline">AI के साथ अपनी अगली यात्रा की योजना बनाएँ</string>
+    <string name="cd_profile">प्रोफ़ाइल</string>
+    <string name="cd_back">वापस</string>
+    <string name="profile_title">प्रोफ़ाइल</string>
+    <string name="account_guest">मेहमान</string>
+    <string name="account_body">अपनी योजनाएँ सहेजने के लिए साइन इन करें।</string>
+    <string name="sign_in_google">Google के साथ जारी रखें</string>
+    <string name="sign_in_email">ईमेल से साइन इन करें</string>
+    <string name="coming_soon">जल्द आ रहा है</string>
+    <string name="theme_title">होम स्क्रीन का ग्रह</string>
+    <string name="planet_earth">पृथ्वी</string>
+    <string name="planet_moon">चंद्रमा</string>
+    <string name="planet_sun">सूर्य</string>
+    <string name="language_title">भाषा</string>
+
+    <string name="step_counter">चरण %1$d / %2$d</string>
+    <string name="q_destination">आप कहाँ जाना चाहते हैं?</string>
+    <string name="hint_destination">कोई शहर या देश, जैसे रोम</string>
+    <string name="q_days">कितने दिन?</string>
+    <plurals name="days">
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
+    </plurals>
+    <string name="cd_fewer_days">कम दिन</string>
+    <string name="cd_more_days">ज़्यादा दिन</string>
+    <string name="q_companions">आप किसके साथ यात्रा कर रहे हैं?</string>
+    <string name="companions_solo">अकेले</string>
+    <string name="companions_partner">साथी के साथ</string>
+    <string name="companions_family">परिवार के साथ</string>
+    <string name="companions_friends">दोस्तों के साथ</string>
+    <string name="q_budget">आपका बजट कितना है?</string>
+    <string name="budget_low">किफ़ायती</string>
+    <string name="budget_medium">मध्यम</string>
+    <string name="budget_high">लग्ज़री</string>
+    <string name="q_interests">आप क्या करना चाहते हैं?</string>
+    <string name="interest_culture">इतिहास और संस्कृति</string>
+    <string name="interest_food">खान-पान</string>
+    <string name="interest_nature">प्रकृति</string>
+    <string name="interest_art">संग्रहालय और कला</string>
+    <string name="interest_shopping">ख़रीदारी</string>
+    <string name="interest_nightlife">नाइटलाइफ़</string>
+    <string name="interest_beach">समुद्र तट</string>
+    <string name="interest_adventure">रोमांच</string>
+    <string name="hint_notes">कुछ और? (वैकल्पिक)</string>
+    <string name="q_pace">आपको कैसी रफ़्तार पसंद है?</string>
+    <string name="pace_relaxed">आरामदायक</string>
+    <string name="pace_balanced">संतुलित</string>
+    <string name="pace_packed">व्यस्त</string>
+    <string name="action_back">वापस</string>
+    <string name="action_next">आगे</string>
+
+    <string name="confirm_title">योजना बनाने के लिए तैयार?</string>
+    <string name="confirm_body">पुष्टि करने पर आपके जवाब AI के लिए एक प्रॉम्प्ट बन जाते हैं, जो योजना JSON में लौटाता है।</string>
+    <string name="label_destination">गंतव्य</string>
+    <string name="label_days">अवधि</string>
+    <string name="label_companions">साथ में</string>
+    <string name="label_budget">बजट</string>
+    <string name="label_interests">रुचियाँ</string>
+    <string name="label_notes">नोट्स</string>
+    <string name="label_pace">रफ़्तार</string>
+    <string name="interests_none">कोई पसंद नहीं</string>
+    <string name="show_prompt">प्रॉम्प्ट दिखाएँ</string>
+    <string name="hide_prompt">प्रॉम्प्ट छिपाएँ</string>
+    <string name="demo_banner">डेमो मोड: कोई API कुंजी नहीं है, इसलिए एक नमूना योजना दिखाई जा रही है।</string>
+    <string name="action_edit">बदलें</string>
+    <string name="action_plan">ठीक है, योजना बनाएँ</string>
+
+    <string name="loading_title">आपकी योजना लिखी जा रही है…</string>
+    <string name="loading_body">AI आपकी यात्रा की योजना बना रहा है। इसमें आमतौर पर आधा मिनट लगता है, मॉडल व्यस्त हों तो थोड़ा ज़्यादा।</string>
+    <string name="action_cancel">रद्द करें</string>
+
+    <string name="budget_estimate">अनुमानित बजट: %1$s</string>
+    <string name="day_title">दिन %1$d · %2$s</string>
+    <string name="tips_title">सुझाव</string>
+    <string name="show_json">JSON दिखाएँ</string>
+    <string name="hide_json">JSON छिपाएँ</string>
+    <string name="action_new_plan">नई योजना</string>
+
+    <string name="error_title">योजना नहीं बन सकी</string>
+    <string name="error_api_key">API कुंजी अस्वीकार कर दी गई। local.properties में GEMINI_API_KEY जाँचें।</string>
+    <string name="error_rate_limit">बहुत ज़्यादा अनुरोध। थोड़ा रुककर फिर से कोशिश करें।</string>
+    <string name="error_busy">AI अभी बहुत व्यस्त है। कुछ मिनट बाद फिर से कोशिश करें।</string>
+    <string name="error_network">कनेक्शन नहीं है। अपना इंटरनेट जाँचकर फिर से कोशिश करें।</string>
+    <string name="error_service">AI सेवा ने एक त्रुटि लौटाई।</string>
+    <string name="error_refusal">AI ने इस यात्रा की योजना नहीं बनाई। अपने जवाब बदलकर फिर से कोशिश करें।</string>
+    <string name="error_too_long">योजना बीच में कट गई। कम दिन चुनकर फिर से कोशिश करें।</string>
+    <string name="error_parse">AI का जवाब पढ़ा नहीं जा सका।</string>
+    <string name="error_generic">कुछ गलत हो गया।</string>
+    <string name="action_retry">फिर से कोशिश करें</string>
+</resources>

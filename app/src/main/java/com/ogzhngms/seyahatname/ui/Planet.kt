@@ -1,24 +1,36 @@
 package com.ogzhngms.seyahatname.ui
 
+import android.graphics.BitmapFactory
+import android.graphics.BitmapShader
+import android.graphics.RuntimeShader
+import android.graphics.Shader
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.platform.LocalContext
 import com.ogzhngms.seyahatname.Planet
+import com.ogzhngms.seyahatname.R
 import kotlin.math.cos
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -40,9 +52,78 @@ private val CRATERS = listOf(
 )
 private val SUNSPOTS = listOf(Spot(-40f, 15f, 0.12f), Spot(60f, -20f, 0.10f), Spot(150f, 30f, 0.14f), Spot(-140f, -35f, 0.09f))
 
-// The home-screen planet, turning once every 40 seconds.
+// The Earth from NASA's Blue Marble imagery, wrapped on a sphere on the GPU (Android 13+).
+// Tilted so the north shows, Turkey faces the viewer at start, one turn a minute.
+private const val EARTH_SHADER = """
+uniform shader earth;
+uniform float2 size;
+uniform float2 textureSize;
+uniform float turn;
+
+const float PI = 3.14159265;
+const float TILT = 0.40;
+const float START_LON = 0.61;
+
+half4 main(float2 coord) {
+    float r = min(size.x, size.y) * 0.4;
+    float2 p = (coord - size * 0.5) / r;
+    float d = length(p);
+    float edge = 1.5 / r;
+    float halo = smoothstep(1.28, 1.0, d);
+    half4 glow = half4(0.28, 0.55, 1.0, 1.0) * half(halo * halo * 0.55);
+    if (d > 1.0 + edge) return glow;
+
+    float3 n = float3(p.x, -p.y, sqrt(max(0.0, 1.0 - d * d)));
+    float3 t = float3(n.x, n.y * cos(TILT) + n.z * sin(TILT), -n.y * sin(TILT) + n.z * cos(TILT));
+    float lat = asin(clamp(t.y, -1.0, 1.0));
+    float lon = atan(t.x, t.z) + START_LON - turn * 2.0 * PI;
+    float2 uv = float2(fract(lon / (2.0 * PI) + 0.5), 0.5 - lat / PI);
+    half3 surface = earth.eval(uv * textureSize).rgb;
+    // The source oceans are near-black navy; lift them toward the blue seen from orbit.
+    half ocean = half(smoothstep(0.05, 0.25, float(surface.b - max(surface.r, surface.g))));
+    surface = mix(surface, surface * half3(0.7, 1.3, 2.1) + half3(0.0, 0.04, 0.10), ocean);
+
+    float light = clamp(dot(n, normalize(float3(-0.55, 0.45, 0.70))), 0.0, 1.0);
+    float haze = pow(1.0 - n.z, 3.0);
+    half3 rgb = surface * half(0.16 + 0.95 * light) + half3(0.30, 0.55, 1.0) * half(haze * 0.65);
+    return mix(half4(rgb, 1.0), glow, half(smoothstep(1.0 - edge, 1.0 + edge, d)));
+}
+"""
+
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
+@Composable
+private fun RealisticEarth(modifier: Modifier) {
+    val resources = LocalContext.current.resources
+    val shader = remember {
+        val texture = BitmapFactory.decodeResource(resources, R.drawable.earth_texture)
+        RuntimeShader(EARTH_SHADER).apply {
+            val sampler = BitmapShader(texture, Shader.TileMode.REPEAT, Shader.TileMode.CLAMP)
+            sampler.filterMode = BitmapShader.FILTER_MODE_LINEAR
+            setInputShader("earth", sampler)
+            setFloatUniform("textureSize", texture.width.toFloat(), texture.height.toFloat())
+        }
+    }
+    val brush = remember(shader) { ShaderBrush(shader) }
+    val turn by rememberInfiniteTransition(label = "earth").animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(60_000, easing = LinearEasing)),
+        label = "earth",
+    )
+    Box(
+        modifier.aspectRatio(1f).drawBehind {
+            shader.setFloatUniform("size", size.width, size.height)
+            shader.setFloatUniform("turn", turn)
+            drawRect(brush)
+        },
+    )
+}
+
+// The home-screen planet. The Earth is photographic on Android 13+; the Moon, the Sun and
+// older phones get the drawn version, turning once every 40 seconds.
 @Composable
 fun PlanetView(planet: Planet, modifier: Modifier = Modifier) {
+    if (planet == Planet.EARTH && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) return RealisticEarth(modifier)
     val turn by rememberInfiniteTransition(label = "turn").animateFloat(
         initialValue = 0f,
         targetValue = 360f,

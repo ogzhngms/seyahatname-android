@@ -24,7 +24,7 @@ answers ─► buildPrompt() ─► Gemini (JSON schema output) ─► JSON ─�
 - **Home and profile:** the planet (Earth, Moon or Sun) is drawn with a Compose `Canvas` and turns slowly (`ui/Planet.kt`). The profile screen, opened from the top-right icon, holds a sign-in placeholder, the planet choice and the language. Both choices are stored on the device (`AppSettings.kt`).
 - **Firebase:** each install signs in with an anonymous Firebase account. The planet and language are kept on the device, because the language is needed before the first screen draws, and a copy goes to Cloud Firestore at `users/{uid}`. `firestore.rules` lets a user read and write only their own document and only the known fields and values. When real sign-in arrives, the anonymous account can be linked to Google and keep its uid and settings.
 
-The interface comes in 15 languages: English, Turkish, Spanish, German, French, Italian, Portuguese, Russian, Arabic (right to left), Hindi, Chinese, Japanese, Korean, Indonesian and Azerbaijani. It follows the phone's language until one is picked on the profile screen, and the plan is written in the same language. The confirm screen can show the prompt and the result screen the raw JSON.
+The interface comes in 15 languages: English, Turkish, Spanish, German, French, Italian, Portuguese, Russian, Arabic (right to left), Hindi, Chinese, Japanese, Korean, Indonesian and Azerbaijani. It follows the phone's language until one is picked from the flag menu on the profile screen, and the plan is written in the same language. The confirm screen can show the prompt and the result screen the raw JSON.
 
 ## Run it
 
@@ -48,7 +48,7 @@ The interface comes in 15 languages: English, Turkish, Spanish, German, French, 
 - `ItineraryTest` checks that every schema object is closed and fully required, and that the sample plans match the schema.
 - `TranslationsTest` checks that every language in the picker has every string, since Android silently falls back to English for a missing one.
 - `TripViewModelTest` covers Home and Profile navigation, the happy path, a failure followed by a retry, a reply that breaks the schema, and cancelling while the plan is loading.
-- `TripFlowTest` taps Start and all six questions on a device with a stub planner and checks the plan on screen. It also checks that with the keyboard open, Back first closes the keyboard.
+- `TripFlowTest` taps Start and all six questions on a device with a stub planner and checks the plan on screen. It also checks that with the keyboard open, Back first closes the keyboard, and that the flag menu picks a language.
 
 CI runs the unit tests and a debug build on every push.
 

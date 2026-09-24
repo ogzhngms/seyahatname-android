@@ -224,7 +224,7 @@ private fun DayPicker(days: Int, onChange: (Int) -> Unit) {
 }
 
 @Composable
-internal fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
+private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { option ->
             FilterChip(

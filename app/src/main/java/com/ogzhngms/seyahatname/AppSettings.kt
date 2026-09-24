@@ -10,23 +10,27 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import java.util.Locale
 
-// Android's own resource code for Indonesian is "in", not "id".
-enum class Language(val tag: String, val label: String) {
-    ENGLISH("en", "English"),
-    TURKISH("tr", "Türkçe"),
-    SPANISH("es", "Español"),
-    GERMAN("de", "Deutsch"),
-    FRENCH("fr", "Français"),
-    ITALIAN("it", "Italiano"),
-    PORTUGUESE("pt", "Português"),
-    RUSSIAN("ru", "Русский"),
-    ARABIC("ar", "العربية"),
-    HINDI("hi", "हिन्दी"),
-    CHINESE("zh", "中文"),
-    JAPANESE("ja", "日本語"),
-    KOREAN("ko", "한국어"),
-    INDONESIAN("in", "Bahasa Indonesia"),
-    AZERBAIJANI("az", "Azərbaycan"),
+// A language, the flag shown next to it in the picker, and its name in that language.
+// Android's own resource code for Indonesian is "in"; the picker shows the usual "ID".
+enum class Language(val tag: String, val flag: String, val label: String) {
+    ENGLISH("en", "🇬🇧", "English"),
+    TURKISH("tr", "🇹🇷", "Türkçe"),
+    SPANISH("es", "🇪🇸", "Español"),
+    GERMAN("de", "🇩🇪", "Deutsch"),
+    FRENCH("fr", "🇫🇷", "Français"),
+    ITALIAN("it", "🇮🇹", "Italiano"),
+    PORTUGUESE("pt", "🇧🇷", "Português"),
+    RUSSIAN("ru", "🇷🇺", "Русский"),
+    ARABIC("ar", "🇸🇦", "العربية"),
+    HINDI("hi", "🇮🇳", "हिन्दी"),
+    CHINESE("zh", "🇨🇳", "中文"),
+    JAPANESE("ja", "🇯🇵", "日本語"),
+    KOREAN("ko", "🇰🇷", "한국어"),
+    INDONESIAN("in", "🇮🇩", "Bahasa Indonesia"),
+    AZERBAIJANI("az", "🇦🇿", "Azərbaycan"),
+    ;
+
+    val code: String get() = if (this == INDONESIAN) "ID" else tag.uppercase()
 }
 
 enum class Planet(@StringRes val label: Int) {

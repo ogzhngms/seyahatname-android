@@ -13,12 +13,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -26,7 +29,10 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -35,6 +41,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -138,7 +146,45 @@ internal fun ProfileScreen(
             }
         }
         Section(R.string.language_title) {
-            Choices(Language.entries, { it == language }, { it.label }, onLanguage)
+            LanguagePicker(language, onLanguage)
+        }
+    }
+}
+
+// One button showing the current flag and code; it opens the full list.
+@Composable
+private fun LanguagePicker(current: Language?, onPick: (Language) -> Unit) {
+    var open by remember { mutableStateOf(false) }
+    val description = "${stringResource(R.string.language_title)}: ${current?.label.orEmpty()}"
+    Box {
+        OutlinedButton(onClick = { open = true }, modifier = Modifier.semantics { contentDescription = description }) {
+            Text(current?.let { "${it.flag}  ${it.code}" } ?: "🌐", style = MaterialTheme.typography.titleMedium)
+            Icon(painterResource(R.drawable.ic_expand_more), contentDescription = null, modifier = Modifier.padding(start = 8.dp))
+        }
+        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+            Language.entries.forEach { language ->
+                val selected = language == current
+                DropdownMenuItem(
+                    text = {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                "${language.flag}  ${language.code}",
+                                fontWeight = FontWeight.Bold,
+                                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.width(72.dp),
+                            )
+                            Text(language.label, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    },
+                    trailingIcon = {
+                        if (selected) Icon(painterResource(R.drawable.ic_check), contentDescription = null, tint = MaterialTheme.colorScheme.primary)
+                    },
+                    onClick = {
+                        open = false
+                        if (!selected) onPick(language)
+                    },
+                )
+            }
         }
     }
 }

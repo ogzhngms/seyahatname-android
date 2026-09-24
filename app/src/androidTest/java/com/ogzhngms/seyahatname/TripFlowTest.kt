@@ -8,6 +8,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performScrollTo
 import androidx.compose.ui.test.performTextInput
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -97,6 +98,19 @@ class TripFlowTest {
         compose.onNodeWithText(text(R.string.action_back)).performClick()
         compose.waitForIdle()
         assertEquals(Screen.Question(3), vm.screen)
+    }
+
+    @Test
+    fun languageButtonOpensTheFlagList() {
+        var picked: Language? = null
+        val vm = TripViewModel { sample }
+        compose.setContent { SeyahatnameTheme { SeyahatnameApp(vm, demo = false, onLanguageChange = { picked = it }) } }
+        vm.openProfile()
+
+        compose.onNodeWithContentDescription(text(R.string.language_title), substring = true).performScrollTo().performClick()
+        compose.onNodeWithText("${Language.GERMAN.flag}  ${Language.GERMAN.code}").performClick()
+
+        assertEquals(Language.GERMAN, picked)
     }
 
     private fun keyboardShown() =

@@ -9,11 +9,18 @@
     <string name="sign_in_google">Google के साथ जारी रखें</string>
     <string name="sign_in_email">ईमेल से साइन इन करें</string>
     <string name="coming_soon">जल्द आ रहा है</string>
-    <string name="theme_title">होम स्क्रीन का ग्रह</string>
+    <string name="theme_title">पृष्ठभूमि</string>
     <string name="planet_earth">पृथ्वी</string>
     <string name="planet_moon">चंद्रमा</string>
     <string name="planet_sun">सूर्य</string>
     <string name="language_title">भाषा</string>
+    <string name="currency_title">मुद्रा</string>
+    <string name="currency_body">आपकी योजनाओं में कीमतें इसी मुद्रा में दिखती हैं।</string>
+    <string name="currency_local">स्थानीय मुद्रा</string>
+    <string name="about_title">ऐप के बारे में</string>
+    <string name="about_version">संस्करण %1$s</string>
+    <string name="about_images">पृथ्वी और चंद्रमा की तस्वीरें: NASA</string>
+    <string name="about_source">GitHub पर सोर्स कोड</string>
 
     <string name="step_counter">चरण %1$d / %2$d</string>
     <string name="q_destination">आप कहाँ जाना चाहते हैं?</string>

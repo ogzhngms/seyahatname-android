@@ -58,13 +58,14 @@ data class TripAnswers(
 const val SYSTEM_PROMPT =
     "You are a travel planner. Turn the traveller's answers into a realistic day-by-day itinerary. " +
         "Keep each day in one area of the destination, give every activity a start time in 24-hour HH:MM format, " +
-        "estimate costs per person in the local currency, and keep each description to one or two sentences."
+        "estimate costs per person in the currency asked for, and keep each description to one or two sentences."
 
-fun buildPrompt(answers: TripAnswers, language: String): String = buildString {
+fun buildPrompt(answers: TripAnswers, language: String, currency: Currency = Currency.LOCAL): String = buildString {
     appendLine("Destination: ${answers.destination.trim()}")
     appendLine("Length: exactly ${answers.days} days")
     appendLine("Travelling: ${answers.companions.prompt}")
     appendLine("Budget: ${answers.budget.prompt}")
+    appendLine("Currency: ${currency.code ?: "the local currency of the destination"}")
     appendLine("Interests: " + answers.interests.sorted().joinToString { it.prompt }.ifEmpty { "no preference" })
     appendLine("Pace: ${answers.pace.prompt}")
     if (answers.notes.isNotBlank()) appendLine("Other wishes: ${answers.notes.trim()}")

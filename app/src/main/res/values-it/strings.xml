@@ -9,11 +9,18 @@
     <string name="sign_in_google">Continua con Google</string>
     <string name="sign_in_email">Accedi con l\'email</string>
     <string name="coming_soon">Prossimamente</string>
-    <string name="theme_title">Pianeta della schermata iniziale</string>
+    <string name="theme_title">Sfondo</string>
     <string name="planet_earth">Terra</string>
     <string name="planet_moon">Luna</string>
     <string name="planet_sun">Sole</string>
     <string name="language_title">Lingua</string>
+    <string name="currency_title">Valuta</string>
+    <string name="currency_body">I prezzi dei tuoi piani sono mostrati in questa valuta.</string>
+    <string name="currency_local">Valuta locale</string>
+    <string name="about_title">Informazioni</string>
+    <string name="about_version">Versione %1$s</string>
+    <string name="about_images">Immagini della Terra e della Luna: NASA</string>
+    <string name="about_source">Codice sorgente su GitHub</string>
 
     <string name="step_counter">Passo %1$d di %2$d</string>
     <string name="q_destination">Dove vuoi andare?</string>

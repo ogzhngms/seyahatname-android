@@ -9,11 +9,18 @@
     <string name="sign_in_google">Google ile devam et</string>
     <string name="sign_in_email">E-posta ile giriş yap</string>
     <string name="coming_soon">Yakında geliyor</string>
-    <string name="theme_title">Ana ekran gezegeni</string>
+    <string name="theme_title">Arka plan</string>
     <string name="planet_earth">Dünya</string>
     <string name="planet_moon">Ay</string>
     <string name="planet_sun">Güneş</string>
     <string name="language_title">Dil</string>
+    <string name="currency_title">Para birimi</string>
+    <string name="currency_body">Planlardaki fiyatlar bu para biriminde gösterilir.</string>
+    <string name="currency_local">Yerel para</string>
+    <string name="about_title">Hakkında</string>
+    <string name="about_version">Sürüm %1$s</string>
+    <string name="about_images">Dünya ve Ay görselleri: NASA</string>
+    <string name="about_source">GitHub\'da kaynak kod</string>
 
     <string name="step_counter">Adım %1$d / %2$d</string>
     <string name="q_destination">Nereye gitmek istersin?</string>

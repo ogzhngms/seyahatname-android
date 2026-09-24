@@ -39,7 +39,16 @@ enum class Planet(@StringRes val label: Int) {
     SUN(R.string.planet_sun),
 }
 
-// The language and home-screen planet picked on the profile screen. The device copy is the one the app reads,
+// The currency plan prices are written in; LOCAL leaves it to the destination.
+enum class Currency(val code: String?, val symbol: String) {
+    LOCAL(null, ""),
+    TRY("TRY", "₺"),
+    EUR("EUR", "€"),
+    USD("USD", "$"),
+    GBP("GBP", "£"),
+}
+
+// The language, currency and home-screen planet picked on the profile screen. The device copy is the one the app reads,
 // since the language is needed before the first screen is drawn; a copy goes to Firestore under users/{uid}.
 object AppSettings {
     private fun preferences(context: Context) = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
@@ -51,6 +60,16 @@ object AppSettings {
 
     fun savePlanet(context: Context, planet: Planet) {
         preferences(context).edit().putString("planet", planet.name).apply()
+        upload(context)
+    }
+
+    fun currency(context: Context): Currency {
+        val name = preferences(context).getString("currency", null)
+        return Currency.entries.firstOrNull { it.name == name } ?: Currency.LOCAL
+    }
+
+    fun saveCurrency(context: Context, currency: Currency) {
+        preferences(context).edit().putString("currency", currency.name).apply()
         upload(context)
     }
 
@@ -71,7 +90,11 @@ object AppSettings {
 
     private fun upload(context: Context) {
         val user = FirebaseAuth.getInstance().currentUser ?: return
-        val data = mutableMapOf<String, Any>("planet" to planet(context).name, "updatedAt" to FieldValue.serverTimestamp())
+        val data = mutableMapOf<String, Any>(
+            "planet" to planet(context).name,
+            "currency" to currency(context).name,
+            "updatedAt" to FieldValue.serverTimestamp(),
+        )
         preferences(context).getString("language", null)?.let { data["language"] = it }
         FirebaseFirestore.getInstance().collection("users").document(user.uid).set(data, SetOptions.merge())
             .addOnSuccessListener { Log.i(TAG, "Settings saved to Firestore for ${user.uid}") }

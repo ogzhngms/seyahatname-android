@@ -9,11 +9,18 @@
     <string name="sign_in_google">使用 Google 继续</string>
     <string name="sign_in_email">使用邮箱登录</string>
     <string name="coming_soon">即将推出</string>
-    <string name="theme_title">主屏幕星球</string>
+    <string name="theme_title">背景</string>
     <string name="planet_earth">地球</string>
     <string name="planet_moon">月球</string>
     <string name="planet_sun">太阳</string>
     <string name="language_title">语言</string>
+    <string name="currency_title">货币</string>
+    <string name="currency_body">行程中的价格以此货币显示。</string>
+    <string name="currency_local">当地货币</string>
+    <string name="about_title">关于</string>
+    <string name="about_version">版本 %1$s</string>
+    <string name="about_images">地球和月球图像：NASA</string>
+    <string name="about_source">GitHub 上的源代码</string>
 
     <string name="step_counter">第 %1$d 步，共 %2$d 步</string>
     <string name="q_destination">你想去哪里？</string>

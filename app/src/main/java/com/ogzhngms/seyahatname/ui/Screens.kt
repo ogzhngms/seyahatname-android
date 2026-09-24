@@ -73,6 +73,7 @@ import com.ogzhngms.seyahatname.Companions
 import com.ogzhngms.seyahatname.Day
 import com.ogzhngms.seyahatname.Interest
 import com.ogzhngms.seyahatname.Itinerary
+import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Language
 import com.ogzhngms.seyahatname.MAX_DAYS
 import com.ogzhngms.seyahatname.Pace
@@ -90,6 +91,7 @@ import org.json.JSONObject
 fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language) -> Unit = {}) {
     val context = LocalContext.current
     var planet by remember { mutableStateOf(AppSettings.planet(context)) }
+    var currency by remember { mutableStateOf(AppSettings.currency(context)) }
     val language = Language.entries.firstOrNull { it.tag == Locale.getDefault().language }
     val view = LocalView.current
     val focusManager = LocalFocusManager.current
@@ -108,12 +110,14 @@ fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language
                     Screen.Profile -> ProfileScreen(
                         planet,
                         language,
+                        currency,
                         onPlanet = { planet = it; AppSettings.savePlanet(context, it) },
                         onLanguage = onLanguageChange,
+                        onCurrency = { currency = it; AppSettings.saveCurrency(context, it) },
                         onBack = vm::back,
                     )
                     is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, back)
-                    Screen.Confirm -> ConfirmScreen(vm.answers, demo, onPlan = vm::submit, onEdit = vm::back)
+                    Screen.Confirm -> ConfirmScreen(vm.answers, currency, demo, onPlan = vm::submit, onEdit = vm::back)
                     Screen.Loading -> LoadingScreen(onCancel = vm::back)
                     is Screen.Result -> ResultScreen(screen, demo, onNewPlan = vm::restart)
                     is Screen.Failed -> FailedScreen(screen, onRetry = vm::submit, onEdit = vm::back)
@@ -224,7 +228,7 @@ private fun DayPicker(days: Int, onChange: (Int) -> Unit) {
 }
 
 @Composable
-private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
+internal fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { option ->
             FilterChip(
@@ -237,7 +241,7 @@ private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Comp
 }
 
 @Composable
-private fun ConfirmScreen(answers: TripAnswers, demo: Boolean, onPlan: () -> Unit, onEdit: () -> Unit) {
+private fun ConfirmScreen(answers: TripAnswers, currency: Currency, demo: Boolean, onPlan: () -> Unit, onEdit: () -> Unit) {
     var showPrompt by rememberSaveable { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -262,7 +266,7 @@ private fun ConfirmScreen(answers: TripAnswers, demo: Boolean, onPlan: () -> Uni
             TextButton(onClick = { showPrompt = !showPrompt }) {
                 Text(stringResource(if (showPrompt) R.string.hide_prompt else R.string.show_prompt))
             }
-            if (showPrompt) Code(buildPrompt(answers, promptLanguage()))
+            if (showPrompt) Code(buildPrompt(answers, promptLanguage(), currency))
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedButton(onClick = onEdit, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.action_edit)) }

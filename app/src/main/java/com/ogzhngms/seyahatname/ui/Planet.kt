@@ -77,7 +77,7 @@ float2 mapUv(float2 ll) { return float2(fract(ll.y / (2.0 * PI) + 0.5), 0.5 - ll
 """
 
 // NASA's Blue Marble imagery: tilted so the north shows, Turkey facing the viewer at start,
-// lit from the upper left with a dark night side, a blue haze toward the rim and a glow.
+// lit from the upper left with a dark night side, a blue haze toward the rim and a thin rim of air.
 private const val EARTH_SHADER = SPHERE + """
 uniform shader surface;
 uniform float2 textureSize;
@@ -86,8 +86,8 @@ half4 main(float2 coord) {
     float2 p = disc(coord);
     float d = length(p);
     float edge = 1.5 / radius();
-    float halo = smoothstep(1.23, 1.0, d);
-    half4 glow = half4(0.28, 0.55, 1.0, 1.0) * half(halo * halo * 0.55);
+    float halo = smoothstep(1.07, 1.0, d);
+    half4 glow = half4(0.28, 0.55, 1.0, 1.0) * half(halo * halo * 0.45);
     if (d > 1.0 + edge) return glow;
 
     float3 n = normal(p);
@@ -103,7 +103,7 @@ half4 main(float2 coord) {
 """
 
 // NASA's LRO colour map with the near side facing the viewer. No air: a hard day/night line,
-// near-black shadow and only a faint pale glow.
+// near-black shadow and only a faint pale rim.
 private const val MOON_SHADER = SPHERE + """
 uniform shader surface;
 uniform float2 textureSize;
@@ -112,8 +112,8 @@ half4 main(float2 coord) {
     float2 p = disc(coord);
     float d = length(p);
     float edge = 1.5 / radius();
-    float halo = smoothstep(1.16, 1.0, d);
-    half4 glow = half4(0.86, 0.88, 0.95, 1.0) * half(halo * halo * 0.16);
+    float halo = smoothstep(1.04, 1.0, d);
+    half4 glow = half4(0.86, 0.88, 0.95, 1.0) * half(halo * halo * 0.10);
     if (d > 1.0 + edge) return glow;
 
     float3 n = normal(p);
@@ -161,7 +161,7 @@ half4 main(float2 coord) {
     float d = length(p);
     float edge = 1.5 / radius();
     float breathe = 1.0 + 0.06 * sin(turn * 2.0 * PI * 20.0);
-    float corona = pow(clamp(1.0 - (d - 1.0) / (0.21 * breathe), 0.0, 1.0), 1.8);
+    float corona = pow(clamp(1.0 - (d - 1.0) / (0.10 * breathe), 0.0, 1.0), 1.8);
     half4 glow = half4(1.0, 0.62, 0.18, 1.0) * half(corona * 0.9);
     if (d > 1.0 + edge) return glow;
 
@@ -260,8 +260,8 @@ fun PlanetView(planet: Planet, modifier: Modifier = Modifier) {
 }
 
 private fun DrawScope.glow(radius: Float, color: Color) {
-    val outer = radius * 1.25f
-    drawCircle(Brush.radialGradient(0.78f to color, 1f to Color.Transparent, center = center, radius = outer), outer)
+    val outer = radius * 1.08f
+    drawCircle(Brush.radialGradient(0.9f to color, 1f to Color.Transparent, center = center, radius = outer), outer)
 }
 
 // Lit from the top left.

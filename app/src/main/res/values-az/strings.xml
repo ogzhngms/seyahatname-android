@@ -9,11 +9,18 @@
     <string name="sign_in_google">Google ilə davam et</string>
     <string name="sign_in_email">E-poçtla daxil ol</string>
     <string name="coming_soon">Tezliklə</string>
-    <string name="theme_title">Ana ekranın planeti</string>
+    <string name="theme_title">Arxa fon</string>
     <string name="planet_earth">Yer</string>
     <string name="planet_moon">Ay</string>
     <string name="planet_sun">Günəş</string>
     <string name="language_title">Dil</string>
+    <string name="currency_title">Valyuta</string>
+    <string name="currency_body">Planlardakı qiymətlər bu valyutada göstərilir.</string>
+    <string name="currency_local">Yerli valyuta</string>
+    <string name="about_title">Haqqında</string>
+    <string name="about_version">Versiya %1$s</string>
+    <string name="about_images">Yer və Ay şəkilləri: NASA</string>
+    <string name="about_source">GitHub-da mənbə kodu</string>
 
     <string name="step_counter">Addım %1$d / %2$d</string>
     <string name="q_destination">Hara getmək istəyirsən?</string>

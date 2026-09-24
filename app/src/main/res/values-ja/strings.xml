@@ -9,11 +9,18 @@
     <string name="sign_in_google">Google で続ける</string>
     <string name="sign_in_email">メールでログイン</string>
     <string name="coming_soon">近日公開</string>
-    <string name="theme_title">ホーム画面の惑星</string>
+    <string name="theme_title">背景</string>
     <string name="planet_earth">地球</string>
     <string name="planet_moon">月</string>
     <string name="planet_sun">太陽</string>
     <string name="language_title">言語</string>
+    <string name="currency_title">通貨</string>
+    <string name="currency_body">プランの料金はこの通貨で表示されます。</string>
+    <string name="currency_local">現地通貨</string>
+    <string name="about_title">アプリについて</string>
+    <string name="about_version">バージョン %1$s</string>
+    <string name="about_images">地球と月の画像：NASA</string>
+    <string name="about_source">GitHub のソースコード</string>
 
     <string name="step_counter">ステップ %1$d / %2$d</string>
     <string name="q_destination">どこへ行きたいですか？</string>

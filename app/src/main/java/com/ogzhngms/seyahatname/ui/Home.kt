@@ -2,6 +2,12 @@ package com.ogzhngms.seyahatname.ui
 
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +34,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -37,7 +44,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.PathMeasure
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
@@ -46,16 +58,17 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ogzhngms.seyahatname.BuildConfig
+import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Language
 import com.ogzhngms.seyahatname.Planet
 import com.ogzhngms.seyahatname.R
-import kotlin.random.Random
 
 // The landing screen: the chosen planet in the middle with Start at its centre.
 @Composable
 internal fun HomeScreen(planet: Planet, onStart: () -> Unit, onProfile: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
-        Stars(Modifier.fillMaxSize())
+        RouteBackdrop(planet, Modifier.fillMaxSize())
         Row(Modifier.fillMaxWidth().padding(start = 24.dp, end = 12.dp, top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             IconButton(onClick = onProfile) {
@@ -88,16 +101,56 @@ internal fun HomeScreen(planet: Planet, onStart: () -> Unit, onProfile: () -> Un
     }
 }
 
+// Where a flight leaves from and lands, as shares of the screen, and how far its arc bows.
+private class Route(val from: Offset, val to: Offset, val bend: Float)
+
+// Laid around the planet so most arcs sit in the empty space above and below it; one passes behind it.
+private val ROUTES = listOf(
+    Route(Offset(0.08f, 0.20f), Offset(0.62f, 0.12f), -0.25f),
+    Route(Offset(0.55f, 0.25f), Offset(0.94f, 0.34f), -0.35f),
+    Route(Offset(0.04f, 0.40f), Offset(0.95f, 0.60f), 0.30f),
+    Route(Offset(0.10f, 0.79f), Offset(0.58f, 0.87f), 0.30f),
+    Route(Offset(0.42f, 0.72f), Offset(0.93f, 0.80f), -0.30f),
+)
+
+// Dashed flight arcs with a plane dot moving along each, tinted to match the planet.
 @Composable
-private fun Stars(modifier: Modifier) {
-    val stars = remember { Random(7).let { random -> List(80) { Offset(random.nextFloat(), random.nextFloat()) to random.nextFloat() } } }
+private fun RouteBackdrop(planet: Planet, modifier: Modifier) {
+    val tint by animateColorAsState(
+        when (planet) {
+            Planet.EARTH -> MaterialTheme.colorScheme.primary
+            Planet.MOON -> Color(0xFFB8C4D6)
+            Planet.SUN -> Color(0xFFFFB347)
+        },
+        label = "tint",
+    )
+    val progress by rememberInfiniteTransition(label = "flights").animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(9_000, easing = LinearEasing)),
+        label = "flights",
+    )
     Canvas(modifier) {
-        stars.forEach { (at, brightness) ->
-            drawCircle(
-                Color.White.copy(alpha = 0.15f + 0.5f * brightness),
-                radius = 1f + 1.5f * brightness,
-                center = Offset(at.x * size.width, at.y * size.height),
-            )
+        val dash = PathEffect.dashPathEffect(floatArrayOf(6.dp.toPx(), 6.dp.toPx()), -progress * 24.dp.toPx())
+        ROUTES.forEachIndexed { index, route ->
+            val from = Offset(route.from.x * size.width, route.from.y * size.height)
+            val to = Offset(route.to.x * size.width, route.to.y * size.height)
+            val middle = (from + to) / 2f
+            val control = middle + Offset(-(to - from).y, (to - from).x) * route.bend
+            val path = Path().apply {
+                moveTo(from.x, from.y)
+                quadraticTo(control.x, control.y, to.x, to.y)
+            }
+            drawPath(path, tint.copy(alpha = 0.28f), style = Stroke(1.5.dp.toPx(), pathEffect = dash))
+            listOf(from, to).forEach {
+                drawCircle(tint.copy(alpha = 0.5f), 4.dp.toPx(), it, style = Stroke(1.5.dp.toPx()))
+                drawCircle(tint.copy(alpha = 0.5f), 1.5.dp.toPx(), it)
+            }
+            // Flights start at different times so the dots never move in step.
+            val measure = PathMeasure().apply { setPath(path, false) }
+            val plane = measure.getPosition((progress + index * 0.37f) % 1f * measure.length)
+            drawCircle(tint.copy(alpha = 0.25f), 7.dp.toPx(), plane)
+            drawCircle(tint, 3.dp.toPx(), plane)
         }
     }
 }
@@ -106,11 +159,14 @@ private fun Stars(modifier: Modifier) {
 internal fun ProfileScreen(
     planet: Planet,
     language: Language?,
+    currency: Currency,
     onPlanet: (Planet) -> Unit,
     onLanguage: (Language) -> Unit,
+    onCurrency: (Currency) -> Unit,
     onBack: () -> Unit,
 ) {
     val context = LocalContext.current
+    val openLink = LocalUriHandler.current
     // Sign-in is a placeholder for now.
     val comingSoon = { Toast.makeText(context, R.string.coming_soon, Toast.LENGTH_SHORT).show() }
     Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(24.dp), verticalArrangement = Arrangement.spacedBy(28.dp)) {
@@ -148,8 +204,26 @@ internal fun ProfileScreen(
         Section(R.string.language_title) {
             LanguagePicker(language, onLanguage)
         }
+        Section(R.string.currency_title) {
+            Text(stringResource(R.string.currency_body), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Choices(
+                Currency.entries,
+                selected = { it == currency },
+                label = { it.code?.let { code -> "${it.symbol} $code" } ?: stringResource(R.string.currency_local) },
+                onClick = onCurrency,
+            )
+        }
+        Section(R.string.about_title) {
+            Text(stringResource(R.string.about_version, BuildConfig.VERSION_NAME), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Text(stringResource(R.string.about_images), color = MaterialTheme.colorScheme.onSurfaceVariant)
+            TextButton(onClick = { openLink.openUri(SOURCE_URL) }, contentPadding = PaddingValues(0.dp)) {
+                Text(stringResource(R.string.about_source))
+            }
+        }
     }
 }
+
+private const val SOURCE_URL = "https://github.com/ogzhngms/seyahatname-android"
 
 // One button showing the current flag and code; it opens the full list.
 @Composable

@@ -49,6 +49,6 @@ class MainActivity : ComponentActivity() {
             AppSettings.wrap(app).resources.openRawResource(R.raw.sample_itinerary).bufferedReader().use { it.readText() }
         }
         val gemini = GeminiPlanner(BuildConfig.GEMINI_API_KEY)
-        return { answers -> gemini.plan(buildPrompt(answers, promptLanguage())) }
+        return { answers -> gemini.plan(buildPrompt(answers, promptLanguage(), AppSettings.currency(app))) }
     }
 }

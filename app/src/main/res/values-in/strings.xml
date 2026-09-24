@@ -9,11 +9,18 @@
     <string name="sign_in_google">Lanjutkan dengan Google</string>
     <string name="sign_in_email">Masuk dengan email</string>
     <string name="coming_soon">Segera hadir</string>
-    <string name="theme_title">Planet layar utama</string>
+    <string name="theme_title">Latar belakang</string>
     <string name="planet_earth">Bumi</string>
     <string name="planet_moon">Bulan</string>
     <string name="planet_sun">Matahari</string>
     <string name="language_title">Bahasa</string>
+    <string name="currency_title">Mata uang</string>
+    <string name="currency_body">Harga dalam rencanamu ditampilkan dalam mata uang ini.</string>
+    <string name="currency_local">Mata uang lokal</string>
+    <string name="about_title">Tentang</string>
+    <string name="about_version">Versi %1$s</string>
+    <string name="about_images">Gambar Bumi dan Bulan: NASA</string>
+    <string name="about_source">Kode sumber di GitHub</string>
 
     <string name="step_counter">Langkah %1$d dari %2$d</string>
     <string name="q_destination">Kamu ingin pergi ke mana?</string>

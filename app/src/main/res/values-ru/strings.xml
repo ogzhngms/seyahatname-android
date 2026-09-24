@@ -9,11 +9,18 @@
     <string name="sign_in_google">Продолжить с Google</string>
     <string name="sign_in_email">Войти по эл. почте</string>
     <string name="coming_soon">Скоро</string>
-    <string name="theme_title">Планета на главном экране</string>
+    <string name="theme_title">Фон</string>
     <string name="planet_earth">Земля</string>
     <string name="planet_moon">Луна</string>
     <string name="planet_sun">Солнце</string>
     <string name="language_title">Язык</string>
+    <string name="currency_title">Валюта</string>
+    <string name="currency_body">Цены в ваших планах указываются в этой валюте.</string>
+    <string name="currency_local">Местная валюта</string>
+    <string name="about_title">О приложении</string>
+    <string name="about_version">Версия %1$s</string>
+    <string name="about_images">Снимки Земли и Луны: NASA</string>
+    <string name="about_source">Исходный код на GitHub</string>
 
     <string name="step_counter">Шаг %1$d из %2$d</string>
     <string name="q_destination">Куда ты хочешь поехать?</string>

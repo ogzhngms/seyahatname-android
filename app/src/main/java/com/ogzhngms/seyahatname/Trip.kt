@@ -71,5 +71,8 @@ fun buildPrompt(answers: TripAnswers, language: String): String = buildString {
     append("Write every text value in $language.")
 }
 
-// The model answers in the phone's language, e.g. "Turkish".
-fun promptLanguage(): String = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH)
+// The model answers in the app's language, e.g. "Turkish"; a phone language the app lacks falls back to English.
+fun promptLanguage(): String {
+    val locale = Locale.getDefault().takeIf { current -> Language.entries.any { it.tag == current.language } } ?: Locale.ENGLISH
+    return locale.getDisplayLanguage(Locale.ENGLISH)
+}

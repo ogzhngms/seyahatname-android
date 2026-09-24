@@ -25,8 +25,34 @@ class TripViewModelTest {
     fun tearDown() = Dispatchers.resetMain()
 
     @Test
+    fun startLeavesHomeAndBackReturnsThere() {
+        val vm = TripViewModel { sample }
+        assertEquals(Screen.Home, vm.screen)
+        vm.start()
+        assertEquals(Screen.Question(0), vm.screen)
+        vm.back()
+        assertEquals(Screen.Home, vm.screen)
+        vm.openProfile()
+        assertEquals(Screen.Profile, vm.screen)
+        vm.back()
+        assertEquals(Screen.Home, vm.screen)
+    }
+
+    @Test
+    fun newPlanClearsTheAnswersAndGoesHome() {
+        val vm = TripViewModel { sample }
+        vm.start()
+        vm.update { it.copy(destination = "Rome") }
+        vm.submit()
+        vm.restart()
+        assertEquals(Screen.Home, vm.screen)
+        assertEquals(TripAnswers(), vm.answers)
+    }
+
+    @Test
     fun firstStepNeedsADestination() {
         val vm = TripViewModel { sample }
+        vm.start()
         vm.next()
         vm.update { it.copy(destination = "   ") }
         vm.next()
@@ -37,6 +63,7 @@ class TripViewModelTest {
     fun answersReachThePlannerAndThePlanIsShown() {
         var sent: TripAnswers? = null
         val vm = TripViewModel { sent = it; sample }
+        vm.start()
         vm.update { it.copy(destination = "Rome", interests = setOf(Interest.FOOD)) }
         repeat(QUESTIONS.size) { vm.next() }
         assertEquals(Screen.Confirm, vm.screen)

@@ -1,6 +1,17 @@
 package com.ogzhngms.seyahatname.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedContentTransitionScope
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,6 +52,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.pluralStringResource
@@ -55,11 +67,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.ogzhngms.seyahatname.AppSettings
 import com.ogzhngms.seyahatname.Budget
 import com.ogzhngms.seyahatname.Companions
 import com.ogzhngms.seyahatname.Day
 import com.ogzhngms.seyahatname.Interest
 import com.ogzhngms.seyahatname.Itinerary
+import com.ogzhngms.seyahatname.Language
 import com.ogzhngms.seyahatname.MAX_DAYS
 import com.ogzhngms.seyahatname.Pace
 import com.ogzhngms.seyahatname.QUESTIONS
@@ -69,11 +83,14 @@ import com.ogzhngms.seyahatname.TripAnswers
 import com.ogzhngms.seyahatname.TripViewModel
 import com.ogzhngms.seyahatname.buildPrompt
 import com.ogzhngms.seyahatname.promptLanguage
+import java.util.Locale
 import org.json.JSONObject
 
 @Composable
-fun SeyahatnameApp(vm: TripViewModel, demo: Boolean) {
-    val screen = vm.screen
+fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language) -> Unit = {}) {
+    val context = LocalContext.current
+    var planet by remember { mutableStateOf(AppSettings.planet(context)) }
+    val language = Language.entries.firstOrNull { it.tag == Locale.getDefault().language }
     val view = LocalView.current
     val focusManager = LocalFocusManager.current
     // Back closes an open keyboard first; only the next press leaves the step.
@@ -82,18 +99,44 @@ fun SeyahatnameApp(vm: TripViewModel, demo: Boolean) {
         val keyboardOpen = ViewCompat.getRootWindowInsets(view)?.isVisible(WindowInsetsCompat.Type.ime()) == true
         if (keyboardOpen) focusManager.clearFocus() else vm.back()
     }
-    BackHandler(enabled = screen != Screen.Question(0), onBack = back)
+    BackHandler(enabled = vm.screen != Screen.Home, onBack = back)
     Surface(Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-        Box(Modifier.safeDrawingPadding()) {
-            when (screen) {
-                is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, back)
-                Screen.Confirm -> ConfirmScreen(vm.answers, demo, onPlan = vm::submit, onEdit = vm::back)
-                Screen.Loading -> LoadingScreen(onCancel = vm::back)
-                is Screen.Result -> ResultScreen(screen, demo, onNewPlan = vm::restart)
-                is Screen.Failed -> FailedScreen(screen, onRetry = vm::submit, onEdit = vm::back)
+        AnimatedContent(vm.screen, transitionSpec = { transition(initialState, targetState) }, label = "screen") { screen ->
+            Box(Modifier.fillMaxSize().safeDrawingPadding()) {
+                when (screen) {
+                    Screen.Home -> HomeScreen(planet, onStart = vm::start, onProfile = vm::openProfile)
+                    Screen.Profile -> ProfileScreen(
+                        planet,
+                        language,
+                        onPlanet = { planet = it; AppSettings.savePlanet(context, it) },
+                        onLanguage = onLanguageChange,
+                        onBack = vm::back,
+                    )
+                    is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, back)
+                    Screen.Confirm -> ConfirmScreen(vm.answers, demo, onPlan = vm::submit, onEdit = vm::back)
+                    Screen.Loading -> LoadingScreen(onCancel = vm::back)
+                    is Screen.Result -> ResultScreen(screen, demo, onNewPlan = vm::restart)
+                    is Screen.Failed -> FailedScreen(screen, onRetry = vm::submit, onEdit = vm::back)
+                }
             }
         }
     }
+}
+
+// Start zooms into the planet, question steps slide sideways, everything else cross-fades.
+private fun AnimatedContentTransitionScope<Screen>.transition(from: Screen, to: Screen): ContentTransform = when {
+    from == Screen.Home && to is Screen.Question ->
+        (fadeIn(tween(400, delayMillis = 250)) + scaleIn(tween(400, delayMillis = 250), initialScale = 0.9f)) togetherWith
+            (fadeOut(tween(450)) + scaleOut(tween(550), targetScale = 2.5f))
+    from is Screen.Question && to == Screen.Home ->
+        (fadeIn(tween(450)) + scaleIn(tween(550), initialScale = 2.5f)) togetherWith
+            (fadeOut(tween(300)) + scaleOut(tween(300), targetScale = 0.9f))
+    from is Screen.Question && to is Screen.Question -> {
+        val forward = to.step > from.step
+        (slideInHorizontally { if (forward) it else -it } + fadeIn()) togetherWith
+            (slideOutHorizontally { if (forward) -it else it } + fadeOut())
+    }
+    else -> fadeIn(tween(300)) togetherWith fadeOut(tween(300))
 }
 
 @Composable
@@ -151,9 +194,7 @@ private fun QuestionScreen(
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (step > 0) {
-                OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.action_back)) }
-            }
+            OutlinedButton(onClick = onBack, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.action_back)) }
             Button(
                 onClick = onNext,
                 enabled = step != 0 || answers.destination.isNotBlank(),
@@ -183,7 +224,7 @@ private fun DayPicker(days: Int, onChange: (Int) -> Unit) {
 }
 
 @Composable
-private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
+internal fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { option ->
             FilterChip(

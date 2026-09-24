@@ -1,0 +1,92 @@
+<resources>
+    <string name="action_start">Başla</string>
+    <string name="home_tagline">Növbəti səyahətini süni intellektlə planla</string>
+    <string name="cd_profile">Profil</string>
+    <string name="cd_back">Geri</string>
+    <string name="profile_title">Profil</string>
+    <string name="account_guest">Qonaq</string>
+    <string name="account_body">Daxil olsan, planların yadda saxlanılacaq.</string>
+    <string name="sign_in_google">Google ilə davam et</string>
+    <string name="sign_in_email">E-poçtla daxil ol</string>
+    <string name="coming_soon">Tezliklə</string>
+    <string name="theme_title">Ana ekranın planeti</string>
+    <string name="planet_earth">Yer</string>
+    <string name="planet_moon">Ay</string>
+    <string name="planet_sun">Günəş</string>
+    <string name="language_title">Dil</string>
+
+    <string name="step_counter">Addım %1$d / %2$d</string>
+    <string name="q_destination">Hara getmək istəyirsən?</string>
+    <string name="hint_destination">Şəhər və ya ölkə, məsələn, Roma</string>
+    <string name="q_days">Neçə gün qalacaqsan?</string>
+    <plurals name="days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="cd_fewer_days">Günləri azalt</string>
+    <string name="cd_more_days">Günləri artır</string>
+    <string name="q_companions">Kiminlə gedirsən?</string>
+    <string name="companions_solo">Tək</string>
+    <string name="companions_partner">Partnyorumla</string>
+    <string name="companions_family">Ailəmlə</string>
+    <string name="companions_friends">Dostlarımla</string>
+    <string name="q_budget">Büdcən necədir?</string>
+    <string name="budget_low">Qənaətcil</string>
+    <string name="budget_medium">Orta</string>
+    <string name="budget_high">Lüks</string>
+    <string name="q_interests">Nə etmək istəyirsən?</string>
+    <string name="interest_culture">Tarix və mədəniyyət</string>
+    <string name="interest_food">Yemək və içki</string>
+    <string name="interest_nature">Təbiət</string>
+    <string name="interest_art">Muzeylər və incəsənət</string>
+    <string name="interest_shopping">Alış-veriş</string>
+    <string name="interest_nightlife">Gecə həyatı</string>
+    <string name="interest_beach">Çimərlik</string>
+    <string name="interest_adventure">Macəra</string>
+    <string name="hint_notes">Başqa istəyin var? (məcburi deyil)</string>
+    <string name="q_pace">Necə bir temp istəyirsən?</string>
+    <string name="pace_relaxed">Sakit</string>
+    <string name="pace_balanced">Balanslı</string>
+    <string name="pace_packed">Sıx</string>
+    <string name="action_back">Geri</string>
+    <string name="action_next">İrəli</string>
+
+    <string name="confirm_title">Plan hazırlansın?</string>
+    <string name="confirm_body">Təsdiqlədikdə cavabların süni intellekt üçün prompta çevrilir, o da planı JSON formatında qaytarır.</string>
+    <string name="label_destination">Hara</string>
+    <string name="label_days">Müddət</string>
+    <string name="label_companions">Kiminlə</string>
+    <string name="label_budget">Büdcə</string>
+    <string name="label_interests">Maraqlar</string>
+    <string name="label_notes">Qeydlər</string>
+    <string name="label_pace">Temp</string>
+    <string name="interests_none">Fərqi yoxdur</string>
+    <string name="show_prompt">Promptu göstər</string>
+    <string name="hide_prompt">Promptu gizlət</string>
+    <string name="demo_banner">Demo rejimi: API açarı yoxdur, ona görə nümunə plan göstərilir.</string>
+    <string name="action_edit">Redaktə et</string>
+    <string name="action_plan">Bəli, planla</string>
+
+    <string name="loading_title">Planın hazırlanır…</string>
+    <string name="loading_body">Süni intellekt səyahətini planlaşdırır. Adətən yarım dəqiqə çəkir, modellər məşğul olanda bir az daha uzun.</string>
+    <string name="action_cancel">Ləğv et</string>
+
+    <string name="budget_estimate">Təxmini büdcə: %1$s</string>
+    <string name="day_title">Gün %1$d · %2$s</string>
+    <string name="tips_title">Məsləhətlər</string>
+    <string name="show_json">JSON-u göstər</string>
+    <string name="hide_json">JSON-u gizlət</string>
+    <string name="action_new_plan">Yeni plan</string>
+
+    <string name="error_title">Plan yaradıla bilmədi</string>
+    <string name="error_api_key">API açarı qəbul edilmədi. local.properties faylında GEMINI_API_KEY dəyərini yoxla.</string>
+    <string name="error_rate_limit">Çox sorğu göndərildi. Bir az gözləyib yenidən cəhd et.</string>
+    <string name="error_busy">Süni intellekt hazırda çox məşğuldur. Bir neçə dəqiqədən sonra yenidən cəhd et.</string>
+    <string name="error_network">Bağlantı yoxdur. İnterneti yoxlayıb yenidən cəhd et.</string>
+    <string name="error_service">Süni intellekt xidməti xəta qaytardı.</string>
+    <string name="error_refusal">Süni intellekt bu səyahəti planlaşdırmadı. Cavablarını dəyişib yenidən cəhd et.</string>
+    <string name="error_too_long">Plan yarımçıq qaldı. Daha az gün seçib yenidən cəhd et.</string>
+    <string name="error_parse">Süni intellektin cavabı oxuna bilmədi.</string>
+    <string name="error_generic">Nəsə səhv getdi.</string>
+    <string name="action_retry">Yenidən cəhd et</string>
+</resources>

@@ -2,13 +2,13 @@
 
 [![CI](https://github.com/ogzhngms/seyahatname-android/actions/workflows/ci.yml/badge.svg)](https://github.com/ogzhngms/seyahatname-android/actions/workflows/ci.yml)
 
-An Android trip planner built with Jetpack Compose and Gemini. The app asks six short questions, one at a time: where you are going, for how long, who you are travelling with, your budget, what you want to do and the pace you like. When you confirm, it turns the answers into a prompt, asks Gemini for the plan as JSON that follows a fixed schema, and renders that JSON as a day-by-day itinerary.
+An Android trip planner built with Jetpack Compose and Gemini. It opens on a turning planet with a Start button at its centre. Start zooms into the planet and the app asks six short questions, one at a time: where you are going, for how long, who you are travelling with, your budget, what you want to do and the pace you like. When you confirm, it turns the answers into a prompt, asks Gemini for the plan as JSON that follows a fixed schema, and renders that JSON as a day-by-day itinerary.
 
 The name comes from Evliya Çelebi's *Seyahatname*, the 17th-century Ottoman book of travels.
 
-| Questions | Confirm (with the prompt) | Plan | Raw JSON |
+| Home | Questions | Plan | Profile |
 |---|---|---|---|
-| ![Question step](docs/screenshots/1-question.png) | ![Confirm screen](docs/screenshots/2-confirm.png) | ![Plan](docs/screenshots/3-plan.png) | ![JSON](docs/screenshots/4-json.png) |
+| ![Home screen](docs/screenshots/1-home.png) | ![Question step](docs/screenshots/2-question.png) | ![Plan](docs/screenshots/3-plan.png) | ![Profile](docs/screenshots/4-profile.png) |
 
 ## How it works
 
@@ -21,9 +21,10 @@ answers ─► buildPrompt() ─► Gemini (JSON schema output) ─► JSON ─�
 - **Free models, in the background:** the app works through eight free-tier models in order: Gemini 3.8, 3.7, 3.6 and 3.5 Flash, Gemini 3.5 and 3.1 Flash-Lite, and Gemma 4 31B and 26B. If one is retired (404), out of free quota (429), overloaded (5xx) or does not answer within 60 seconds, the request quietly moves to the next. Users never pick or see a model. With no network, it stops at once instead of trying every model.
 - **Parsing and UI:** `Itinerary.kt` parses the JSON with `org.json`. `TripViewModel` moves through the question, confirm, loading, result and error screens.
 - **Demo mode:** without an API key, the app plays back a bundled sample plan (`res/raw`, English and Turkish), so the whole flow works offline.
-- **Firebase:** the app is registered in a Firebase project (`app/google-services.json`), ready for Crashlytics or for moving the Gemini call to Firebase AI Logic.
+- **Home and profile:** the planet (Earth, Moon or Sun) is drawn with a Compose `Canvas` and turns slowly (`ui/Planet.kt`). The profile screen, opened from the top-right icon, holds a sign-in placeholder, the planet choice and the language. Both choices are stored on the device (`AppSettings.kt`).
+- **Firebase:** the app is registered in a Firebase project (`app/google-services.json`), ready for sign-in, Crashlytics or moving the Gemini call to Firebase AI Logic.
 
-The interface is in English and Turkish and follows the device language.
+The interface comes in English, Turkish, Spanish and Azerbaijani. It follows the phone's language until one is picked on the profile screen, and the plan is written in the same language. The confirm screen can show the prompt and the result screen the raw JSON.
 
 ## Run it
 
@@ -45,8 +46,9 @@ The interface is in English and Turkish and follows the device language.
 
 - `GeminiPlannerTest` runs the planner against a local fake of the Gemini API. It checks the request (key header, schema, system prompt), that thinking parts are skipped, that models which cannot serve or answer too slowly are skipped, that a lost connection stops at once, and the blocked, truncated, bad-key and all-busy paths.
 - `ItineraryTest` checks that every schema object is closed and fully required, and that the sample plans match the schema.
-- `TripViewModelTest` covers the happy path, a failure followed by a retry, a reply that breaks the schema, and cancelling while the plan is loading.
-- `TripFlowTest` taps through all six questions on a device with a stub planner and checks the plan on screen.
+- `TranslationsTest` checks that every language in the picker has every string, since Android silently falls back to English for a missing one.
+- `TripViewModelTest` covers Home and Profile navigation, the happy path, a failure followed by a retry, a reply that breaks the schema, and cancelling while the plan is loading.
+- `TripFlowTest` taps Start and all six questions on a device with a stub planner and checks the plan on screen. It also checks that with the keyboard open, Back first closes the keyboard.
 
 CI runs the unit tests and a debug build on every push.
 

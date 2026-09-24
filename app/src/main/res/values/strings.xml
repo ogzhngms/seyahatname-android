@@ -1,6 +1,22 @@
 <resources>
     <string name="app_name" translatable="false">Seyahatname</string>
 
+    <string name="action_start">Start</string>
+    <string name="home_tagline">Plan your next trip with AI</string>
+    <string name="cd_profile">Profile</string>
+    <string name="cd_back">Back</string>
+    <string name="profile_title">Profile</string>
+    <string name="account_guest">Guest</string>
+    <string name="account_body">Sign in to keep your plans.</string>
+    <string name="sign_in_google">Continue with Google</string>
+    <string name="sign_in_email">Sign in with email</string>
+    <string name="coming_soon">Coming soon</string>
+    <string name="theme_title">Home screen planet</string>
+    <string name="planet_earth">Earth</string>
+    <string name="planet_moon">Moon</string>
+    <string name="planet_sun">Sun</string>
+    <string name="language_title">Language</string>
+
     <string name="step_counter">Step %1$d of %2$d</string>
     <string name="q_destination">Where do you want to go?</string>
     <string name="hint_destination">A city or country, e.g. Rome</string>

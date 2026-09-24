@@ -38,6 +38,7 @@ class TripFlowTest {
         val vm = TripViewModel { sent = it; sample }
         compose.setContent { SeyahatnameTheme { SeyahatnameApp(vm, demo = false) } }
 
+        compose.onNodeWithText(text(R.string.action_start)).performClick()
         compose.onNodeWithText(text(R.string.action_next)).assertIsNotEnabled()
         compose.onNode(hasSetTextAction()).performTextInput("Rome")
         next()
@@ -65,6 +66,7 @@ class TripFlowTest {
         var online = false
         val vm = TripViewModel { if (online) sample else error("offline") }
         compose.setContent { SeyahatnameTheme { SeyahatnameApp(vm, demo = false) } }
+        vm.start()
         vm.update { it.copy(destination = "Rome") }
         repeat(QUESTIONS.size) { vm.next() }
 
@@ -81,6 +83,7 @@ class TripFlowTest {
     fun backClosesTheKeyboardBeforeLeavingTheStep() {
         val vm = TripViewModel { sample }
         compose.setContent { SeyahatnameTheme { SeyahatnameApp(vm, demo = false) } }
+        vm.start()
         vm.update { it.copy(destination = "Rome") }
         repeat(4) { vm.next() }
 

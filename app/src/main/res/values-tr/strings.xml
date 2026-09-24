@@ -1,4 +1,20 @@
 <resources>
+    <string name="action_start">Başla</string>
+    <string name="home_tagline">Bir sonraki gezini yapay zekâyla planla</string>
+    <string name="cd_profile">Profil</string>
+    <string name="cd_back">Geri</string>
+    <string name="profile_title">Profil</string>
+    <string name="account_guest">Misafir</string>
+    <string name="account_body">Giriş yapınca planların kaydedilecek.</string>
+    <string name="sign_in_google">Google ile devam et</string>
+    <string name="sign_in_email">E-posta ile giriş yap</string>
+    <string name="coming_soon">Yakında geliyor</string>
+    <string name="theme_title">Ana ekran gezegeni</string>
+    <string name="planet_earth">Dünya</string>
+    <string name="planet_moon">Ay</string>
+    <string name="planet_sun">Güneş</string>
+    <string name="language_title">Dil</string>
+
     <string name="step_counter">Adım %1$d / %2$d</string>
     <string name="q_destination">Nereye gitmek istersin?</string>
     <string name="hint_destination">Şehir ya da ülke, örneğin Roma</string>

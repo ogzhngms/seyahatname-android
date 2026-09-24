@@ -11,6 +11,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 sealed interface Screen {
+    data object Home : Screen
+    data object Profile : Screen
     data class Question(val step: Int) : Screen
     data object Confirm : Screen
     data object Loading : Screen
@@ -22,12 +24,20 @@ sealed interface Screen {
 class TripViewModel(private val planner: suspend (TripAnswers) -> String) : ViewModel() {
     var answers by mutableStateOf(TripAnswers())
         private set
-    var screen by mutableStateOf<Screen>(Screen.Question(0))
+    var screen by mutableStateOf<Screen>(Screen.Home)
         private set
     private var job: Job? = null
 
     fun update(change: (TripAnswers) -> TripAnswers) {
         answers = change(answers)
+    }
+
+    fun start() {
+        screen = Screen.Question(0)
+    }
+
+    fun openProfile() {
+        screen = Screen.Profile
     }
 
     fun next() {
@@ -38,7 +48,8 @@ class TripViewModel(private val planner: suspend (TripAnswers) -> String) : View
 
     fun back() {
         screen = when (val current = screen) {
-            is Screen.Question -> Screen.Question((current.step - 1).coerceAtLeast(0))
+            Screen.Home, Screen.Profile -> Screen.Home
+            is Screen.Question -> if (current.step == 0) Screen.Home else Screen.Question(current.step - 1)
             Screen.Confirm -> Screen.Question(QUESTIONS.lastIndex)
             else -> {
                 job?.cancel()
@@ -64,6 +75,6 @@ class TripViewModel(private val planner: suspend (TripAnswers) -> String) : View
 
     fun restart() {
         answers = TripAnswers()
-        screen = Screen.Question(0)
+        screen = Screen.Home
     }
 }

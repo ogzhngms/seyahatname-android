@@ -1,5 +1,6 @@
 package com.ogzhngms.seyahatname
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,6 +21,10 @@ class MainActivity : ComponentActivity() {
         viewModelFactory { initializer { TripViewModel(planner()) } }
     }
 
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(AppSettings.wrap(newBase))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // The app is always dark, so keep the system bar icons light.
@@ -27,15 +32,20 @@ class MainActivity : ComponentActivity() {
             statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
             navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
         )
-        setContent { SeyahatnameTheme { SeyahatnameApp(viewModel, demo) } }
+        setContent {
+            SeyahatnameTheme {
+                SeyahatnameApp(viewModel, demo, onLanguageChange = { AppSettings.saveLanguage(this, it); recreate() })
+            }
+        }
     }
 
     // Without an API key the app plays back a bundled sample plan, so the whole flow still works.
     private fun planner(): suspend (TripAnswers) -> String {
-        val resources = application.resources
+        val app = application
         if (demo) return {
             delay(1500)
-            resources.openRawResource(R.raw.sample_itinerary).bufferedReader().use { it.readText() }
+            // Read at call time so the sample follows a language picked after launch.
+            AppSettings.wrap(app).resources.openRawResource(R.raw.sample_itinerary).bufferedReader().use { it.readText() }
         }
         val gemini = GeminiPlanner(BuildConfig.GEMINI_API_KEY)
         return { answers -> gemini.plan(buildPrompt(answers, promptLanguage())) }

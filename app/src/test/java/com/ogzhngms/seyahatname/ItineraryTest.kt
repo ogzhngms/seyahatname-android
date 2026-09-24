@@ -21,11 +21,11 @@ class ItineraryTest {
     }
 
     @Test
-    fun samplePlansMatchTheSchemaClaudeIsGiven() {
+    fun samplePlansMatchTheSchemaGeminiIsGiven() {
         samples.forEach { assertMatches(ITINERARY_SCHEMA, JSONObject(it)) }
     }
 
-    // Structured outputs reject open objects and optional properties.
+    // Keep every object closed and fully required, so the model can never leave a field out.
     @Test
     fun everySchemaObjectIsClosedAndFullyRequired() {
         val objects = objectsIn(ITINERARY_SCHEMA)

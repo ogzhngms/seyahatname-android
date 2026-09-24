@@ -18,7 +18,7 @@ sealed interface Screen {
     data class Failed(@StringRes val message: Int, val detail: String?) : Screen
 }
 
-// planner turns the answers into the itinerary JSON: Claude in the app, a stub in tests.
+// planner turns the answers into the itinerary JSON: Gemini in the app, a stub in tests.
 class TripViewModel(private val planner: suspend (TripAnswers) -> String) : ViewModel() {
     var answers by mutableStateOf(TripAnswers())
         private set

@@ -3,6 +3,7 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.google.services)
 }
 
 val localProperties = Properties().apply {
@@ -10,9 +11,9 @@ val localProperties = Properties().apply {
     if (file.exists()) file.inputStream().use(::load)
 }
 
-// Blank key = demo mode: the app plays back a bundled sample plan instead of calling Claude.
-val anthropicApiKey: String = providers.gradleProperty("ANTHROPIC_API_KEY").orNull
-    ?: localProperties.getProperty("ANTHROPIC_API_KEY", "")
+// Blank key = demo mode: the app plays back a bundled sample plan instead of calling Gemini.
+val geminiApiKey: String = providers.gradleProperty("GEMINI_API_KEY").orNull
+    ?: localProperties.getProperty("GEMINI_API_KEY", "")
 
 android {
     namespace = "com.ogzhngms.seyahatname"
@@ -28,7 +29,7 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "ANTHROPIC_API_KEY", "\"$anthropicApiKey\"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
     }
 
     buildTypes {
@@ -49,7 +50,8 @@ android {
 }
 
 dependencies {
-    implementation(libs.anthropic.java)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.common)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)

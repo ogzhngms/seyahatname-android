@@ -14,7 +14,7 @@ import com.ogzhngms.seyahatname.ui.SeyahatnameTheme
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
-    private val demo = BuildConfig.ANTHROPIC_API_KEY.isBlank()
+    private val demo = BuildConfig.GEMINI_API_KEY.isBlank()
 
     private val viewModel: TripViewModel by viewModels {
         viewModelFactory { initializer { TripViewModel(planner()) } }
@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
             delay(1500)
             resources.openRawResource(R.raw.sample_itinerary).bufferedReader().use { it.readText() }
         }
-        val claude = ClaudePlanner(BuildConfig.ANTHROPIC_API_KEY)
-        return { answers -> claude.plan(buildPrompt(answers, promptLanguage())) }
+        val gemini = GeminiPlanner(BuildConfig.GEMINI_API_KEY)
+        return { answers -> gemini.plan(buildPrompt(answers, promptLanguage())) }
     }
 }

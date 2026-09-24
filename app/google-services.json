@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "684486904901",
+    "project_id": "ogi-seyahatname",
+    "storage_bucket": "ogi-seyahatname.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:684486904901:android:effeea46dc88c371db672c",
+        "android_client_info": {
+          "package_name": "com.ogzhngms.seyahatname"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBeFE6tpI4mQpkZCDII7tubB90y7hPy1Ic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -54,7 +54,7 @@ class TripViewModelTest {
         var online = false
         val vm = TripViewModel { if (online) sample else throw IOException("offline") }
         vm.submit()
-        assertEquals(Screen.Failed(R.string.error_generic, null), vm.screen)
+        assertEquals(Screen.Failed(R.string.error_network, null), vm.screen)
 
         online = true
         vm.submit()

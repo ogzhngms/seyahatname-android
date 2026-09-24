@@ -36,7 +36,7 @@
     <string name="action_next">İleri</string>
 
     <string name="confirm_title">Plan hazırlansın mı?</string>
-    <string name="confirm_body">Tamam dediğinde cevapların bir prompt\'a dönüşüp Claude\'a gider. Claude planı JSON olarak döndürür.</string>
+    <string name="confirm_body">Tamam dediğinde cevapların bir prompt\'a dönüşüp Gemini\'ye gider. Gemini planı JSON olarak döndürür.</string>
     <string name="label_destination">Nereye</string>
     <string name="label_days">Süre</string>
     <string name="label_companions">Kiminle</string>
@@ -52,7 +52,7 @@
     <string name="action_plan">Tamam, planla</string>
 
     <string name="loading_title">Planın yazılıyor…</string>
-    <string name="loading_body">Claude gezini planlıyor. Bu bir dakika kadar sürebilir.</string>
+    <string name="loading_body">Gemini gezini planlıyor. Bu yarım dakika kadar sürer.</string>
     <string name="action_cancel">Vazgeç</string>
 
     <string name="budget_estimate">Tahmini bütçe: %1$s</string>
@@ -63,12 +63,12 @@
     <string name="action_new_plan">Yeni plan</string>
 
     <string name="error_title">Plan oluşturulamadı</string>
-    <string name="error_api_key">API anahtarı reddedildi. local.properties içindeki ANTHROPIC_API_KEY değerini kontrol et.</string>
-    <string name="error_billing">Anthropic hesabında kredi kalmamış.</string>
+    <string name="error_api_key">API anahtarı reddedildi. local.properties içindeki GEMINI_API_KEY değerini kontrol et.</string>
     <string name="error_rate_limit">Çok fazla istek gönderildi. Biraz bekleyip tekrar dene.</string>
+    <string name="error_busy">Gemini şu an çok yoğun. Birkaç dakika sonra tekrar dene.</string>
     <string name="error_network">Bağlantı yok. İnternetini kontrol edip tekrar dene.</string>
     <string name="error_service">Yapay zekâ servisi hata döndürdü.</string>
-    <string name="error_refusal">Claude bu gezi için plan yapmadı. Cevaplarını değiştirip tekrar dene.</string>
+    <string name="error_refusal">Gemini bu gezi için plan yapmadı. Cevaplarını değiştirip tekrar dene.</string>
     <string name="error_too_long">Plan yarıda kesildi. Daha az gün seçip tekrar dene.</string>
     <string name="error_parse">Yapay zekânın cevabı okunamadı.</string>
     <string name="error_generic">Bir şeyler ters gitti.</string>

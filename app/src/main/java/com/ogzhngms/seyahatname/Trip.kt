@@ -71,5 +71,5 @@ fun buildPrompt(answers: TripAnswers, language: String): String = buildString {
     append("Write every text value in $language.")
 }
 
-// Claude answers in the phone's language, e.g. "Turkish".
+// Gemini answers in the phone's language, e.g. "Turkish".
 fun promptLanguage(): String = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH)

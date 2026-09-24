@@ -38,7 +38,7 @@
     <string name="action_next">Next</string>
 
     <string name="confirm_title">Ready to plan?</string>
-    <string name="confirm_body">When you tap OK, your answers become a prompt for Claude, which replies with the plan as JSON.</string>
+    <string name="confirm_body">When you tap OK, your answers become a prompt for Gemini, which replies with the plan as JSON.</string>
     <string name="label_destination">Destination</string>
     <string name="label_days">Length</string>
     <string name="label_companions">With</string>
@@ -54,7 +54,7 @@
     <string name="action_plan">OK, plan it</string>
 
     <string name="loading_title">Writing your plan…</string>
-    <string name="loading_body">Claude is planning your trip. This can take up to a minute.</string>
+    <string name="loading_body">Gemini is planning your trip. This takes about half a minute.</string>
     <string name="action_cancel">Cancel</string>
 
     <string name="budget_estimate">Estimated budget: %1$s</string>
@@ -65,12 +65,12 @@
     <string name="action_new_plan">New plan</string>
 
     <string name="error_title">The plan could not be created</string>
-    <string name="error_api_key">The API key was rejected. Check ANTHROPIC_API_KEY in local.properties.</string>
-    <string name="error_billing">The Anthropic account has no credit left.</string>
+    <string name="error_api_key">The API key was rejected. Check GEMINI_API_KEY in local.properties.</string>
     <string name="error_rate_limit">Too many requests. Wait a moment and try again.</string>
+    <string name="error_busy">Gemini is very busy right now. Try again in a few minutes.</string>
     <string name="error_network">No connection. Check your internet and try again.</string>
     <string name="error_service">The AI service returned an error.</string>
-    <string name="error_refusal">Claude declined to plan this trip. Change your answers and try again.</string>
+    <string name="error_refusal">Gemini declined to plan this trip. Change your answers and try again.</string>
     <string name="error_too_long">The plan was cut off. Pick fewer days and try again.</string>
     <string name="error_parse">The AI reply could not be read.</string>
     <string name="error_generic">Something went wrong.</string>

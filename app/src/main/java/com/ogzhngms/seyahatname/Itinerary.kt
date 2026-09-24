@@ -17,7 +17,7 @@ data class Activity(val time: String, val title: String, val description: String
 
 private val STRING: Map<String, Any> = mapOf("type" to "string")
 
-// The JSON shape Claude is held to; parseItinerary() reads exactly these fields.
+// The JSON shape Gemini is held to; parseItinerary() reads exactly these fields.
 val ITINERARY_SCHEMA: Map<String, Any> = obj(
     "title" to STRING,
     "summary" to STRING,

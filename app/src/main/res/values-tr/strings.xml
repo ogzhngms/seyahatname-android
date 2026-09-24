@@ -45,6 +45,7 @@
     <string name="label_notes">Notlar</string>
     <string name="label_pace">Tempo</string>
     <string name="interests_none">Fark etmez</string>
+    <string name="label_model">Yapay zekâ modeli (ücretsiz)</string>
     <string name="show_prompt">Prompt\'u göster</string>
     <string name="hide_prompt">Prompt\'u gizle</string>
     <string name="demo_banner">Demo modu: API anahtarı yok, bu yüzden örnek bir plan gösterilecek.</string>
@@ -52,11 +53,12 @@
     <string name="action_plan">Tamam, planla</string>
 
     <string name="loading_title">Planın yazılıyor…</string>
-    <string name="loading_body">Gemini gezini planlıyor. Bu yarım dakika kadar sürer.</string>
+    <string name="loading_body">Gemini gezini planlıyor. Bu genelde yarım dakika sürer, modeller yoğunsa biraz daha uzun.</string>
     <string name="action_cancel">Vazgeç</string>
 
     <string name="budget_estimate">Tahmini bütçe: %1$s</string>
     <string name="day_title">%1$d. gün · %2$s</string>
+    <string name="written_by">%1$s ile yazıldı</string>
     <string name="tips_title">İpuçları</string>
     <string name="show_json">JSON\'u göster</string>
     <string name="hide_json">JSON\'u gizle</string>

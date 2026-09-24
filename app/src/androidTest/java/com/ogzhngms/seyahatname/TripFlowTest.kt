@@ -32,7 +32,7 @@ class TripFlowTest {
     @Test
     fun answersBecomeAPlanOnScreen() {
         var sent: TripAnswers? = null
-        val vm = TripViewModel { sent = it; sample }
+        val vm = TripViewModel { sent = it; PlanReply(sample, it.model.label) }
         compose.setContent { SeyahatnameTheme { SeyahatnameApp(vm, demo = false) } }
 
         compose.onNodeWithText(text(R.string.action_next)).assertIsNotEnabled()
@@ -48,11 +48,19 @@ class TripFlowTest {
         next()
 
         compose.onNodeWithText("Rome").assertIsDisplayed()
+        compose.onNodeWithText(AiModel.GEMMA_4_26B.label).performClick()
         compose.onNodeWithText(text(R.string.action_plan)).performClick()
 
         compose.onNodeWithText(parseItinerary(sample).title).assertIsDisplayed()
+        compose.onNodeWithText(context.getString(R.string.written_by, AiModel.GEMMA_4_26B.label)).assertIsDisplayed()
         assertEquals(
-            TripAnswers(destination = "Rome", days = 4, companions = Companions.FRIENDS, interests = setOf(Interest.FOOD)),
+            TripAnswers(
+                destination = "Rome",
+                days = 4,
+                companions = Companions.FRIENDS,
+                interests = setOf(Interest.FOOD),
+                model = AiModel.GEMMA_4_26B,
+            ),
             sent,
         )
     }
@@ -60,7 +68,7 @@ class TripFlowTest {
     @Test
     fun failedPlanCanBeRetried() {
         var online = false
-        val vm = TripViewModel { if (online) sample else error("offline") }
+        val vm = TripViewModel { if (online) PlanReply(sample, it.model.label) else error("offline") }
         compose.setContent { SeyahatnameTheme { SeyahatnameApp(vm, demo = false) } }
         vm.update { it.copy(destination = "Rome") }
         repeat(QUESTIONS.size) { vm.next() }

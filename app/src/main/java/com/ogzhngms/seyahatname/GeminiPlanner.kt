@@ -10,8 +10,21 @@ import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 
-// Preferred model first. Demand spikes hit models separately, so on a 5xx the request is re-run on the next one.
-val GEMINI_MODELS = listOf("gemini-3.8-flash", "gemini-3.5-flash")
+// Free-tier models that answer with schema JSON, best first. Each has its own capacity and quota,
+// so when one cannot serve (retired, rate-limited or overloaded) the request moves down this list.
+enum class AiModel(val id: String, val label: String) {
+    GEMINI_3_8_FLASH("gemini-3.8-flash", "Gemini 3.8 Flash"),
+    GEMINI_3_7_FLASH("gemini-3.7-flash", "Gemini 3.7 Flash"),
+    GEMINI_3_6_FLASH("gemini-3.6-flash", "Gemini 3.6 Flash"),
+    GEMINI_3_5_FLASH("gemini-3.5-flash", "Gemini 3.5 Flash"),
+    GEMINI_3_5_FLASH_LITE("gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite"),
+    GEMINI_3_1_FLASH_LITE("gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite"),
+    GEMMA_4_31B("gemma-4-31b-it", "Gemma 4 31B"),
+    GEMMA_4_26B("gemma-4-26b-a4b-it", "Gemma 4 26B"),
+}
+
+// The plan JSON and the name of the model that actually wrote it.
+data class PlanReply(val json: String, val model: String)
 
 class PlanException(@StringRes val messageRes: Int, val detail: String? = null) : Exception(detail)
 
@@ -20,8 +33,8 @@ class GeminiPlanner(
     private val apiKey: String,
     private val baseUrl: String = "https://generativelanguage.googleapis.com",
 ) {
-    // Returns the plan exactly as Gemini wrote it: JSON that follows ITINERARY_SCHEMA.
-    suspend fun plan(prompt: String): String = withContext(Dispatchers.IO) {
+    // Tries the chosen model first, then the others in list order until one answers.
+    suspend fun plan(prompt: String, first: AiModel): PlanReply = withContext(Dispatchers.IO) {
         val request = JSONObject()
             .put("systemInstruction", JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM_PROMPT))))
             .put(
@@ -34,15 +47,21 @@ class GeminiPlanner(
                     .put("responseMimeType", "application/json")
                     .put("responseJsonSchema", JSONObject(ITINERARY_SCHEMA)),
             )
-        var reply = post(GEMINI_MODELS[0], request)
-        for (model in GEMINI_MODELS.drop(1)) if (reply.first >= 500) reply = post(model, request)
+        val order = listOf(first) + (AiModel.entries - first)
+        var model = order.first()
+        var reply = post(model, request)
+        for (next in order.drop(1)) {
+            if (!cannotServe(reply.first)) break
+            model = next
+            reply = post(model, request)
+        }
         val (status, body) = reply
-        if (status !in 200..299) throw PlanException(errorFor(status, body), "HTTP $status: ${body.take(300)}")
-        planText(JSONObject(body))
+        if (status !in 200..299) throw PlanException(errorFor(status, body), "${model.label} · HTTP $status: ${body.take(300)}")
+        PlanReply(planText(JSONObject(body)), model.label)
     }
 
-    private fun post(model: String, request: JSONObject): Pair<Int, String> {
-        val connection = URL("$baseUrl/v1beta/models/$model:generateContent").openConnection() as HttpURLConnection
+    private fun post(model: AiModel, request: JSONObject): Pair<Int, String> {
+        val connection = URL("$baseUrl/v1beta/models/${model.id}:generateContent").openConnection() as HttpURLConnection
         try {
             connection.requestMethod = "POST"
             connection.connectTimeout = 15_000
@@ -59,6 +78,9 @@ class GeminiPlanner(
         }
     }
 }
+
+// Retired (404), out of free quota (429) or overloaded (5xx): another model may still answer.
+private fun cannotServe(status: Int) = status == 404 || status == 429 || status >= 500
 
 // The answer's text parts joined; thinking parts are skipped.
 internal fun planText(response: JSONObject): String {

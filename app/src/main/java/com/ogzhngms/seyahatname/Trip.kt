@@ -53,6 +53,7 @@ data class TripAnswers(
     val interests: Set<Interest> = emptySet(),
     val notes: String = "",
     val pace: Pace = Pace.BALANCED,
+    val model: AiModel = AiModel.entries.first(),
 )
 
 const val SYSTEM_PROMPT =

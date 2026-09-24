@@ -51,6 +51,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.ogzhngms.seyahatname.AiModel
 import com.ogzhngms.seyahatname.Budget
 import com.ogzhngms.seyahatname.Companions
 import com.ogzhngms.seyahatname.Day
@@ -75,9 +76,9 @@ fun SeyahatnameApp(vm: TripViewModel, demo: Boolean) {
         Box(Modifier.safeDrawingPadding()) {
             when (screen) {
                 is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, vm::back)
-                Screen.Confirm -> ConfirmScreen(vm.answers, demo, onPlan = vm::submit, onEdit = vm::back)
+                Screen.Confirm -> ConfirmScreen(vm.answers, demo, vm::update, onPlan = vm::submit, onEdit = vm::back)
                 Screen.Loading -> LoadingScreen(onCancel = vm::back)
-                is Screen.Result -> ResultScreen(screen.itinerary, screen.json, demo, onNewPlan = vm::restart)
+                is Screen.Result -> ResultScreen(screen, demo, onNewPlan = vm::restart)
                 is Screen.Failed -> FailedScreen(screen, onRetry = vm::submit, onEdit = vm::back)
             }
         }
@@ -115,14 +116,14 @@ private fun QuestionScreen(
                     modifier = Modifier.fillMaxWidth(),
                 )
                 1 -> DayPicker(answers.days) { days -> onUpdate { it.copy(days = days) } }
-                2 -> Choices(Companions.entries, { it == answers.companions }, { it.label }) { choice ->
+                2 -> Choices(Companions.entries, { it == answers.companions }, { stringResource(it.label) }) { choice ->
                     onUpdate { it.copy(companions = choice) }
                 }
-                3 -> Choices(Budget.entries, { it == answers.budget }, { it.label }) { choice ->
+                3 -> Choices(Budget.entries, { it == answers.budget }, { stringResource(it.label) }) { choice ->
                     onUpdate { it.copy(budget = choice) }
                 }
                 4 -> {
-                    Choices(Interest.entries, { it in answers.interests }, { it.label }) { choice ->
+                    Choices(Interest.entries, { it in answers.interests }, { stringResource(it.label) }) { choice ->
                         onUpdate { it.copy(interests = if (choice in it.interests) it.interests - choice else it.interests + choice) }
                     }
                     Spacer(Modifier.height(20.dp))
@@ -133,7 +134,7 @@ private fun QuestionScreen(
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
-                5 -> Choices(Pace.entries, { it == answers.pace }, { it.label }) { choice ->
+                5 -> Choices(Pace.entries, { it == answers.pace }, { stringResource(it.label) }) { choice ->
                     onUpdate { it.copy(pace = choice) }
                 }
             }
@@ -171,20 +172,26 @@ private fun DayPicker(days: Int, onChange: (Int) -> Unit) {
 }
 
 @Composable
-private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: (T) -> Int, onClick: (T) -> Unit) {
+private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Composable (T) -> String, onClick: (T) -> Unit) {
     FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         options.forEach { option ->
             FilterChip(
                 selected = selected(option),
                 onClick = { onClick(option) },
-                label = { Text(stringResource(label(option))) },
+                label = { Text(label(option)) },
             )
         }
     }
 }
 
 @Composable
-private fun ConfirmScreen(answers: TripAnswers, demo: Boolean, onPlan: () -> Unit, onEdit: () -> Unit) {
+private fun ConfirmScreen(
+    answers: TripAnswers,
+    demo: Boolean,
+    onUpdate: ((TripAnswers) -> TripAnswers) -> Unit,
+    onPlan: () -> Unit,
+    onEdit: () -> Unit,
+) {
     var showPrompt by rememberSaveable { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -205,7 +212,12 @@ private fun ConfirmScreen(answers: TripAnswers, demo: Boolean, onPlan: () -> Uni
                 }
             }
             Text(stringResource(R.string.confirm_body), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            if (demo) DemoBanner()
+            if (demo) {
+                DemoBanner()
+            } else {
+                Text(stringResource(R.string.label_model), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                Choices(AiModel.entries, { it == answers.model }, { it.label }) { choice -> onUpdate { it.copy(model = choice) } }
+            }
             TextButton(onClick = { showPrompt = !showPrompt }) {
                 Text(stringResource(if (showPrompt) R.string.hide_prompt else R.string.show_prompt))
             }
@@ -248,7 +260,8 @@ private fun LoadingScreen(onCancel: () -> Unit) {
 }
 
 @Composable
-private fun ResultScreen(itinerary: Itinerary, json: String, demo: Boolean, onNewPlan: () -> Unit) {
+private fun ResultScreen(result: Screen.Result, demo: Boolean, onNewPlan: () -> Unit) {
+    val itinerary = result.itinerary
     var showJson by rememberSaveable { mutableStateOf(false) }
     LazyColumn(
         Modifier.fillMaxSize(),
@@ -264,6 +277,11 @@ private fun ResultScreen(itinerary: Itinerary, json: String, demo: Boolean, onNe
                     stringResource(R.string.budget_estimate, itinerary.estimatedBudget),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
+                )
+                Text(
+                    stringResource(R.string.written_by, result.model),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }
@@ -281,7 +299,7 @@ private fun ResultScreen(itinerary: Itinerary, json: String, demo: Boolean, onNe
                 TextButton(onClick = { showJson = !showJson }) {
                     Text(stringResource(if (showJson) R.string.hide_json else R.string.show_json))
                 }
-                if (showJson) Code(remember(json) { JSONObject(json).toString(2) })
+                if (showJson) Code(remember(result.json) { JSONObject(result.json).toString(2) })
             }
         }
         item {

@@ -14,12 +14,12 @@ sealed interface Screen {
     data class Question(val step: Int) : Screen
     data object Confirm : Screen
     data object Loading : Screen
-    data class Result(val itinerary: Itinerary, val json: String) : Screen
+    data class Result(val itinerary: Itinerary, val json: String, val model: String) : Screen
     data class Failed(@StringRes val message: Int, val detail: String?) : Screen
 }
 
 // planner turns the answers into the itinerary JSON: Gemini in the app, a stub in tests.
-class TripViewModel(private val planner: suspend (TripAnswers) -> String) : ViewModel() {
+class TripViewModel(private val planner: suspend (TripAnswers) -> PlanReply) : ViewModel() {
     var answers by mutableStateOf(TripAnswers())
         private set
     var screen by mutableStateOf<Screen>(Screen.Question(0))
@@ -52,8 +52,8 @@ class TripViewModel(private val planner: suspend (TripAnswers) -> String) : View
         screen = Screen.Loading
         job = viewModelScope.launch {
             screen = try {
-                val json = planner(answers)
-                Screen.Result(parseItinerary(json), json)
+                val reply = planner(answers)
+                Screen.Result(parseItinerary(reply.json), reply.json, reply.model)
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {

@@ -47,6 +47,7 @@
     <string name="label_notes">Notes</string>
     <string name="label_pace">Pace</string>
     <string name="interests_none">No preference</string>
+    <string name="label_model">AI model (free)</string>
     <string name="show_prompt">Show prompt</string>
     <string name="hide_prompt">Hide prompt</string>
     <string name="demo_banner">Demo mode: there is no API key, so a sample plan is shown.</string>
@@ -54,11 +55,12 @@
     <string name="action_plan">OK, plan it</string>
 
     <string name="loading_title">Writing your plan…</string>
-    <string name="loading_body">Gemini is planning your trip. This takes about half a minute.</string>
+    <string name="loading_body">Gemini is planning your trip. This usually takes about half a minute, longer when the models are busy.</string>
     <string name="action_cancel">Cancel</string>
 
     <string name="budget_estimate">Estimated budget: %1$s</string>
     <string name="day_title">Day %1$d · %2$s</string>
+    <string name="written_by">Written by %1$s</string>
     <string name="tips_title">Tips</string>
     <string name="show_json">Show JSON</string>
     <string name="hide_json">Hide JSON</string>

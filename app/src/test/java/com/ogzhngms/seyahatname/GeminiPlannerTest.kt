@@ -17,22 +17,21 @@ class GeminiPlannerTest {
 
     @Volatile private var status = 200
     @Volatile private var reply = ""
-    @Volatile private var sentPath = ""
     @Volatile private var sentKey = ""
     @Volatile private var sentBody = JSONObject()
-    @Volatile private var overloaded = ""
-    private val paths = mutableListOf<String>()
+    @Volatile private var unavailable = emptyMap<AiModel, Int>()
+    private val asked = mutableListOf<String>()
 
     private val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0).apply {
         createContext("/v1beta/models/") { exchange ->
-            sentPath = exchange.requestURI.path
-            synchronized(paths) { paths += sentPath }
+            val model = exchange.requestURI.path.removePrefix("/v1beta/models/").removeSuffix(":generateContent")
+            synchronized(asked) { asked += model }
             sentKey = exchange.requestHeaders.getFirst("x-goog-api-key").orEmpty()
             sentBody = JSONObject(exchange.requestBody.bufferedReader().readText())
-            val busy = overloaded.isNotEmpty() && sentPath.contains("/$overloaded:")
-            val bytes = (if (busy) """{"error": {"code": 503, "status": "UNAVAILABLE"}}""" else reply).toByteArray()
+            val down = unavailable.entries.firstOrNull { it.key.id == model }?.value
+            val bytes = (if (down != null) """{"error": {"code": $down}}""" else reply).toByteArray()
             exchange.responseHeaders.add("Content-Type", "application/json")
-            exchange.sendResponseHeaders(if (busy) 503 else status, bytes.size.toLong())
+            exchange.sendResponseHeaders(down ?: status, bytes.size.toLong())
             exchange.responseBody.use { it.write(bytes) }
         }
         start()
@@ -42,14 +41,15 @@ class GeminiPlannerTest {
     @After
     fun stop() = server.stop(0)
 
+    private fun plan(first: AiModel = AiModel.GEMINI_3_8_FLASH) = runBlocking { planner.plan("Destination: Rome", first) }
+    private fun asked() = synchronized(asked) { asked.toList() }
+
     @Test
     fun requestAsksForSchemaJsonAndSkipsThinkingParts() {
         reply = candidate("STOP", JSONObject().put("text", "planning…").put("thought", true), JSONObject().put("text", sample))
 
-        val json = runBlocking { planner.plan("Destination: Rome") }
-
-        assertEquals(sample, json)
-        assertEquals("/v1beta/models/${GEMINI_MODELS[0]}:generateContent", sentPath)
+        assertEquals(PlanReply(sample, "Gemini 3.8 Flash"), plan())
+        assertEquals(listOf("gemini-3.8-flash"), asked())
         assertEquals("test-key", sentKey)
         val config = sentBody.getJSONObject("generationConfig")
         assertEquals("application/json", config.getString("responseMimeType"))
@@ -59,12 +59,20 @@ class GeminiPlannerTest {
     }
 
     @Test
-    fun overloadedModelFallsBackToTheNextOne() {
-        overloaded = GEMINI_MODELS[0]
+    fun chosenModelIsAskedFirst() {
+        reply = candidate("STOP", JSONObject().put("text", sample))
+        assertEquals("Gemma 4 26B", plan(AiModel.GEMMA_4_26B).model)
+        assertEquals(listOf("gemma-4-26b-a4b-it"), asked())
+    }
+
+    // Overloaded, out of free quota and retired models are skipped; the reply names the model that answered.
+    @Test
+    fun modelsThatCannotServeAreSkipped() {
+        unavailable = mapOf(AiModel.GEMINI_3_8_FLASH to 503, AiModel.GEMINI_3_7_FLASH to 429, AiModel.GEMINI_3_6_FLASH to 404)
         reply = candidate("STOP", JSONObject().put("text", sample))
 
-        assertEquals(sample, runBlocking { planner.plan("Destination: Rome") })
-        assertEquals(GEMINI_MODELS.map { "/v1beta/models/$it:generateContent" }, synchronized(paths) { paths.toList() })
+        assertEquals(PlanReply(sample, "Gemini 3.5 Flash"), plan())
+        assertEquals(listOf("gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash"), asked())
     }
 
     @Test
@@ -72,7 +80,7 @@ class GeminiPlannerTest {
         status = 503
         reply = """{"error": {"code": 503, "status": "UNAVAILABLE"}}"""
         assertEquals(R.string.error_busy, failure())
-        assertEquals(GEMINI_MODELS.size, synchronized(paths) { paths.size })
+        assertEquals(AiModel.entries.map { it.id }, asked())
     }
 
     @Test
@@ -87,22 +95,17 @@ class GeminiPlannerTest {
         assertEquals(R.string.error_too_long, failure())
     }
 
+    // A bad key fails the same way on every model, so there is no point asking the next one.
     @Test
-    fun wrongKeyPointsAtLocalProperties() {
+    fun wrongKeyPointsAtLocalPropertiesWithoutTryingOtherModels() {
         status = 400
         reply = """{"error": {"code": 400, "status": "INVALID_ARGUMENT", "details": [{"reason": "API_KEY_INVALID"}]}}"""
         assertEquals(R.string.error_api_key, failure())
-    }
-
-    @Test
-    fun usedUpQuotaAsksToWait() {
-        status = 429
-        reply = """{"error": {"code": 429, "status": "RESOURCE_EXHAUSTED"}}"""
-        assertEquals(R.string.error_rate_limit, failure())
+        assertEquals(1, asked().size)
     }
 
     private fun failure(): Int = try {
-        runBlocking { planner.plan("Destination: Rome") }
+        plan()
         fail("plan() should have thrown")
         0
     } catch (e: Exception) {

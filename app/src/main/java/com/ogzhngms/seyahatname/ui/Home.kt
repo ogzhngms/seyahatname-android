@@ -63,6 +63,7 @@ import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Language
 import com.ogzhngms.seyahatname.Planet
 import com.ogzhngms.seyahatname.R
+import java.util.Locale
 
 // The landing screen: the chosen planet in the middle with Start at its centre.
 @Composable
@@ -202,15 +203,26 @@ internal fun ProfileScreen(
             }
         }
         Section(R.string.language_title) {
-            LanguagePicker(language, onLanguage)
+            Picker(
+                R.string.language_title,
+                Language.entries,
+                language,
+                mark = { "${it.flag}  ${it.code}" },
+                name = { it.label },
+                onPick = onLanguage,
+            )
         }
         Section(R.string.currency_title) {
             Text(stringResource(R.string.currency_body), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            Choices(
+            // Currency names come from the platform, already in the app's language.
+            Picker(
+                R.string.currency_title,
                 Currency.entries,
-                selected = { it == currency },
-                label = { it.code?.let { code -> "${it.symbol} $code" } ?: stringResource(R.string.currency_local) },
-                onClick = onCurrency,
+                currency,
+                mark = { it.code?.let { code -> "${it.symbol}  $code" } ?: "🌍" },
+                name = { it.code?.let { code -> java.util.Currency.getInstance(code).getDisplayName(Locale.getDefault()) } ?: stringResource(R.string.currency_local) },
+                button = { it.code?.let { code -> "${it.symbol}  $code" } ?: "🌍  ${stringResource(R.string.currency_local)}" },
+                onPick = onCurrency,
             )
         }
         Section(R.string.about_title) {
@@ -225,29 +237,37 @@ internal fun ProfileScreen(
 
 private const val SOURCE_URL = "https://github.com/ogzhngms/seyahatname-android"
 
-// One button showing the current flag and code; it opens the full list.
+// One button showing the current choice; it opens the full list with a short mark and a name for each option.
 @Composable
-private fun LanguagePicker(current: Language?, onPick: (Language) -> Unit) {
+private fun <T> Picker(
+    @StringRes title: Int,
+    options: List<T>,
+    current: T?,
+    mark: @Composable (T) -> String,
+    name: @Composable (T) -> String,
+    button: @Composable (T) -> String = mark,
+    onPick: (T) -> Unit,
+) {
     var open by remember { mutableStateOf(false) }
-    val description = "${stringResource(R.string.language_title)}: ${current?.label.orEmpty()}"
+    val description = "${stringResource(title)}: ${current?.let { name(it) }.orEmpty()}"
     Box {
         OutlinedButton(onClick = { open = true }, modifier = Modifier.semantics { contentDescription = description }) {
-            Text(current?.let { "${it.flag}  ${it.code}" } ?: "🌐", style = MaterialTheme.typography.titleMedium)
+            Text(current?.let { button(it) } ?: "🌐", style = MaterialTheme.typography.titleMedium)
             Icon(painterResource(R.drawable.ic_expand_more), contentDescription = null, modifier = Modifier.padding(start = 8.dp))
         }
         DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
-            Language.entries.forEach { language ->
-                val selected = language == current
+            options.forEach { option ->
+                val selected = option == current
                 DropdownMenuItem(
                     text = {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(
-                                "${language.flag}  ${language.code}",
+                                mark(option),
                                 fontWeight = FontWeight.Bold,
                                 color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
                                 modifier = Modifier.width(72.dp),
                             )
-                            Text(language.label, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(name(option), color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     },
                     trailingIcon = {
@@ -255,7 +275,7 @@ private fun LanguagePicker(current: Language?, onPick: (Language) -> Unit) {
                     },
                     onClick = {
                         open = false
-                        if (!selected) onPick(language)
+                        if (!selected) onPick(option)
                     },
                 )
             }

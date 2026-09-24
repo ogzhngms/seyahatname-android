@@ -18,7 +18,7 @@ answers ─► buildPrompt() ─► Gemini (JSON schema output) ─► JSON ─�
 
 - **Prompt:** `Trip.kt` turns the answers into a short English prompt and asks for the reply in the phone's language.
 - **Gemini call:** `GeminiPlanner.kt` posts to the Gemini REST API (`generateContent`) with `responseMimeType: application/json` and `responseJsonSchema: ITINERARY_SCHEMA`, so the reply is JSON with exactly the fields the app reads.
-- **Free models:** the confirm screen offers eight free-tier models: Gemini 3.8, 3.7, 3.6 and 3.5 Flash, Gemini 3.5 and 3.1 Flash-Lite, and Gemma 4 31B and 26B. The chosen model is asked first. If it is retired (404), out of free quota (429) or overloaded (5xx), the request moves down the list, and the result screen names the model that wrote the plan.
+- **Free models, in the background:** the app works through eight free-tier models in order: Gemini 3.8, 3.7, 3.6 and 3.5 Flash, Gemini 3.5 and 3.1 Flash-Lite, and Gemma 4 31B and 26B. If one is retired (404), out of free quota (429), overloaded (5xx) or does not answer within 60 seconds, the request quietly moves to the next. Users never pick or see a model. With no network, it stops at once instead of trying every model.
 - **Parsing and UI:** `Itinerary.kt` parses the JSON with `org.json`. `TripViewModel` moves through the question, confirm, loading, result and error screens.
 - **Demo mode:** without an API key, the app plays back a bundled sample plan (`res/raw`, English and Turkish), so the whole flow works offline.
 - **Firebase:** the app is registered in a Firebase project (`app/google-services.json`), ready for Crashlytics or for moving the Gemini call to Firebase AI Logic.
@@ -43,7 +43,7 @@ The interface is in English and Turkish and follows the device language.
 ./gradlew connectedDebugAndroidTest    # device: Compose UI walk-through of the wizard
 ```
 
-- `GeminiPlannerTest` runs the planner against a local fake of the Gemini API. It checks the request (key header, schema, system prompt), that thinking parts are skipped, that the chosen model is asked first and that models which cannot serve are skipped, and the blocked, truncated, bad-key and all-busy paths.
+- `GeminiPlannerTest` runs the planner against a local fake of the Gemini API. It checks the request (key header, schema, system prompt), that thinking parts are skipped, that models which cannot serve or answer too slowly are skipped, that a lost connection stops at once, and the blocked, truncated, bad-key and all-busy paths.
 - `ItineraryTest` checks that every schema object is closed and fully required, and that the sample plans match the schema.
 - `TripViewModelTest` covers the happy path, a failure followed by a retry, a reply that breaks the schema, and cancelling while the plan is loading.
 - `TripFlowTest` taps through all six questions on a device with a stub planner and checks the plan on screen.

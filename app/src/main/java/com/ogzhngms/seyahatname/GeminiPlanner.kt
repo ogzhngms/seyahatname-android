@@ -3,6 +3,7 @@ package com.ogzhngms.seyahatname
 import androidx.annotation.StringRes
 import java.io.IOException
 import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
 import java.net.URL
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,30 +12,28 @@ import org.json.JSONException
 import org.json.JSONObject
 
 // Free-tier models that answer with schema JSON, best first. Each has its own capacity and quota,
-// so when one cannot serve (retired, rate-limited or overloaded) the request moves down this list.
-enum class AiModel(val id: String, val label: String) {
-    GEMINI_3_8_FLASH("gemini-3.8-flash", "Gemini 3.8 Flash"),
-    GEMINI_3_7_FLASH("gemini-3.7-flash", "Gemini 3.7 Flash"),
-    GEMINI_3_6_FLASH("gemini-3.6-flash", "Gemini 3.6 Flash"),
-    GEMINI_3_5_FLASH("gemini-3.5-flash", "Gemini 3.5 Flash"),
-    GEMINI_3_5_FLASH_LITE("gemini-3.5-flash-lite", "Gemini 3.5 Flash-Lite"),
-    GEMINI_3_1_FLASH_LITE("gemini-3.1-flash-lite", "Gemini 3.1 Flash-Lite"),
-    GEMMA_4_31B("gemma-4-31b-it", "Gemma 4 31B"),
-    GEMMA_4_26B("gemma-4-26b-a4b-it", "Gemma 4 26B"),
-}
-
-// The plan JSON and the name of the model that actually wrote it.
-data class PlanReply(val json: String, val model: String)
+// so when one cannot serve (retired, rate-limited or overloaded) the request quietly moves down this list.
+internal val GEMINI_MODELS = listOf(
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.1-flash-lite",
+    "gemma-4-31b-it",
+    "gemma-4-26b-a4b-it",
+)
 
 class PlanException(@StringRes val messageRes: Int, val detail: String? = null) : Exception(detail)
 
-// Calls the Gemini REST API with the key from local.properties. baseUrl is only changed by tests.
+// Calls the Gemini REST API with the key from local.properties. baseUrl and readTimeoutMs are only changed by tests.
 class GeminiPlanner(
     private val apiKey: String,
     private val baseUrl: String = "https://generativelanguage.googleapis.com",
+    private val readTimeoutMs: Int = 60_000,
 ) {
-    // Tries the chosen model first, then the others in list order until one answers.
-    suspend fun plan(prompt: String, first: AiModel): PlanReply = withContext(Dispatchers.IO) {
+    // Returns the plan exactly as the model wrote it: JSON that follows ITINERARY_SCHEMA.
+    suspend fun plan(prompt: String): String = withContext(Dispatchers.IO) {
         val request = JSONObject()
             .put("systemInstruction", JSONObject().put("parts", JSONArray().put(JSONObject().put("text", SYSTEM_PROMPT))))
             .put(
@@ -47,32 +46,33 @@ class GeminiPlanner(
                     .put("responseMimeType", "application/json")
                     .put("responseJsonSchema", JSONObject(ITINERARY_SCHEMA)),
             )
-        val order = listOf(first) + (AiModel.entries - first)
-        var model = order.first()
-        var reply = post(model, request)
-        for (next in order.drop(1)) {
-            if (!cannotServe(reply.first)) break
-            model = next
-            reply = post(model, request)
-        }
+        var reply = post(GEMINI_MODELS.first(), request)
+        for (model in GEMINI_MODELS.drop(1)) if (cannotServe(reply.first)) reply = post(model, request)
         val (status, body) = reply
-        if (status !in 200..299) throw PlanException(errorFor(status, body), "${model.label} · HTTP $status: ${body.take(300)}")
-        PlanReply(planText(JSONObject(body)), model.label)
+        if (status !in 200..299) throw PlanException(errorFor(status, body), "HTTP $status: ${body.take(300)}")
+        planText(JSONObject(body))
     }
 
-    private fun post(model: AiModel, request: JSONObject): Pair<Int, String> {
-        val connection = URL("$baseUrl/v1beta/models/${model.id}:generateContent").openConnection() as HttpURLConnection
+    private fun post(model: String, request: JSONObject): Pair<Int, String> {
+        val connection = URL("$baseUrl/v1beta/models/$model:generateContent").openConnection() as HttpURLConnection
         try {
             connection.requestMethod = "POST"
             connection.connectTimeout = 15_000
-            connection.readTimeout = 120_000
+            connection.readTimeout = readTimeoutMs
             connection.doOutput = true
             connection.setRequestProperty("Content-Type", "application/json")
             connection.setRequestProperty("x-goog-api-key", apiKey)
+            // No network fails here and ends the plan at once; every model sits behind the same host.
+            connection.connect()
             connection.outputStream.use { it.write(request.toString().toByteArray()) }
-            val status = connection.responseCode
-            val stream = if (status in 200..299) connection.inputStream else connection.errorStream
-            return status to stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+            // A model too slow to answer counts as overloaded (504), so the next one is tried.
+            return try {
+                val status = connection.responseCode
+                val stream = if (status in 200..299) connection.inputStream else connection.errorStream
+                status to stream?.bufferedReader()?.use { it.readText() }.orEmpty()
+            } catch (e: SocketTimeoutException) {
+                504 to ""
+            }
         } finally {
             connection.disconnect()
         }
@@ -100,7 +100,7 @@ internal fun planText(response: JSONObject): String {
 @StringRes
 private fun errorFor(status: Int, body: String): Int = when {
     status == 429 -> R.string.error_rate_limit
-    status == 503 -> R.string.error_busy
+    status == 503 || status == 504 -> R.string.error_busy
     // A wrong key comes back as 400 with reason API_KEY_INVALID.
     status == 401 || status == 403 || "API_KEY_INVALID" in body -> R.string.error_api_key
     else -> R.string.error_service

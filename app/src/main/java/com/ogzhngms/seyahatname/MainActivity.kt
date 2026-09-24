@@ -31,13 +31,13 @@ class MainActivity : ComponentActivity() {
     }
 
     // Without an API key the app plays back a bundled sample plan, so the whole flow still works.
-    private fun planner(): suspend (TripAnswers) -> PlanReply {
+    private fun planner(): suspend (TripAnswers) -> String {
         val resources = application.resources
         if (demo) return {
             delay(1500)
-            PlanReply(resources.openRawResource(R.raw.sample_itinerary).bufferedReader().use { it.readText() }, "Demo")
+            resources.openRawResource(R.raw.sample_itinerary).bufferedReader().use { it.readText() }
         }
         val gemini = GeminiPlanner(BuildConfig.GEMINI_API_KEY)
-        return { answers -> gemini.plan(buildPrompt(answers, promptLanguage()), answers.model) }
+        return { answers -> gemini.plan(buildPrompt(answers, promptLanguage())) }
     }
 }

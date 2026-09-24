@@ -17,7 +17,6 @@ import org.junit.Test
 @OptIn(ExperimentalCoroutinesApi::class)
 class TripViewModelTest {
     private val sample = File("src/main/res/raw/sample_itinerary.json").readText()
-    private val reply = PlanReply(sample, "Gemini 3.8 Flash")
 
     @Before
     fun setUp() = Dispatchers.setMain(UnconfinedTestDispatcher())
@@ -27,7 +26,7 @@ class TripViewModelTest {
 
     @Test
     fun firstStepNeedsADestination() {
-        val vm = TripViewModel { reply }
+        val vm = TripViewModel { sample }
         vm.next()
         vm.update { it.copy(destination = "   ") }
         vm.next()
@@ -37,7 +36,7 @@ class TripViewModelTest {
     @Test
     fun answersReachThePlannerAndThePlanIsShown() {
         var sent: TripAnswers? = null
-        val vm = TripViewModel { sent = it; reply }
+        val vm = TripViewModel { sent = it; sample }
         vm.update { it.copy(destination = "Rome", interests = setOf(Interest.FOOD)) }
         repeat(QUESTIONS.size) { vm.next() }
         assertEquals(Screen.Confirm, vm.screen)
@@ -47,14 +46,13 @@ class TripViewModelTest {
         assertEquals(vm.answers, sent)
         val result = vm.screen as Screen.Result
         assertEquals(sample, result.json)
-        assertEquals("Gemini 3.8 Flash", result.model)
         assertEquals(3, result.itinerary.days.size)
     }
 
     @Test
     fun plannerFailureShowsAnErrorAndRetryRecovers() {
         var online = false
-        val vm = TripViewModel { if (online) reply else throw IOException("offline") }
+        val vm = TripViewModel { if (online) sample else throw IOException("offline") }
         vm.submit()
         assertEquals(Screen.Failed(R.string.error_network, null), vm.screen)
 
@@ -65,20 +63,20 @@ class TripViewModelTest {
 
     @Test
     fun replyThatBreaksTheSchemaShowsAParseError() {
-        val vm = TripViewModel { PlanReply("""{"title": "Rome"}""", "Gemini 3.8 Flash") }
+        val vm = TripViewModel { """{"title": "Rome"}""" }
         vm.submit()
         assertEquals(Screen.Failed(R.string.error_parse, null), vm.screen)
     }
 
     @Test
     fun backWhileLoadingCancelsAndIgnoresTheLateReply() {
-        val late = CompletableDeferred<PlanReply>()
+        val late = CompletableDeferred<String>()
         val vm = TripViewModel { late.await() }
         vm.submit()
         assertEquals(Screen.Loading, vm.screen)
 
         vm.back()
-        late.complete(reply)
+        late.complete(sample)
 
         assertEquals(Screen.Confirm, vm.screen)
     }

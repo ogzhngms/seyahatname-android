@@ -53,7 +53,6 @@ data class TripAnswers(
     val interests: Set<Interest> = emptySet(),
     val notes: String = "",
     val pace: Pace = Pace.BALANCED,
-    val model: AiModel = AiModel.entries.first(),
 )
 
 const val SYSTEM_PROMPT =
@@ -72,5 +71,5 @@ fun buildPrompt(answers: TripAnswers, language: String): String = buildString {
     append("Write every text value in $language.")
 }
 
-// Gemini answers in the phone's language, e.g. "Turkish".
+// The model answers in the phone's language, e.g. "Turkish".
 fun promptLanguage(): String = Locale.getDefault().getDisplayLanguage(Locale.ENGLISH)

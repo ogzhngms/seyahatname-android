@@ -3,6 +3,7 @@ package com.ogzhngms.seyahatname
 import com.sun.net.httpserver.HttpServer
 import java.io.File
 import java.net.InetSocketAddress
+import java.util.concurrent.Executors
 import kotlinx.coroutines.runBlocking
 import org.json.JSONArray
 import org.json.JSONObject
@@ -19,7 +20,8 @@ class GeminiPlannerTest {
     @Volatile private var reply = ""
     @Volatile private var sentKey = ""
     @Volatile private var sentBody = JSONObject()
-    @Volatile private var unavailable = emptyMap<AiModel, Int>()
+    @Volatile private var unavailable = emptyMap<String, Int>()
+    @Volatile private var slow = emptySet<String>()
     private val asked = mutableListOf<String>()
 
     private val server = HttpServer.create(InetSocketAddress("127.0.0.1", 0), 0).apply {
@@ -28,27 +30,29 @@ class GeminiPlannerTest {
             synchronized(asked) { asked += model }
             sentKey = exchange.requestHeaders.getFirst("x-goog-api-key").orEmpty()
             sentBody = JSONObject(exchange.requestBody.bufferedReader().readText())
-            val down = unavailable.entries.firstOrNull { it.key.id == model }?.value
+            if (model in slow) Thread.sleep(1_500)
+            val down = unavailable[model]
             val bytes = (if (down != null) """{"error": {"code": $down}}""" else reply).toByteArray()
             exchange.responseHeaders.add("Content-Type", "application/json")
             exchange.sendResponseHeaders(down ?: status, bytes.size.toLong())
-            exchange.responseBody.use { it.write(bytes) }
+            runCatching { exchange.responseBody.use { it.write(bytes) } }
         }
+        executor = Executors.newCachedThreadPool { Thread(it).apply { isDaemon = true } }
         start()
     }
-    private val planner = GeminiPlanner("test-key", "http://127.0.0.1:${server.address.port}")
+    private val planner = GeminiPlanner("test-key", "http://127.0.0.1:${server.address.port}", readTimeoutMs = 500)
 
     @After
     fun stop() = server.stop(0)
 
-    private fun plan(first: AiModel = AiModel.GEMINI_3_8_FLASH) = runBlocking { planner.plan("Destination: Rome", first) }
+    private fun plan() = runBlocking { planner.plan("Destination: Rome") }
     private fun asked() = synchronized(asked) { asked.toList() }
 
     @Test
     fun requestAsksForSchemaJsonAndSkipsThinkingParts() {
         reply = candidate("STOP", JSONObject().put("text", "planning…").put("thought", true), JSONObject().put("text", sample))
 
-        assertEquals(PlanReply(sample, "Gemini 3.8 Flash"), plan())
+        assertEquals(sample, plan())
         assertEquals(listOf("gemini-3.8-flash"), asked())
         assertEquals("test-key", sentKey)
         val config = sentBody.getJSONObject("generationConfig")
@@ -58,21 +62,31 @@ class GeminiPlannerTest {
         assertEquals("Destination: Rome", sentBody.getJSONArray("contents").getJSONObject(0).getJSONArray("parts").getJSONObject(0).getString("text"))
     }
 
-    @Test
-    fun chosenModelIsAskedFirst() {
-        reply = candidate("STOP", JSONObject().put("text", sample))
-        assertEquals("Gemma 4 26B", plan(AiModel.GEMMA_4_26B).model)
-        assertEquals(listOf("gemma-4-26b-a4b-it"), asked())
-    }
-
-    // Overloaded, out of free quota and retired models are skipped; the reply names the model that answered.
+    // Overloaded, out of free quota and retired models are skipped without the user noticing.
     @Test
     fun modelsThatCannotServeAreSkipped() {
-        unavailable = mapOf(AiModel.GEMINI_3_8_FLASH to 503, AiModel.GEMINI_3_7_FLASH to 429, AiModel.GEMINI_3_6_FLASH to 404)
+        unavailable = mapOf("gemini-3.8-flash" to 503, "gemini-3.7-flash" to 429, "gemini-3.6-flash" to 404)
         reply = candidate("STOP", JSONObject().put("text", sample))
 
-        assertEquals(PlanReply(sample, "Gemini 3.5 Flash"), plan())
+        assertEquals(sample, plan())
         assertEquals(listOf("gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash", "gemini-3.5-flash"), asked())
+    }
+
+    // A model that hangs is treated like an overloaded one, not like a lost connection.
+    @Test
+    fun slowModelIsSkipped() {
+        slow = setOf("gemini-3.8-flash")
+        reply = candidate("STOP", JSONObject().put("text", sample))
+
+        assertEquals(sample, plan())
+        assertEquals(listOf("gemini-3.8-flash", "gemini-3.7-flash"), asked())
+    }
+
+    @Test
+    fun noNetworkStopsAtOnce() {
+        val offline = GeminiPlanner("test-key", "http://127.0.0.1:1")
+        val error = runCatching { runBlocking { offline.plan("Destination: Rome") } }.exceptionOrNull()
+        assertEquals(R.string.error_network, errorMessage(error!!))
     }
 
     @Test
@@ -80,7 +94,7 @@ class GeminiPlannerTest {
         status = 503
         reply = """{"error": {"code": 503, "status": "UNAVAILABLE"}}"""
         assertEquals(R.string.error_busy, failure())
-        assertEquals(AiModel.entries.map { it.id }, asked())
+        assertEquals(GEMINI_MODELS, asked())
     }
 
     @Test

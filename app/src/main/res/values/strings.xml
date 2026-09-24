@@ -38,7 +38,7 @@
     <string name="action_next">Next</string>
 
     <string name="confirm_title">Ready to plan?</string>
-    <string name="confirm_body">When you tap OK, your answers become a prompt for Gemini, which replies with the plan as JSON.</string>
+    <string name="confirm_body">When you tap OK, your answers become a prompt for the AI, which replies with the plan as JSON.</string>
     <string name="label_destination">Destination</string>
     <string name="label_days">Length</string>
     <string name="label_companions">With</string>
@@ -47,7 +47,6 @@
     <string name="label_notes">Notes</string>
     <string name="label_pace">Pace</string>
     <string name="interests_none">No preference</string>
-    <string name="label_model">AI model (free)</string>
     <string name="show_prompt">Show prompt</string>
     <string name="hide_prompt">Hide prompt</string>
     <string name="demo_banner">Demo mode: there is no API key, so a sample plan is shown.</string>
@@ -55,12 +54,11 @@
     <string name="action_plan">OK, plan it</string>
 
     <string name="loading_title">Writing your plan…</string>
-    <string name="loading_body">Gemini is planning your trip. This usually takes about half a minute, longer when the models are busy.</string>
+    <string name="loading_body">The AI is planning your trip. This usually takes about half a minute, longer when the models are busy.</string>
     <string name="action_cancel">Cancel</string>
 
     <string name="budget_estimate">Estimated budget: %1$s</string>
     <string name="day_title">Day %1$d · %2$s</string>
-    <string name="written_by">Written by %1$s</string>
     <string name="tips_title">Tips</string>
     <string name="show_json">Show JSON</string>
     <string name="hide_json">Hide JSON</string>
@@ -69,10 +67,10 @@
     <string name="error_title">The plan could not be created</string>
     <string name="error_api_key">The API key was rejected. Check GEMINI_API_KEY in local.properties.</string>
     <string name="error_rate_limit">Too many requests. Wait a moment and try again.</string>
-    <string name="error_busy">Gemini is very busy right now. Try again in a few minutes.</string>
+    <string name="error_busy">The AI is very busy right now. Try again in a few minutes.</string>
     <string name="error_network">No connection. Check your internet and try again.</string>
     <string name="error_service">The AI service returned an error.</string>
-    <string name="error_refusal">Gemini declined to plan this trip. Change your answers and try again.</string>
+    <string name="error_refusal">The AI declined to plan this trip. Change your answers and try again.</string>
     <string name="error_too_long">The plan was cut off. Pick fewer days and try again.</string>
     <string name="error_parse">The AI reply could not be read.</string>
     <string name="error_generic">Something went wrong.</string>

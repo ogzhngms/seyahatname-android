@@ -51,7 +51,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.ogzhngms.seyahatname.AiModel
 import com.ogzhngms.seyahatname.Budget
 import com.ogzhngms.seyahatname.Companions
 import com.ogzhngms.seyahatname.Day
@@ -76,7 +75,7 @@ fun SeyahatnameApp(vm: TripViewModel, demo: Boolean) {
         Box(Modifier.safeDrawingPadding()) {
             when (screen) {
                 is Screen.Question -> QuestionScreen(screen.step, vm.answers, vm::update, vm::next, vm::back)
-                Screen.Confirm -> ConfirmScreen(vm.answers, demo, vm::update, onPlan = vm::submit, onEdit = vm::back)
+                Screen.Confirm -> ConfirmScreen(vm.answers, demo, onPlan = vm::submit, onEdit = vm::back)
                 Screen.Loading -> LoadingScreen(onCancel = vm::back)
                 is Screen.Result -> ResultScreen(screen, demo, onNewPlan = vm::restart)
                 is Screen.Failed -> FailedScreen(screen, onRetry = vm::submit, onEdit = vm::back)
@@ -185,13 +184,7 @@ private fun <T> Choices(options: List<T>, selected: (T) -> Boolean, label: @Comp
 }
 
 @Composable
-private fun ConfirmScreen(
-    answers: TripAnswers,
-    demo: Boolean,
-    onUpdate: ((TripAnswers) -> TripAnswers) -> Unit,
-    onPlan: () -> Unit,
-    onEdit: () -> Unit,
-) {
+private fun ConfirmScreen(answers: TripAnswers, demo: Boolean, onPlan: () -> Unit, onEdit: () -> Unit) {
     var showPrompt by rememberSaveable { mutableStateOf(false) }
     Column(Modifier.fillMaxSize().padding(24.dp)) {
         Column(Modifier.weight(1f).verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -212,12 +205,7 @@ private fun ConfirmScreen(
                 }
             }
             Text(stringResource(R.string.confirm_body), color = MaterialTheme.colorScheme.onSurfaceVariant)
-            if (demo) {
-                DemoBanner()
-            } else {
-                Text(stringResource(R.string.label_model), style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
-                Choices(AiModel.entries, { it == answers.model }, { it.label }) { choice -> onUpdate { it.copy(model = choice) } }
-            }
+            if (demo) DemoBanner()
             TextButton(onClick = { showPrompt = !showPrompt }) {
                 Text(stringResource(if (showPrompt) R.string.hide_prompt else R.string.show_prompt))
             }
@@ -277,11 +265,6 @@ private fun ResultScreen(result: Screen.Result, demo: Boolean, onNewPlan: () -> 
                     stringResource(R.string.budget_estimate, itinerary.estimatedBudget),
                     style = MaterialTheme.typography.labelLarge,
                     color = MaterialTheme.colorScheme.primary,
-                )
-                Text(
-                    stringResource(R.string.written_by, result.model),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         }

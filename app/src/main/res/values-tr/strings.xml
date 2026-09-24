@@ -1,0 +1,76 @@
+<resources>
+    <string name="step_counter">Adım %1$d / %2$d</string>
+    <string name="q_destination">Nereye gitmek istersin?</string>
+    <string name="hint_destination">Şehir ya da ülke, örneğin Roma</string>
+    <string name="q_days">Kaç gün kalacaksın?</string>
+    <plurals name="days">
+        <item quantity="one">%d gün</item>
+        <item quantity="other">%d gün</item>
+    </plurals>
+    <string name="cd_fewer_days">Günü azalt</string>
+    <string name="cd_more_days">Günü artır</string>
+    <string name="q_companions">Kiminle gidiyorsun?</string>
+    <string name="companions_solo">Yalnız</string>
+    <string name="companions_partner">Partnerimle</string>
+    <string name="companions_family">Ailemle</string>
+    <string name="companions_friends">Arkadaşlarımla</string>
+    <string name="q_budget">Bütçen nasıl?</string>
+    <string name="budget_low">Ekonomik</string>
+    <string name="budget_medium">Orta</string>
+    <string name="budget_high">Lüks</string>
+    <string name="q_interests">Ne yapmak istersin?</string>
+    <string name="interest_culture">Tarih ve kültür</string>
+    <string name="interest_food">Yeme içme</string>
+    <string name="interest_nature">Doğa</string>
+    <string name="interest_art">Müze ve sanat</string>
+    <string name="interest_shopping">Alışveriş</string>
+    <string name="interest_nightlife">Gece hayatı</string>
+    <string name="interest_beach">Plaj</string>
+    <string name="interest_adventure">Macera</string>
+    <string name="hint_notes">Başka bir isteğin var mı? (isteğe bağlı)</string>
+    <string name="q_pace">Nasıl bir tempo istersin?</string>
+    <string name="pace_relaxed">Sakin</string>
+    <string name="pace_balanced">Dengeli</string>
+    <string name="pace_packed">Yoğun</string>
+    <string name="action_back">Geri</string>
+    <string name="action_next">İleri</string>
+
+    <string name="confirm_title">Plan hazırlansın mı?</string>
+    <string name="confirm_body">Tamam dediğinde cevapların bir prompt\'a dönüşüp Claude\'a gider. Claude planı JSON olarak döndürür.</string>
+    <string name="label_destination">Nereye</string>
+    <string name="label_days">Süre</string>
+    <string name="label_companions">Kiminle</string>
+    <string name="label_budget">Bütçe</string>
+    <string name="label_interests">İlgi alanları</string>
+    <string name="label_notes">Notlar</string>
+    <string name="label_pace">Tempo</string>
+    <string name="interests_none">Fark etmez</string>
+    <string name="show_prompt">Prompt\'u göster</string>
+    <string name="hide_prompt">Prompt\'u gizle</string>
+    <string name="demo_banner">Demo modu: API anahtarı yok, bu yüzden örnek bir plan gösterilecek.</string>
+    <string name="action_edit">Düzenle</string>
+    <string name="action_plan">Tamam, planla</string>
+
+    <string name="loading_title">Planın yazılıyor…</string>
+    <string name="loading_body">Claude gezini planlıyor. Bu bir dakika kadar sürebilir.</string>
+    <string name="action_cancel">Vazgeç</string>
+
+    <string name="budget_estimate">Tahmini bütçe: %1$s</string>
+    <string name="day_title">%1$d. gün · %2$s</string>
+    <string name="tips_title">İpuçları</string>
+    <string name="show_json">JSON\'u göster</string>
+    <string name="hide_json">JSON\'u gizle</string>
+    <string name="action_new_plan">Yeni plan</string>
+
+    <string name="error_title">Plan oluşturulamadı</string>
+    <string name="error_api_key">API anahtarı reddedildi. local.properties içindeki ANTHROPIC_API_KEY değerini kontrol et.</string>
+    <string name="error_billing">Anthropic hesabında kredi kalmamış.</string>
+    <string name="error_rate_limit">Çok fazla istek gönderildi. Biraz bekleyip tekrar dene.</string>
+    <string name="error_network">Bağlantı yok. İnternetini kontrol edip tekrar dene.</string>
+    <string name="error_service">Yapay zekâ servisi hata döndürdü.</string>
+    <string name="error_refusal">Claude bu gezi için plan yapmadı. Cevaplarını değiştirip tekrar dene.</string>
+    <string name="error_too_long">Plan yarıda kesildi. Daha az gün seçip tekrar dene.</string>
+    <string name="error_parse">Yapay zekânın cevabı okunamadı.</string>
+    <string name="error_generic">Bir şeyler ters gitti.</string>
+    <string name="action_retry">Tekrar dene</string>
+</resources>

@@ -1,0 +1,78 @@
+<resources>
+    <string name="app_name" translatable="false">Seyahatname</string>
+
+    <string name="step_counter">Step %1$d of %2$d</string>
+    <string name="q_destination">Where do you want to go?</string>
+    <string name="hint_destination">A city or country, e.g. Rome</string>
+    <string name="q_days">How many days?</string>
+    <plurals name="days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <string name="cd_fewer_days">Fewer days</string>
+    <string name="cd_more_days">More days</string>
+    <string name="q_companions">Who are you travelling with?</string>
+    <string name="companions_solo">Solo</string>
+    <string name="companions_partner">Partner</string>
+    <string name="companions_family">Family</string>
+    <string name="companions_friends">Friends</string>
+    <string name="q_budget">What is your budget?</string>
+    <string name="budget_low">Budget</string>
+    <string name="budget_medium">Mid-range</string>
+    <string name="budget_high">Luxury</string>
+    <string name="q_interests">What do you want to do?</string>
+    <string name="interest_culture">History &amp; culture</string>
+    <string name="interest_food">Food &amp; drink</string>
+    <string name="interest_nature">Nature</string>
+    <string name="interest_art">Museums &amp; art</string>
+    <string name="interest_shopping">Shopping</string>
+    <string name="interest_nightlife">Nightlife</string>
+    <string name="interest_beach">Beaches</string>
+    <string name="interest_adventure">Adventure</string>
+    <string name="hint_notes">Anything else? (optional)</string>
+    <string name="q_pace">What pace do you like?</string>
+    <string name="pace_relaxed">Relaxed</string>
+    <string name="pace_balanced">Balanced</string>
+    <string name="pace_packed">Packed</string>
+    <string name="action_back">Back</string>
+    <string name="action_next">Next</string>
+
+    <string name="confirm_title">Ready to plan?</string>
+    <string name="confirm_body">When you tap OK, your answers become a prompt for Claude, which replies with the plan as JSON.</string>
+    <string name="label_destination">Destination</string>
+    <string name="label_days">Length</string>
+    <string name="label_companions">With</string>
+    <string name="label_budget">Budget</string>
+    <string name="label_interests">Interests</string>
+    <string name="label_notes">Notes</string>
+    <string name="label_pace">Pace</string>
+    <string name="interests_none">No preference</string>
+    <string name="show_prompt">Show prompt</string>
+    <string name="hide_prompt">Hide prompt</string>
+    <string name="demo_banner">Demo mode: there is no API key, so a sample plan is shown.</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_plan">OK, plan it</string>
+
+    <string name="loading_title">Writing your plan…</string>
+    <string name="loading_body">Claude is planning your trip. This can take up to a minute.</string>
+    <string name="action_cancel">Cancel</string>
+
+    <string name="budget_estimate">Estimated budget: %1$s</string>
+    <string name="day_title">Day %1$d · %2$s</string>
+    <string name="tips_title">Tips</string>
+    <string name="show_json">Show JSON</string>
+    <string name="hide_json">Hide JSON</string>
+    <string name="action_new_plan">New plan</string>
+
+    <string name="error_title">The plan could not be created</string>
+    <string name="error_api_key">The API key was rejected. Check ANTHROPIC_API_KEY in local.properties.</string>
+    <string name="error_billing">The Anthropic account has no credit left.</string>
+    <string name="error_rate_limit">Too many requests. Wait a moment and try again.</string>
+    <string name="error_network">No connection. Check your internet and try again.</string>
+    <string name="error_service">The AI service returned an error.</string>
+    <string name="error_refusal">Claude declined to plan this trip. Change your answers and try again.</string>
+    <string name="error_too_long">The plan was cut off. Pick fewer days and try again.</string>
+    <string name="error_parse">The AI reply could not be read.</string>
+    <string name="error_generic">Something went wrong.</string>
+    <string name="action_retry">Try again</string>
+</resources>

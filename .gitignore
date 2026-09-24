@@ -1,0 +1,14 @@
+*.iml
+*.jks
+*.keystore
+.gradle
+.kotlin/
+.idea/
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+# Holds ANTHROPIC_API_KEY; never commit it.
+local.properties

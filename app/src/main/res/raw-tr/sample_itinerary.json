@@ -1,0 +1,47 @@
+{
+  "title": "Roma'da 3 Gün",
+  "summary": "Antik kalıntılar, Vatikan'ın hazineleri ve uzun Roma akşam yemekleri. Her gün şehrin tek bir bölgesinde geçecek şekilde planlandı.",
+  "estimatedBudget": "Kişi başı 450–600 €, uçak ve otel hariç",
+  "days": [
+    {
+      "day": 1,
+      "title": "Antik Roma",
+      "activities": [
+        {"time": "09:00", "title": "Kolezyum", "description": "Saatli biletle gir, kalabalık başlamadan arenanın zeminini gez.", "cost": "18 €"},
+        {"time": "11:30", "title": "Roma Forumu ve Palatin Tepesi", "description": "Aynı bilet ikisini de kapsıyor; Via Sacra'yı izleyip saray kalıntılarına çık.", "cost": "Bilete dahil"},
+        {"time": "13:30", "title": "Monti'de öğle yemeği", "description": "Via Urbana'daki küçük bir trattoriada cacio e pepe.", "cost": "20 €"},
+        {"time": "16:00", "title": "Capitolini Müzeleri", "description": "Dişi kurt heykelini ve Forum'un en güzel manzarasını gör.", "cost": "15 €"},
+        {"time": "20:00", "title": "Trastevere'de akşam yemeği", "description": "Nehrin karşısına geç, Arnavut kaldırımlı sokaklarda ye.", "cost": "35 €"}
+      ]
+    },
+    {
+      "day": 2,
+      "title": "Vatikan ve Prati",
+      "activities": [
+        {"time": "08:00", "title": "Vatikan Müzeleri ve Sistina Şapeli", "description": "İlk giriş saatine bilet al, üç saat ayır.", "cost": "25 €"},
+        {"time": "12:00", "title": "Aziz Petrus Bazilikası", "description": "Giriş ücretsiz; meydanı yukarıdan görmek için kubbeye çık.", "cost": "Kubbe 10 €"},
+        {"time": "14:00", "title": "Mercato Trionfale'de öğle yemeği", "description": "Kapalı çarşıda sokak lezzetleri ve taze meyve.", "cost": "12 €"},
+        {"time": "16:30", "title": "Castel Sant'Angelo", "description": "Surlarda yürü, gün batımını Tiber'in üzerinde izle.", "cost": "16 €"},
+        {"time": "20:00", "title": "Prati'de pizza", "description": "Mahalle pizzacısında ince hamurlu Roma pizzası.", "cost": "20 €"}
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Meydanlar ve çeşmeler",
+      "activities": [
+        {"time": "09:30", "title": "Pantheon", "description": "En iyi korunmuş Roma tapınağının açık kubbe gözünün altında dur.", "cost": "5 €"},
+        {"time": "10:30", "title": "Piazza Navona", "description": "Bernini'nin Dört Nehir Çeşmesi ve bir sabah espressosu.", "cost": "3 €"},
+        {"time": "12:00", "title": "Trevi Çeşmesi", "description": "Geri dönmek için omzunun üzerinden bir bozuk para at.", "cost": "Ücretsiz"},
+        {"time": "13:00", "title": "İspanyol Merdivenleri yakınında öğle yemeği", "description": "Ara sokaktaki bir osteriada carbonara.", "cost": "22 €"},
+        {"time": "15:30", "title": "Villa Borghese bahçeleri", "description": "Bisiklet kirala, Pincio terasında bitir.", "cost": "8 €"},
+        {"time": "20:30", "title": "Testaccio'da veda yemeği", "description": "Romalıların klasikleri yediği eski pazar semti.", "cost": "40 €"}
+      ]
+    }
+  ],
+  "tips": [
+    "Kolezyum ve Vatikan biletlerini en az bir hafta önceden internetten al.",
+    "Yanında doldurulabilir bir şişe taşı; sokak çeşmelerinin suyu içilebilir.",
+    "Kiliselere omuzlar ve dizler kapalı girilir.",
+    "Gitmeden açık günlere bak; birçok müze haftada bir gün kapalı."
+  ]
+}

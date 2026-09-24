@@ -1,0 +1,47 @@
+{
+  "title": "3 Days in Rome",
+  "summary": "Ancient ruins, Vatican treasures and long Roman dinners, planned so each day stays in one part of the city.",
+  "estimatedBudget": "€450–600 per person, excluding flights and hotel",
+  "days": [
+    {
+      "day": 1,
+      "title": "Ancient Rome",
+      "activities": [
+        {"time": "09:00", "title": "Colosseum", "description": "Enter with a timed ticket and walk the arena floor before the crowds build.", "cost": "€18"},
+        {"time": "11:30", "title": "Roman Forum and Palatine Hill", "description": "The same ticket covers both; follow the Via Sacra up to the palace ruins.", "cost": "Included"},
+        {"time": "13:30", "title": "Lunch in Monti", "description": "Cacio e pepe at a small trattoria on Via Urbana.", "cost": "€20"},
+        {"time": "16:00", "title": "Capitoline Museums", "description": "See the she-wolf statue and the best view over the Forum.", "cost": "€15"},
+        {"time": "20:00", "title": "Dinner in Trastevere", "description": "Cross the river and eat in the cobbled lanes.", "cost": "€35"}
+      ]
+    },
+    {
+      "day": 2,
+      "title": "The Vatican and Prati",
+      "activities": [
+        {"time": "08:00", "title": "Vatican Museums and Sistine Chapel", "description": "Book the first entry slot and allow three hours.", "cost": "€25"},
+        {"time": "12:00", "title": "St Peter's Basilica", "description": "Entry is free; climb the dome for the view over the square.", "cost": "€10 for the dome"},
+        {"time": "14:00", "title": "Lunch at Mercato Trionfale", "description": "Street food and fresh fruit from the covered market.", "cost": "€12"},
+        {"time": "16:30", "title": "Castel Sant'Angelo", "description": "Walk the ramparts and watch the sun set over the Tiber.", "cost": "€16"},
+        {"time": "20:00", "title": "Pizza in Prati", "description": "Thin Roman-style pizza at a neighbourhood pizzeria.", "cost": "€20"}
+      ]
+    },
+    {
+      "day": 3,
+      "title": "Piazzas and fountains",
+      "activities": [
+        {"time": "09:30", "title": "Pantheon", "description": "Stand under the open oculus of the best-preserved Roman temple.", "cost": "€5"},
+        {"time": "10:30", "title": "Piazza Navona", "description": "Bernini's Fountain of the Four Rivers and a morning espresso.", "cost": "€3"},
+        {"time": "12:00", "title": "Trevi Fountain", "description": "Toss a coin over your shoulder to make sure you come back.", "cost": "Free"},
+        {"time": "13:00", "title": "Lunch near the Spanish Steps", "description": "Carbonara at a side-street osteria.", "cost": "€22"},
+        {"time": "15:30", "title": "Villa Borghese gardens", "description": "Rent a bike and finish at the Pincio terrace.", "cost": "€8"},
+        {"time": "20:30", "title": "Farewell dinner in Testaccio", "description": "The old market district where Romans eat the classics.", "cost": "€40"}
+      ]
+    }
+  ],
+  "tips": [
+    "Buy Colosseum and Vatican tickets online at least a week ahead.",
+    "Carry a refillable bottle; the street fountains have drinking water.",
+    "Churches ask for covered shoulders and knees.",
+    "Check opening days before you go; many museums close one day a week."
+  ]
+}

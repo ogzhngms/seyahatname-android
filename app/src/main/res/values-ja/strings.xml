@@ -23,7 +23,7 @@
 
     <string name="step_counter">ステップ %1$d / %2$d</string>
     <string name="q_destination">どこへ行きたいですか？</string>
-    <string name="hint_destination">都市または国（例：ローマ）</string>
+    <string name="hint_destination">都市または国</string>
     <string name="q_days">何日間ですか？</string>
     <plurals name="days">
         <item quantity="other">%d日間</item>

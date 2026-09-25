@@ -23,7 +23,7 @@
 
     <string name="step_counter">Schritt %1$d von %2$d</string>
     <string name="q_destination">Wohin möchtest du reisen?</string>
-    <string name="hint_destination">Eine Stadt oder ein Land, z. B. Rom</string>
+    <string name="hint_destination">Eine Stadt oder ein Land</string>
     <string name="q_days">Wie viele Tage?</string>
     <plurals name="days">
         <item quantity="one">%d Tag</item>

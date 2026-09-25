@@ -23,7 +23,7 @@
 
     <string name="step_counter">%2$d단계 중 %1$d단계</string>
     <string name="q_destination">어디로 가고 싶나요?</string>
-    <string name="hint_destination">도시 또는 나라 (예: 로마)</string>
+    <string name="hint_destination">도시 또는 나라</string>
     <string name="q_days">며칠 동안 가나요?</string>
     <plurals name="days">
         <item quantity="other">%d일</item>

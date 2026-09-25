@@ -23,7 +23,7 @@
 
     <string name="step_counter">Addım %1$d / %2$d</string>
     <string name="q_destination">Hara getmək istəyirsən?</string>
-    <string name="hint_destination">Şəhər və ya ölkə, məsələn, Roma</string>
+    <string name="hint_destination">Şəhər və ya ölkə</string>
     <string name="q_days">Neçə gün qalacaqsan?</string>
     <plurals name="days">
         <item quantity="one">%d gün</item>

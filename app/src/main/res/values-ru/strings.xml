@@ -23,7 +23,7 @@
 
     <string name="step_counter">Шаг %1$d из %2$d</string>
     <string name="q_destination">Куда ты хочешь поехать?</string>
-    <string name="hint_destination">Город или страна, например Рим</string>
+    <string name="hint_destination">Город или страна</string>
     <string name="q_days">Сколько дней?</string>
     <plurals name="days">
         <item quantity="one">%d день</item>

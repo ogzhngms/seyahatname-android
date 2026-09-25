@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname
+package com.ogzhngms.sorgez
 
 import org.json.JSONArray
 import org.json.JSONObject

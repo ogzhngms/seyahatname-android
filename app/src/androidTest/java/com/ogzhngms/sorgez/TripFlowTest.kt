@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname
+package com.ogzhngms.sorgez
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.assertIsDisplayed
@@ -14,8 +14,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
-import com.ogzhngms.seyahatname.ui.SorGezApp
-import com.ogzhngms.seyahatname.ui.SorGezTheme
+import com.ogzhngms.sorgez.ui.SorGezApp
+import com.ogzhngms.sorgez.ui.SorGezTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test

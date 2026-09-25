@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname.ui
+package com.ogzhngms.sorgez.ui
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme

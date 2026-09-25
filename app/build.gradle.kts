@@ -16,13 +16,13 @@ val geminiApiKey: String = providers.gradleProperty("GEMINI_API_KEY").orNull
     ?: localProperties.getProperty("GEMINI_API_KEY", "")
 
 android {
-    namespace = "com.ogzhngms.seyahatname"
+    namespace = "com.ogzhngms.sorgez"
     compileSdk {
         version = release(37)
     }
 
     defaultConfig {
-        applicationId = "com.ogzhngms.seyahatname"
+        applicationId = "com.ogzhngms.sorgez"
         minSdk = 26
         targetSdk = 37
         versionCode = 1

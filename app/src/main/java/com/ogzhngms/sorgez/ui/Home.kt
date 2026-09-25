@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname.ui
+package com.ogzhngms.sorgez.ui
 
 import android.widget.Toast
 import androidx.annotation.StringRes
@@ -59,10 +59,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.ogzhngms.seyahatname.BuildConfig
-import com.ogzhngms.seyahatname.Currency
-import com.ogzhngms.seyahatname.Language
-import com.ogzhngms.seyahatname.R
+import com.ogzhngms.sorgez.BuildConfig
+import com.ogzhngms.sorgez.Currency
+import com.ogzhngms.sorgez.Language
+import com.ogzhngms.sorgez.R
 import java.util.Locale
 
 // The landing screen: the turning Earth in the middle with Start at its centre.

@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname.ui
+package com.ogzhngms.sorgez.ui
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -38,8 +38,8 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.ogzhngms.seyahatname.Place
-import com.ogzhngms.seyahatname.R
+import com.ogzhngms.sorgez.Place
+import com.ogzhngms.sorgez.R
 import kotlin.math.PI
 import kotlin.math.cos
 import kotlin.math.roundToInt

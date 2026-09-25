@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname
+package com.ogzhngms.sorgez
 
 import androidx.annotation.StringRes
 import java.util.Locale

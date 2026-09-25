@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname
+package com.ogzhngms.sorgez
 
 import android.content.Context
 import android.graphics.Color
@@ -10,8 +10,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.ogzhngms.seyahatname.ui.SorGezApp
-import com.ogzhngms.seyahatname.ui.SorGezTheme
+import com.ogzhngms.sorgez.ui.SorGezApp
+import com.ogzhngms.sorgez.ui.SorGezTheme
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {

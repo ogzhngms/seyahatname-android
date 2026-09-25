@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname
+package com.ogzhngms.sorgez
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull

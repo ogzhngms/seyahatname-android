@@ -1,4 +1,4 @@
-package com.ogzhngms.seyahatname
+package com.ogzhngms.sorgez
 
 import com.sun.net.httpserver.HttpServer
 import java.io.File

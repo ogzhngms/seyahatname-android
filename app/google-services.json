@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:684486904901:android:effeea46dc88c371db672c",
+        "mobilesdk_app_id": "1:684486904901:android:d6dc3d6ae742b7b0db672c",
         "android_client_info": {
-          "package_name": "com.ogzhngms.seyahatname"
+          "package_name": "com.ogzhngms.sorgez"
         }
       },
       "oauth_client": [],

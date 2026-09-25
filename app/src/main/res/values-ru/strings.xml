@@ -16,7 +16,6 @@
     <string name="language_title">Язык</string>
     <string name="currency_title">Валюта</string>
     <string name="currency_body">Цены в ваших планах указываются в этой валюте.</string>
-    <string name="currency_local">Местная валюта</string>
     <string name="about_title">О приложении</string>
     <string name="about_version">Версия %1$s</string>
     <string name="about_images">Снимки Земли и Луны: NASA</string>

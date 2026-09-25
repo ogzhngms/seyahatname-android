@@ -16,7 +16,6 @@
     <string name="language_title">言語</string>
     <string name="currency_title">通貨</string>
     <string name="currency_body">プランの料金はこの通貨で表示されます。</string>
-    <string name="currency_local">現地通貨</string>
     <string name="about_title">アプリについて</string>
     <string name="about_version">バージョン %1$s</string>
     <string name="about_images">地球と月の画像：NASA</string>

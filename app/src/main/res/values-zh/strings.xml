@@ -16,7 +16,6 @@
     <string name="language_title">语言</string>
     <string name="currency_title">货币</string>
     <string name="currency_body">行程中的价格以此货币显示。</string>
-    <string name="currency_local">当地货币</string>
     <string name="about_title">关于</string>
     <string name="about_version">版本 %1$s</string>
     <string name="about_images">地球和月球图像：NASA</string>

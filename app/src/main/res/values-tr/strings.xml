@@ -16,7 +16,6 @@
     <string name="language_title">Dil</string>
     <string name="currency_title">Para birimi</string>
     <string name="currency_body">Planlardaki fiyatlar bu para biriminde gösterilir.</string>
-    <string name="currency_local">Yerel para</string>
     <string name="about_title">Hakkında</string>
     <string name="about_version">Sürüm %1$s</string>
     <string name="about_images">Dünya ve Ay görselleri: NASA</string>

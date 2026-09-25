@@ -16,7 +16,6 @@
     <string name="language_title">Langue</string>
     <string name="currency_title">Devise</string>
     <string name="currency_body">Les prix de tes plans sont affichés dans cette devise.</string>
-    <string name="currency_local">Devise locale</string>
     <string name="about_title">À propos</string>
     <string name="about_version">Version %1$s</string>
     <string name="about_images">Images de la Terre et de la Lune : NASA</string>

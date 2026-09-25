@@ -16,7 +16,6 @@
     <string name="language_title">اللغة</string>
     <string name="currency_title">العملة</string>
     <string name="currency_body">تظهر الأسعار في خططك بهذه العملة.</string>
-    <string name="currency_local">العملة المحلية</string>
     <string name="about_title">حول التطبيق</string>
     <string name="about_version">الإصدار %1$s</string>
     <string name="about_images">صور الأرض والقمر: ناسا</string>

@@ -16,7 +16,6 @@
     <string name="language_title">Idioma</string>
     <string name="currency_title">Moeda</string>
     <string name="currency_body">Os preços dos seus planos aparecem nesta moeda.</string>
-    <string name="currency_local">Moeda local</string>
     <string name="about_title">Sobre</string>
     <string name="about_version">Versão %1$s</string>
     <string name="about_images">Imagens da Terra e da Lua: NASA</string>

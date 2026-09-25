@@ -58,6 +58,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.ogzhngms.seyahatname.BuildConfig
 import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Language
@@ -83,15 +84,20 @@ internal fun HomeScreen(planet: Planet, onStart: () -> Unit, onProfile: () -> Un
         }
         Box(Modifier.align(Alignment.Center).fillMaxWidth(0.9f), contentAlignment = Alignment.Center) {
             PlanetView(planet, Modifier.fillMaxWidth())
+            // A glass pill: the planet shows through, and a hairline edge keeps it readable on the bright Sun.
             Button(
                 onClick = onStart,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.85f),
-                    contentColor = MaterialTheme.colorScheme.primary,
-                ),
-                border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
-                contentPadding = PaddingValues(horizontal = 36.dp, vertical = 16.dp),
-            ) { Text(stringResource(R.string.action_start), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold) }
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.32f), contentColor = Color.White),
+                border = BorderStroke(1.dp, Color.White.copy(alpha = 0.55f)),
+                contentPadding = PaddingValues(horizontal = 32.dp, vertical = 12.dp),
+            ) {
+                Text(
+                    stringResource(R.string.action_start),
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.Medium,
+                    letterSpacing = 1.5.sp,
+                )
+            }
         }
         Text(
             stringResource(R.string.home_tagline),
@@ -219,9 +225,8 @@ internal fun ProfileScreen(
                 R.string.currency_title,
                 Currency.entries,
                 currency,
-                mark = { it.code?.let { code -> "${it.symbol}  $code" } ?: "🌍" },
-                name = { it.code?.let { code -> java.util.Currency.getInstance(code).getDisplayName(Locale.getDefault()) } ?: stringResource(R.string.currency_local) },
-                button = { it.code?.let { code -> "${it.symbol}  $code" } ?: "🌍  ${stringResource(R.string.currency_local)}" },
+                mark = { "${it.symbol}  ${it.name}" },
+                name = { java.util.Currency.getInstance(it.name).getDisplayName(Locale.getDefault()) },
                 onPick = onCurrency,
             )
         }

@@ -18,7 +18,6 @@
     <string name="language_title">Language</string>
     <string name="currency_title">Currency</string>
     <string name="currency_body">Costs in your plans are shown in this currency.</string>
-    <string name="currency_local">Local currency</string>
     <string name="about_title">About</string>
     <string name="about_version">Version %1$s</string>
     <string name="about_images">Earth and Moon images: NASA</string>

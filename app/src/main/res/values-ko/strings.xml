@@ -16,7 +16,6 @@
     <string name="language_title">언어</string>
     <string name="currency_title">통화</string>
     <string name="currency_body">플랜의 가격이 이 통화로 표시됩니다.</string>
-    <string name="currency_local">현지 통화</string>
     <string name="about_title">정보</string>
     <string name="about_version">버전 %1$s</string>
     <string name="about_images">지구와 달 이미지: NASA</string>

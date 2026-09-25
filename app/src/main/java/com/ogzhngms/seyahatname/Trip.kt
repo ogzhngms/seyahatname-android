@@ -60,12 +60,12 @@ const val SYSTEM_PROMPT =
         "Keep each day in one area of the destination, give every activity a start time in 24-hour HH:MM format, " +
         "estimate costs per person in the currency asked for, and keep each description to one or two sentences."
 
-fun buildPrompt(answers: TripAnswers, language: String, currency: Currency = Currency.LOCAL): String = buildString {
+fun buildPrompt(answers: TripAnswers, language: String, currency: Currency = Currency.TRY): String = buildString {
     appendLine("Destination: ${answers.destination.trim()}")
     appendLine("Length: exactly ${answers.days} days")
     appendLine("Travelling: ${answers.companions.prompt}")
     appendLine("Budget: ${answers.budget.prompt}")
-    appendLine("Currency: ${currency.code ?: "the local currency of the destination"}")
+    appendLine("Currency: ${currency.name}")
     appendLine("Interests: " + answers.interests.sorted().joinToString { it.prompt }.ifEmpty { "no preference" })
     appendLine("Pace: ${answers.pace.prompt}")
     if (answers.notes.isNotBlank()) appendLine("Other wishes: ${answers.notes.trim()}")

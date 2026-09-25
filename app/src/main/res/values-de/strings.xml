@@ -16,7 +16,6 @@
     <string name="language_title">Sprache</string>
     <string name="currency_title">Währung</string>
     <string name="currency_body">Preise in deinen Plänen werden in dieser Währung angezeigt.</string>
-    <string name="currency_local">Landeswährung</string>
     <string name="about_title">Über die App</string>
     <string name="about_version">Version %1$s</string>
     <string name="about_images">Bilder von Erde und Mond: NASA</string>

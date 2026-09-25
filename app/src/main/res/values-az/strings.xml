@@ -16,7 +16,6 @@
     <string name="language_title">Dil</string>
     <string name="currency_title">Valyuta</string>
     <string name="currency_body">Planlardakı qiymətlər bu valyutada göstərilir.</string>
-    <string name="currency_local">Yerli valyuta</string>
     <string name="about_title">Haqqında</string>
     <string name="about_version">Versiya %1$s</string>
     <string name="about_images">Yer və Ay şəkilləri: NASA</string>

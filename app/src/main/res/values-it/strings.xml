@@ -16,7 +16,6 @@
     <string name="language_title">Lingua</string>
     <string name="currency_title">Valuta</string>
     <string name="currency_body">I prezzi dei tuoi piani sono mostrati in questa valuta.</string>
-    <string name="currency_local">Valuta locale</string>
     <string name="about_title">Informazioni</string>
     <string name="about_version">Versione %1$s</string>
     <string name="about_images">Immagini della Terra e della Luna: NASA</string>

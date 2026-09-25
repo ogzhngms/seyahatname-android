@@ -39,13 +39,12 @@ enum class Planet(@StringRes val label: Int) {
     SUN(R.string.planet_sun),
 }
 
-// The currency plan prices are written in; LOCAL leaves it to the destination.
-enum class Currency(val code: String?, val symbol: String) {
-    LOCAL(null, ""),
-    TRY("TRY", "₺"),
-    EUR("EUR", "€"),
-    USD("USD", "$"),
-    GBP("GBP", "£"),
+// The currency plan prices are written in, named by its ISO code.
+enum class Currency(val symbol: String) {
+    TRY("₺"),
+    EUR("€"),
+    USD("$"),
+    GBP("£"),
 }
 
 // The language, currency and home-screen planet picked on the profile screen. The device copy is the one the app reads,
@@ -65,7 +64,7 @@ object AppSettings {
 
     fun currency(context: Context): Currency {
         val name = preferences(context).getString("currency", null)
-        return Currency.entries.firstOrNull { it.name == name } ?: Currency.LOCAL
+        return Currency.entries.firstOrNull { it.name == name } ?: Currency.TRY
     }
 
     fun saveCurrency(context: Context, currency: Currency) {

@@ -16,7 +16,6 @@
     <string name="language_title">Bahasa</string>
     <string name="currency_title">Mata uang</string>
     <string name="currency_body">Harga dalam rencanamu ditampilkan dalam mata uang ini.</string>
-    <string name="currency_local">Mata uang lokal</string>
     <string name="about_title">Tentang</string>
     <string name="about_version">Versi %1$s</string>
     <string name="about_images">Gambar Bumi dan Bulan: NASA</string>

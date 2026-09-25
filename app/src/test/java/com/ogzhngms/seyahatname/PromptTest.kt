@@ -37,7 +37,7 @@ class PromptTest {
     fun skippedAnswersStayOutOfThePrompt() {
         val prompt = buildPrompt(TripAnswers(destination = "Rome"), "English")
         assertTrue("Interests: no preference" in prompt)
-        assertTrue("Currency: the local currency of the destination" in prompt)
+        assertTrue("Currency: TRY" in prompt)
         assertFalse("Other wishes" in prompt)
     }
 }

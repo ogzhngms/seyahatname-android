@@ -16,7 +16,6 @@
     <string name="language_title">भाषा</string>
     <string name="currency_title">मुद्रा</string>
     <string name="currency_body">आपकी योजनाओं में कीमतें इसी मुद्रा में दिखती हैं।</string>
-    <string name="currency_local">स्थानीय मुद्रा</string>
     <string name="about_title">ऐप के बारे में</string>
     <string name="about_version">संस्करण %1$s</string>
     <string name="about_images">पृथ्वी और चंद्रमा की तस्वीरें: NASA</string>

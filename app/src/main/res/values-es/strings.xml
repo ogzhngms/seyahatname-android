@@ -16,7 +16,6 @@
     <string name="language_title">Idioma</string>
     <string name="currency_title">Moneda</string>
     <string name="currency_body">Los precios de tus planes se muestran en esta moneda.</string>
-    <string name="currency_local">Moneda local</string>
     <string name="about_title">Acerca de</string>
     <string name="about_version">Versión %1$s</string>
     <string name="about_images">Imágenes de la Tierra y la Luna: NASA</string>

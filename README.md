@@ -1,10 +1,10 @@
-# Seyahatname
+# SorGez
 
 [![CI](https://github.com/ogzhngms/seyahatname-android/actions/workflows/ci.yml/badge.svg)](https://github.com/ogzhngms/seyahatname-android/actions/workflows/ci.yml)
 
 An Android trip planner built with Jetpack Compose and Gemini. It opens on a turning Earth with a Start button at its centre, over dashed flight routes. Start zooms into the Earth and the app asks six short questions, one at a time: where you are going, for how long, who you are travelling with, your budget, what you want to do and the pace you like. When you confirm, it turns the answers into a prompt, asks Gemini for the plan as JSON that follows a fixed schema, and renders that JSON as a day-by-day itinerary.
 
-The name comes from Evliya Çelebi's *Seyahatname*, the 17th-century Ottoman book of travels.
+The name joins two Turkish verbs, *sor* (ask) and *gez* (travel): the app asks, you travel. The logo splits it as Sor|Gez; the store name is Sorgez.
 
 | Home | Questions | Plan | Profile |
 |---|---|---|---|

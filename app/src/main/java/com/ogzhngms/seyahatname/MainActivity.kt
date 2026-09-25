@@ -10,8 +10,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.ogzhngms.seyahatname.ui.SeyahatnameApp
-import com.ogzhngms.seyahatname.ui.SeyahatnameTheme
+import com.ogzhngms.seyahatname.ui.SorGezApp
+import com.ogzhngms.seyahatname.ui.SorGezTheme
 import kotlinx.coroutines.delay
 
 class MainActivity : ComponentActivity() {
@@ -34,8 +34,8 @@ class MainActivity : ComponentActivity() {
             navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
         )
         setContent {
-            SeyahatnameTheme {
-                SeyahatnameApp(viewModel, demo, onLanguageChange = { AppSettings.saveLanguage(this, it); recreate() })
+            SorGezTheme {
+                SorGezApp(viewModel, demo, onLanguageChange = { AppSettings.saveLanguage(this, it); recreate() })
             }
         }
     }

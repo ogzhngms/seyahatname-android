@@ -93,7 +93,7 @@ import java.util.Locale
 import org.json.JSONObject
 
 @Composable
-fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language) -> Unit = {}) {
+fun SorGezApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language) -> Unit = {}) {
     val context = LocalContext.current
     var currency by remember { mutableStateOf(AppSettings.currency(context)) }
     val language = Language.entries.firstOrNull { it.tag == Locale.getDefault().language }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Seyahatname</string>
+    <string name="app_name" translatable="false">SorGez</string>
 
     <string name="action_start">Start</string>
     <string name="home_tagline">Plan your next trip with AI</string>

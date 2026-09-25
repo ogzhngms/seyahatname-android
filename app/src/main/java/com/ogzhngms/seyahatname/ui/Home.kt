@@ -52,8 +52,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ogzhngms.seyahatname.BuildConfig
@@ -68,7 +71,17 @@ internal fun HomeScreen(onStart: () -> Unit, onProfile: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
         RouteBackdrop(Modifier.fillMaxSize())
         Row(Modifier.fillMaxWidth().padding(start = 24.dp, end = 12.dp, top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
+            // The wordmark: "Sor" (ask) in white, "Gez" (travel) in green.
+            val gez = MaterialTheme.colorScheme.primary
+            Text(
+                buildAnnotatedString {
+                    append("Sor")
+                    withStyle(SpanStyle(color = gez)) { append("Gez") }
+                },
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f),
+            )
             IconButton(onClick = onProfile) {
                 Icon(
                     painterResource(R.drawable.ic_account_circle),

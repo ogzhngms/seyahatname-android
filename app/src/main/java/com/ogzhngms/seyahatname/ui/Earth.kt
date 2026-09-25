@@ -32,7 +32,6 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -120,29 +119,42 @@ fun DestinationEarth(place: Place?, modifier: Modifier = Modifier) {
     }
     val pin by animateFloatAsState(
         if (place != null) 1f else 0f,
-        tween(300, delayMillis = if (place != null) 1000 else 0),
+        tween(if (place != null) 450 else 200, delayMillis = if (place != null) 1000 else 0, easing = FastOutSlowInEasing),
         label = "pin",
+    )
+    val ripple by rememberInfiniteTransition(label = "ripple").animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(2_000, easing = LinearEasing)),
+        label = "ripple",
     )
     val green = MaterialTheme.colorScheme.primary
     Box(modifier.aspectRatio(1f)) {
         Earth({ lat.value }, { lon.value }, Modifier.fillMaxSize())
-        // The globe centres on the place, so the pin's tip sits at the centre, with a dashed flight path arriving.
+        // The globe centres on the place, so the pin lands at the centre: it drops in, and rings spread
+        // from its tip, flattened as if lying on the ground.
         Canvas(Modifier.fillMaxSize()) {
             if (pin == 0f) return@Canvas
-            val head = center - Offset(0f, 22.dp.toPx())
-            val path = Path().apply {
-                moveTo(0f, size.height * 0.08f)
-                quadraticTo(size.width * 0.2f, center.y - size.height * 0.3f, head.x - 12.dp.toPx(), head.y - 6.dp.toPx())
+            for (offset in listOf(0f, 0.5f)) {
+                val t = (ripple + offset) % 1f
+                val width = (8 + 56 * t).dp.toPx()
+                drawOval(
+                    green.copy(alpha = pin * (1 - t) * 0.8f),
+                    Offset(center.x - width / 2, center.y - width / 6),
+                    Size(width, width / 3),
+                    style = Stroke(1.5.dp.toPx()),
+                )
             }
-            drawPath(path, green.copy(alpha = 0.8f * pin), style = Stroke(2.dp.toPx(), pathEffect = PathEffect.dashPathEffect(floatArrayOf(8f, 8f))))
-            drawOval(Color.Black.copy(alpha = 0.35f * pin), Offset(center.x - 8.dp.toPx(), center.y - 3.dp.toPx()), Size(16.dp.toPx(), 6.dp.toPx()))
-            val tip = Path().apply {
-                moveTo(center.x, center.y)
+            drawOval(Color.Black.copy(alpha = 0.35f * pin), Offset(center.x - 7.dp.toPx(), center.y - 2.5.dp.toPx()), Size(14.dp.toPx(), 5.dp.toPx()))
+            val tip = center - Offset(0f, (1 - pin) * 24.dp.toPx())
+            val head = tip - Offset(0f, 22.dp.toPx())
+            val body = Path().apply {
+                moveTo(tip.x, tip.y)
                 lineTo(head.x - 8.dp.toPx(), head.y + 5.dp.toPx())
                 lineTo(head.x + 8.dp.toPx(), head.y + 5.dp.toPx())
                 close()
             }
-            drawPath(tip, green.copy(alpha = pin))
+            drawPath(body, green.copy(alpha = pin))
             drawCircle(green.copy(alpha = pin), 11.dp.toPx(), head)
             drawCircle(Color(0xFF0D1117).copy(alpha = pin), 4.dp.toPx(), head)
         }

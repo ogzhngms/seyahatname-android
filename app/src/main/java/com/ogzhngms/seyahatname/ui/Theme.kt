@@ -32,6 +32,6 @@ private val colors = darkColorScheme(
 )
 
 @Composable
-fun SeyahatnameTheme(content: @Composable () -> Unit) {
+fun SorGezTheme(content: @Composable () -> Unit) {
     MaterialTheme(colorScheme = colors, content = content)
 }

@@ -1,9 +1,11 @@
 package com.ogzhngms.seyahatname.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedContentTransitionScope
 import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -12,14 +14,16 @@ import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -70,10 +74,10 @@ import androidx.core.view.WindowInsetsCompat
 import com.ogzhngms.seyahatname.AppSettings
 import com.ogzhngms.seyahatname.Budget
 import com.ogzhngms.seyahatname.Companions
+import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Day
 import com.ogzhngms.seyahatname.Interest
 import com.ogzhngms.seyahatname.Itinerary
-import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Language
 import com.ogzhngms.seyahatname.MAX_DAYS
 import com.ogzhngms.seyahatname.Pace
@@ -83,6 +87,7 @@ import com.ogzhngms.seyahatname.Screen
 import com.ogzhngms.seyahatname.TripAnswers
 import com.ogzhngms.seyahatname.TripViewModel
 import com.ogzhngms.seyahatname.buildPrompt
+import com.ogzhngms.seyahatname.findPlace
 import com.ogzhngms.seyahatname.promptLanguage
 import java.util.Locale
 import org.json.JSONObject
@@ -90,7 +95,6 @@ import org.json.JSONObject
 @Composable
 fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language) -> Unit = {}) {
     val context = LocalContext.current
-    var planet by remember { mutableStateOf(AppSettings.planet(context)) }
     var currency by remember { mutableStateOf(AppSettings.currency(context)) }
     val language = Language.entries.firstOrNull { it.tag == Locale.getDefault().language }
     val view = LocalView.current
@@ -106,12 +110,10 @@ fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language
         AnimatedContent(vm.screen, transitionSpec = { transition(initialState, targetState) }, label = "screen") { screen ->
             Box(Modifier.fillMaxSize().safeDrawingPadding()) {
                 when (screen) {
-                    Screen.Home -> HomeScreen(planet, onStart = vm::start, onProfile = vm::openProfile)
+                    Screen.Home -> HomeScreen(onStart = vm::start, onProfile = vm::openProfile)
                     Screen.Profile -> ProfileScreen(
-                        planet,
                         language,
                         currency,
-                        onPlanet = { planet = it; AppSettings.savePlanet(context, it) },
                         onLanguage = onLanguageChange,
                         onCurrency = { currency = it; AppSettings.saveCurrency(context, it) },
                         onBack = vm::back,
@@ -127,7 +129,7 @@ fun SeyahatnameApp(vm: TripViewModel, demo: Boolean, onLanguageChange: (Language
     }
 }
 
-// Start zooms into the planet, question steps slide sideways, everything else cross-fades.
+// Start zooms into the Earth, question steps slide sideways, everything else cross-fades.
 private fun AnimatedContentTransitionScope<Screen>.transition(from: Screen, to: Screen): ContentTransform = when {
     from == Screen.Home && to is Screen.Question ->
         (fadeIn(tween(400, delayMillis = 250)) + scaleIn(tween(400, delayMillis = 250), initialScale = 0.9f)) togetherWith
@@ -162,17 +164,10 @@ private fun QuestionScreen(
         Spacer(Modifier.height(8.dp))
         Text(stringResource(QUESTIONS[step]), style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
         Spacer(Modifier.height(24.dp))
-        Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
+        if (step == 0) {
+            DestinationStep(answers.destination, { value -> onUpdate { it.copy(destination = value) } }, onNext, Modifier.weight(1f))
+        } else Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
             when (step) {
-                0 -> OutlinedTextField(
-                    value = answers.destination,
-                    onValueChange = { value -> onUpdate { it.copy(destination = value) } },
-                    placeholder = { Text(stringResource(R.string.hint_destination)) },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words, imeAction = ImeAction.Next),
-                    keyboardActions = KeyboardActions(onNext = { onNext() }),
-                    modifier = Modifier.fillMaxWidth(),
-                )
                 1 -> DayPicker(answers.days) { days -> onUpdate { it.copy(days = days) } }
                 2 -> Choices(Companions.entries, { it == answers.companions }, { stringResource(it.label) }) { choice ->
                     onUpdate { it.copy(companions = choice) }
@@ -224,6 +219,64 @@ private fun DayPicker(days: Int, onChange: (Int) -> Unit) {
             enabled = days < MAX_DAYS,
             modifier = Modifier.semantics { contentDescription = more },
         ) { Text("+", style = MaterialTheme.typography.titleLarge) }
+    }
+}
+
+// Empty, it offers popular places; once something is typed, the Earth flies to it and drops a pin.
+@Composable
+private fun DestinationStep(destination: String, onChange: (String) -> Unit, onNext: () -> Unit, modifier: Modifier) {
+    Column(modifier) {
+        OutlinedTextField(
+            value = destination,
+            onValueChange = onChange,
+            placeholder = { Text(stringResource(R.string.hint_destination)) },
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words, imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(onNext = { onNext() }),
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(16.dp))
+        Crossfade(destination.isBlank(), Modifier.weight(1f), label = "destination") { empty ->
+            if (empty) {
+                PopularPlaces(onChange)
+            } else {
+                val place = remember(destination) { findPlace(destination) }
+                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    DestinationEarth(place, Modifier.aspectRatio(1f, matchHeightConstraintsFirst = true))
+                }
+            }
+        }
+    }
+}
+
+private class Popular(val flag: String, @StringRes val name: Int, @StringRes val about: Int)
+
+private val POPULAR = listOf(
+    Popular("🇹🇷", R.string.place_cappadocia, R.string.about_cappadocia),
+    Popular("🇮🇹", R.string.place_rome, R.string.about_rome),
+    Popular("🇫🇷", R.string.place_paris, R.string.about_paris),
+    Popular("🇯🇵", R.string.place_tokyo, R.string.about_tokyo),
+    Popular("🇪🇸", R.string.place_barcelona, R.string.about_barcelona),
+    Popular("🇦🇪", R.string.place_dubai, R.string.about_dubai),
+)
+
+@Composable
+private fun PopularPlaces(onPick: (String) -> Unit) {
+    Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+        Text(stringResource(R.string.popular_title), style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        POPULAR.chunked(2).forEach { row ->
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), modifier = Modifier.height(IntrinsicSize.Min)) {
+                row.forEach { place ->
+                    val name = stringResource(place.name)
+                    Card(onClick = { onPick(name) }, modifier = Modifier.weight(1f).fillMaxHeight()) {
+                        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+                            Text("${place.flag}  $name", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                            Text(stringResource(place.about), style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

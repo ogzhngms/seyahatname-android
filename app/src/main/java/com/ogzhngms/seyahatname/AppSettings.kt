@@ -3,7 +3,6 @@ package com.ogzhngms.seyahatname
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
-import androidx.annotation.StringRes
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
@@ -33,12 +32,6 @@ enum class Language(val tag: String, val flag: String, val label: String) {
     val code: String get() = if (this == INDONESIAN) "ID" else tag.uppercase()
 }
 
-enum class Planet(@StringRes val label: Int) {
-    EARTH(R.string.planet_earth),
-    MOON(R.string.planet_moon),
-    SUN(R.string.planet_sun),
-}
-
 // The currency plan prices are written in, named by its ISO code.
 enum class Currency(val symbol: String) {
     TRY("₺"),
@@ -47,20 +40,10 @@ enum class Currency(val symbol: String) {
     GBP("£"),
 }
 
-// The language, currency and home-screen planet picked on the profile screen. The device copy is the one the app reads,
+// The language and currency picked on the profile screen. The device copy is the one the app reads,
 // since the language is needed before the first screen is drawn; a copy goes to Firestore under users/{uid}.
 object AppSettings {
     private fun preferences(context: Context) = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
-
-    fun planet(context: Context): Planet {
-        val name = preferences(context).getString("planet", null)
-        return Planet.entries.firstOrNull { it.name == name } ?: Planet.EARTH
-    }
-
-    fun savePlanet(context: Context, planet: Planet) {
-        preferences(context).edit().putString("planet", planet.name).apply()
-        upload(context)
-    }
 
     fun currency(context: Context): Currency {
         val name = preferences(context).getString("currency", null)
@@ -90,7 +73,6 @@ object AppSettings {
     private fun upload(context: Context) {
         val user = FirebaseAuth.getInstance().currentUser ?: return
         val data = mutableMapOf<String, Any>(
-            "planet" to planet(context).name,
             "currency" to currency(context).name,
             "updatedAt" to FieldValue.serverTimestamp(),
         )

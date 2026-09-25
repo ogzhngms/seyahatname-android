@@ -2,7 +2,6 @@ package com.ogzhngms.seyahatname.ui
 
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.infiniteRepeatable
@@ -21,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -52,7 +50,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -62,15 +59,14 @@ import androidx.compose.ui.unit.sp
 import com.ogzhngms.seyahatname.BuildConfig
 import com.ogzhngms.seyahatname.Currency
 import com.ogzhngms.seyahatname.Language
-import com.ogzhngms.seyahatname.Planet
 import com.ogzhngms.seyahatname.R
 import java.util.Locale
 
-// The landing screen: the chosen planet in the middle with Start at its centre.
+// The landing screen: the turning Earth in the middle with Start at its centre.
 @Composable
-internal fun HomeScreen(planet: Planet, onStart: () -> Unit, onProfile: () -> Unit) {
+internal fun HomeScreen(onStart: () -> Unit, onProfile: () -> Unit) {
     Box(Modifier.fillMaxSize()) {
-        RouteBackdrop(planet, Modifier.fillMaxSize())
+        RouteBackdrop(Modifier.fillMaxSize())
         Row(Modifier.fillMaxWidth().padding(start = 24.dp, end = 12.dp, top = 8.dp), verticalAlignment = Alignment.CenterVertically) {
             Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             IconButton(onClick = onProfile) {
@@ -83,8 +79,8 @@ internal fun HomeScreen(planet: Planet, onStart: () -> Unit, onProfile: () -> Un
             }
         }
         Box(Modifier.align(Alignment.Center).fillMaxWidth(0.9f), contentAlignment = Alignment.Center) {
-            PlanetView(planet, Modifier.fillMaxWidth())
-            // A glass pill: the planet shows through, and a hairline edge keeps it readable on the bright Sun.
+            SpinningEarth(Modifier.fillMaxWidth())
+            // A glass pill: the Earth shows through, and a hairline edge keeps it readable.
             Button(
                 onClick = onStart,
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Black.copy(alpha = 0.32f), contentColor = Color.White),
@@ -111,7 +107,7 @@ internal fun HomeScreen(planet: Planet, onStart: () -> Unit, onProfile: () -> Un
 // Where a flight leaves from and lands, as shares of the screen, and how far its arc bows.
 private class Route(val from: Offset, val to: Offset, val bend: Float)
 
-// Laid around the planet so most arcs sit in the empty space above and below it; one passes behind it.
+// Laid around the Earth so most arcs sit in the empty space above and below it; one passes behind it.
 private val ROUTES = listOf(
     Route(Offset(0.08f, 0.20f), Offset(0.62f, 0.12f), -0.25f),
     Route(Offset(0.55f, 0.25f), Offset(0.94f, 0.34f), -0.35f),
@@ -120,17 +116,10 @@ private val ROUTES = listOf(
     Route(Offset(0.42f, 0.72f), Offset(0.93f, 0.80f), -0.30f),
 )
 
-// Dashed flight arcs with a plane dot moving along each, tinted to match the planet.
+// Dashed flight arcs with a plane dot moving along each.
 @Composable
-private fun RouteBackdrop(planet: Planet, modifier: Modifier) {
-    val tint by animateColorAsState(
-        when (planet) {
-            Planet.EARTH -> MaterialTheme.colorScheme.primary
-            Planet.MOON -> Color(0xFFB8C4D6)
-            Planet.SUN -> Color(0xFFFFB347)
-        },
-        label = "tint",
-    )
+private fun RouteBackdrop(modifier: Modifier) {
+    val tint = MaterialTheme.colorScheme.primary
     val progress by rememberInfiniteTransition(label = "flights").animateFloat(
         initialValue = 0f,
         targetValue = 1f,
@@ -164,10 +153,8 @@ private fun RouteBackdrop(planet: Planet, modifier: Modifier) {
 
 @Composable
 internal fun ProfileScreen(
-    planet: Planet,
     language: Language?,
     currency: Currency,
-    onPlanet: (Planet) -> Unit,
     onLanguage: (Language) -> Unit,
     onCurrency: (Currency) -> Unit,
     onBack: () -> Unit,
@@ -199,13 +186,6 @@ internal fun ProfileScreen(
                 Text(stringResource(R.string.account_body), color = MaterialTheme.colorScheme.onSurfaceVariant, textAlign = TextAlign.Center)
                 Button(onClick = comingSoon, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in_google)) }
                 OutlinedButton(onClick = comingSoon, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.sign_in_email)) }
-            }
-        }
-        Section(R.string.theme_title) {
-            Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Planet.entries.forEach { option ->
-                    PlanetOption(option, selected = option == planet, onClick = { onPlanet(option) }, modifier = Modifier.weight(1f))
-                }
             }
         }
         Section(R.string.language_title) {
@@ -293,24 +273,5 @@ private fun Section(@StringRes title: Int, content: @Composable () -> Unit) {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(stringResource(title), style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
         content()
-    }
-}
-
-@Composable
-private fun PlanetOption(planet: Planet, selected: Boolean, onClick: () -> Unit, modifier: Modifier) {
-    Surface(
-        modifier = modifier.selectable(selected = selected, onClick = onClick, role = Role.RadioButton),
-        shape = MaterialTheme.shapes.medium,
-        color = if (selected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-        border = BorderStroke(if (selected) 2.dp else 1.dp, if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline),
-    ) {
-        Column(Modifier.padding(12.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            PlanetView(planet, Modifier.size(64.dp))
-            Text(
-                stringResource(planet.label),
-                style = MaterialTheme.typography.labelLarge,
-                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
-            )
-        }
     }
 }

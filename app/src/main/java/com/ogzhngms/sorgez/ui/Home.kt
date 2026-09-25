@@ -233,7 +233,7 @@ internal fun ProfileScreen(
     }
 }
 
-private const val SOURCE_URL = "https://github.com/ogzhngms/seyahatname-android"
+private const val SOURCE_URL = "https://github.com/ogzhngms/sorgez-android"
 
 // One button showing the current choice; it opens the full list with a short mark and a name for each option.
 @Composable
